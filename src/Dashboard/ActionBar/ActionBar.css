@@ -1,0 +1,23 @@
+.action-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 57px;
+    border-right: 1px solid #ededed;
+    width: 57px;
+    height: 100%;
+    text-align: center;
+}
+
+.action-bar a {
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    padding: 15px 0;
+}
+
+.action-bar a img {
+    width: 27px;
+    opacity: .7;
+}

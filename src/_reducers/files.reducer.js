@@ -1,16 +1,16 @@
 import { userConstants } from '../_constants';
 
-export function users(state = {}, action) {
+export function files(state = {}, action) {
   switch (action.type) {
-    case userConstants.GETALL_REQUEST:
+    case userConstants.UPLOAD_REQUEST:
       return {
         loading: true
       };
-    case userConstants.GETALL_SUCCESS:
+    case userConstants.UPLOAD_SUCCESS:
       return {
-        items: action.users
+        items: action.files
       };
-    case userConstants.GETALL_FAILURE:
+    case userConstants.UPLOAD_FAILURE:
       return { 
         error: action.error
       };

@@ -5,6 +5,7 @@ export const userService = {
     logout,
     register,
     getAll,
+    upload
     // getById,
     // update,
     // delete: _delete
@@ -61,6 +62,25 @@ function register(user) {
     };
 
     return fetch(config.apiUrl + '/users', requestOptions).then(handleResponse, handleError);
+}
+
+
+function upload(files, userId) {
+    var data = new FormData()
+    files.forEach(function(file){
+        data.append('file', file)
+    })
+    const requestOptions = {
+        method: 'POST',
+        // headers: { 'Content-Type': 'application/json' },
+        body: data
+    };
+    console.log(requestOptions);
+    return fetch(config.apiUrl + '/' + userId + '/files', requestOptions)
+        .then(handleResponse, handleError)
+        .then(files => {
+            return files;
+        });
 }
 
 // function update(user) {

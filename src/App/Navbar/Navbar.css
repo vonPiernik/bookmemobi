@@ -1,0 +1,66 @@
+.navbar-brand img {
+    height: 25px;
+}
+
+.navbar-brand::after {
+    content: "";
+    height: 59px;
+    width: 1px;
+    background: #ededed;
+    position: absolute;
+    top: 0;
+}
+.navbar-brand {
+    height: 40px;
+    padding-left: 15px;
+}
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #ededed;
+    padding-left: 0;
+    z-index: 1;
+}
+.navbar-brand img.logo-logged-in {
+    height: 23px;
+    /* margin-right: 8px; */
+    /* margin-left: -8px; */
+    margin: auto;
+    /* float: none; */
+    display: block;
+}
+.navbar-brand-logged-in::after{
+    height: 57px;
+    top: 0px;
+    left: 56px;
+}
+.navbar-brand-logged-in {
+    padding-left: 0;
+    width: 57px;
+    height: inherit;
+}
+.nav-link{
+    margin-right: 10px;
+}
+.nav-link.active img{
+    opacity: 1;
+} 
+.nav-link img {
+    height: 17px;
+    margin-right: 7px;
+    margin-top: -5px;
+    opacity: .3;
+    /* margin-left: 10px; */
+}
+.navbar-light .navbar-toggler span {
+    display: none;
+}
+
+.navbar-light .navbar-toggler {
+    width: 43px;
+    height: 43px;
+    background-repeat: no-repeat;
+    border: 0;
+    background-image: url(/public/img/icons/menu.png);
+    background-size: contain;
+    opacity: .5;
+}

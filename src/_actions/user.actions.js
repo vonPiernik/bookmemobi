@@ -8,6 +8,7 @@ export const userActions = {
     logout,
     register,
     getAll,
+    upload
     // delete: _delete
 };
 
@@ -32,6 +33,27 @@ function login(username, password) {
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+}
+function upload(files, userId) {
+    return dispatch => {
+        dispatch(request({ files }));
+
+        userService.upload(files, userId)
+            .then(
+                files => { 
+                    console.log(files);
+                    dispatch(success(files));
+                },
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                }
+            );
+    };
+
+    function request(files) { return { type: userConstants.UPLOAD_REQUEST, files } }
+    function success(files) { return { type: userConstants.UPLOAD_SUCCESS, files } }
+    function failure(error) { return { type: userConstants.UPLOAD_FAILURE, error } }
 }
 
 function logout() {

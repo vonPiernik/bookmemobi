@@ -12,6 +12,7 @@ module.exports = {
     },
     module: {
         loaders: [
+            { test: /\.css$/, loader: "style-loader!css-loader" },
             {
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/,
@@ -23,7 +24,7 @@ module.exports = {
         ]
     },
     plugins: [new HtmlWebpackPlugin({
-        template: './src/index.html',
+        template: './public/index.html',
         filename: 'index.html',
         inject: 'body'
     })],
