@@ -7,12 +7,30 @@ import './Navbar.css';
 class Navbar extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            mobileMenuVisible: false,
+            userMenuVisible: false
+        }
+    }
+
+    toggleMobileMenu() {
+        this.setState({
+            mobileMenuVisible: (this.state.mobileMenuVisible ? false : true)
+        });
+    }
+    toggleUserMenu() {
+        
+        this.setState({
+            userMenuVisible: (this.state.userMenuVisible ? false : true)
+        });
+        
     }
 
     render() {
         const { user } = this.props;
         return (
-            <nav className="navbar navbar-expand-lg fixed-top navbar-light">
+            <nav className="navbar">
                     {!user &&
                     <Link to="/" className="navbar-brand">
                         <img src="/public/img/logo-poziom.png" />
@@ -23,13 +41,18 @@ class Navbar extends React.Component {
                         <img src="/public/img/logo.png" className="logo-logged-in" />
                     </Link>
                     }
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
+                <button className="navbar-toggler" type="button" onClick={this.toggleMobileMenu.bind(this)}>
+                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
                 </button>
-
+                    {this.state.mobileMenuVisible &&
+                    <div className="mobile-menu-overlay" onClick={this.toggleMobileMenu.bind(this)}></div>
+                    }
                     {user && user.token && 
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav mr-auto">
+                
+                    <div className={"app-menu " + (this.state.mobileMenuVisible ? "mobile-menu-visible" : "mobile-menu-hidden")} id="appMenu">
+                        <ul className="app-menu-left">
                             <li className="nav-item">
                                 <NavLink to="/landing" className="nav-link">
                                 <img src="/public/img/icons/newspaper.png" alt="Landing"/>Landing</NavLink>                        
@@ -39,12 +62,12 @@ class Navbar extends React.Component {
                                 <img src="/public/img/icons/home.png" alt="Dashboard"/>Dashboard</NavLink>
                             </li>
                         </ul>
-                        <ul className="navbar-nav ml-auto">
+                        <ul className="app-menu-right">
                             <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a className="nav-link dropdown-toggle" href="#" onClick={this.toggleUserMenu.bind(this)}>
                                 <img src="/public/img/icons/user.png" alt="Login"/>{ user.userName }
                                 </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div className={"user-menu " + (this.state.userMenuVisible ? "user-menu-visible" : "")}>
                                     <div className="dropdown-divider"></div>
                                     <Link to="/login" className="dropdown-item disabled">Logout</Link>
                                 </div>
@@ -53,8 +76,8 @@ class Navbar extends React.Component {
                     </div>
                     }
                     {!user && 
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav ml-auto">
+                    <div className={"app-menu app-menu-unauthorized " + (this.state.mobileMenuVisible ? "mobile-menu-visible" : "mobile-menu-hidden")} id="navbarSupportedContent">
+                        <ul className="app-menu-right">
                             <li className="nav-item">
                                 <NavLink to="/login" className="nav-link">
                                 <img src="/public/img/icons/user.png" alt="Login"/>
@@ -74,7 +97,7 @@ class Navbar extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { users, authentication } = state;
+    const { users, authentication, book } = state;
     const { user } = authentication;
     return {
         user,

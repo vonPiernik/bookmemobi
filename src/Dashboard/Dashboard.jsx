@@ -2,7 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ActionBar } from './ActionBar';
+import { SideBar } from './SideBar';
+import { BooksList } from './BooksList';
+import { WeatherChart } from './WeatherChart';
 import { userActions } from '../_actions';
+import { bookActions } from '../_actions';
 import Dropzone from 'react-dropzone';
 
 import './Dashboard.css';
@@ -15,6 +19,10 @@ class Dashboard extends React.Component {
             files: []
         }
     }
+
+    componentWillMount(){
+    }
+
     onDragEnter() {
         this.setState({
             dropzoneActive: true
@@ -38,9 +46,14 @@ class Dashboard extends React.Component {
         }
     }
 
+    toggleSidebar() {
+        (this.props.book.sidebarOpened) ? this.props.dispatch(bookActions.hideSidebar()) : this.props.dispatch(bookActions.showSidebar());
+    }
+
     render() {
-        const { user, users } = this.props;
+        const { user, users, book } = this.props;
         const { files, dropzoneActive } = this.state;
+        console.log(user);
         return (
             <Dropzone
                 disableClick
@@ -51,17 +64,27 @@ class Dashboard extends React.Component {
                 onDragLeave={this.onDragLeave.bind(this)}
             >
             { dropzoneActive && <div className="dropzone-overlay">Drop files...</div> }
-            <div className="dashboard-wrapper">
+            <div className={"dashboard-wrapper " + (book.sidebarOpened ? "dashboard-wrapper-side-bar-show" : "")}>
                 <ActionBar />
                 
-                <div className="col-md-6 col-md-offset-3">
-                    <h1>Hi {user.firstName}!</h1>
-                    <p>This is dashboard</p>
-                    <p>
-                        <Link to="/login" className="button button-less-important">Logout</Link>
-                        <Link to="/landing" className="button button-standard">Landing</Link>
-                    </p>
-                </div>
+                    <div className="container">
+                    <h1 className="bold-title">Hi {user.firstName}!</h1>
+                    <p>This is your dashboard where you can see all your books.</p>
+                    <WeatherChart />
+                    <ul>
+                        {
+                        files.map(f => <li>{f.name} - {f.size} bytes</li>)
+                        }
+                    </ul>
+
+                    <BooksList />
+                    
+                    <br/>
+                    <button className="button button-standard" onClick={this.toggleSidebar.bind(this)}>Toggle sidebar</button>
+                
+                    </div>
+                
+                <SideBar />
             </div>
             </Dropzone>
         );
@@ -69,12 +92,13 @@ class Dashboard extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { users, authentication, files } = state;
+    const { users, authentication, files, book } = state;
     const { user } = authentication;
     return {
         user,
         users,
-        files
+        files,
+        book
     };
 }
 

@@ -68,7 +68,7 @@ function register(user) {
 function upload(files, userId) {
     var data = new FormData()
     files.forEach(function(file){
-        data.append('file', file)
+        data.append('file[]', file)
     })
     const requestOptions = {
         method: 'POST',

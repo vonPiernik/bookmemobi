@@ -1,3 +1,3 @@
 export const config = {
-    apiUrl: 'https://bookmemobi.azurewebsites.net/api'
+    apiUrl: 'https://bookmemobi-198415.appspot.com/api'
 };

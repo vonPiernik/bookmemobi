@@ -1,6 +1,19 @@
+/* main styles */
 body{
-    font-family: 'Korolev';
+    margin: 0;
+    font-family: 'Raleway', sans-serif;
+    font-size: 15px;
+    background-color: #f6f6f6;
 }
+*{
+    box-sizing: border-box;
+}
+.wrapper {
+    padding-top: 57px;
+}
+
+
+/* buttons */
 .button{
     margin-right: 10px;
     color: #fff;
@@ -10,10 +23,13 @@ body{
     border-radius: 40px;
     text-transform: uppercase;
     border: 0;
+    text-decoration: none;
 }
 .button-standard{
     background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
-
+}
+.button-green{
+    
 }
 .button:hover {
     transform: scale(1.05);
@@ -21,7 +37,60 @@ body{
     text-decoration: none;
 }
 
-.button-less-important{
-    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+.button-less-important {
+    background-image: linear-gradient(135deg, #d2dceb 0%, #8ea3c5 100%);
 }
 
+
+/* auth styles */
+.auth-form-wrapper {
+    overflow: hidden;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ededed;
+    width: 700px;
+    max-width: 95%;
+    margin: 30px auto;
+    text-align: center;
+}
+.form-group {
+    overflow: hidden;
+}
+.auth-form-wrapper h2 {
+    margin: 15px 0 20px;
+    font-weight: 900;
+    font-size: 40px;
+    color: #fa709a;
+}
+
+.auth-form-wrapper input {
+    padding: 10px;
+    border: 1px solid #ededed;
+    background-color: #f6f6f6;
+    margin-bottom: 20px;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.auth-form-wrapper label.show-password-input-label {
+    display: block;
+    margin-top: -15px;
+    width: 100%;
+    text-align: center;
+    padding-top: 0;
+}
+
+.auth-form-wrapper label {
+    text-align: right;
+    margin: 0;
+    padding: 14px 15px;
+    margin-bottom: 20px;
+    color: #7b7b7b
+}
+
+.auth-form-wrapper label.show-password-input-label input {
+    width: auto;
+    position: relative;
+    top: 1px;
+    float: none;
+}

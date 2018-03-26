@@ -1,0 +1,54 @@
+.booksList {
+    background: #fff;
+    padding: 5px 20px;
+    border: 1px solid #ededed;
+}
+
+table.books-list {
+    width: 100%;
+    /* max-width: 1400px; */
+    margin: 50px auto;
+}
+
+span.book-letter-indicator {
+    background: rgba(208, 101, 221, 0.33);
+    color: rgba(208, 101, 221, 0.71);
+    display: block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    /* color: #fff; */
+    font-weight: bold;
+    margin: 4px auto;
+}
+span.book-letter-indicator--green {
+    background: rgba(76, 175, 80, 0.42);
+    color: rgba(76, 175, 80, 0.9);
+}
+
+.books-list thead tr th {
+    color: #bebebe;
+    font-weight: 400;
+    font-size: 14px;
+}
+.books-list tbody tr {
+    cursor: pointer;
+    transition: .15s background-color;
+}
+.books-list tbody tr:hover {
+    background-color: #f9c59757;
+}
+.books-list tbody td {
+    color: #444;
+}
+
+.books-list tbody tr td:nth-child(2) {
+    font-weight: 600;
+    color: #222;
+}
+
+.books-list tbody tr td:nth-child(n+3) {
+    color: #a3a3a3;
+}

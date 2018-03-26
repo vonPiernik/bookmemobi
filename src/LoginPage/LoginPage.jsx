@@ -37,11 +37,20 @@ class LoginPage extends React.Component {
         }
     }
 
+    showPassword() {
+        var x = document.getElementById("password-field");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+
     render() {
         const { loggingIn } = this.props;
         const { username, password, submitted } = this.state;
         return (
-            <div className="col-md-6 offset-md-3 mt-5">
+            <div className="auth-form-wrapper">
                 <h2>Login</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
@@ -53,7 +62,8 @@ class LoginPage extends React.Component {
                     </div>
                     <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
                         <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
+                        <input type="password" id="password-field" autoComplete="false" className="form-control" name="password" value={password} onChange={this.handleChange} />
+                        <label className="show-password-input-label"><input type="checkbox" onClick={this.showPassword} /> Show Password</label>
                         {submitted && !password &&
                             <div className="help-block">Password is required</div>
                         }
