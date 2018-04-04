@@ -34,7 +34,7 @@ function login(username, password) {
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 function logout() {
-    return userService.logout();
+    userService.logout();
     return { type: userConstants.LOGOUT };
 }
 

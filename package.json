@@ -33,6 +33,7 @@
     "@babel/preset-env": "^7.0.0-beta.40",
     "@babel/preset-react": "7.0.0-beta.40",
     "@babel/preset-stage-3": "^7.0.0-beta.40",
+    "babel-eslint": "^8.1.1",
     "babel-jest": "^22.4.3",
     "babel-loader": "^8.0.0-beta.0",
     "css-loader": "^0.28.11",

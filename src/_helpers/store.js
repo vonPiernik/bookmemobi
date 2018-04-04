@@ -6,9 +6,9 @@ import rootReducer from '../_reducers';
 const loggerMiddleware = createLogger();
 
 // middleware that helps with unit test, now actions returns promise
-const authCheckMiddleware = ({dispatch, getState}) => next => action => {
-    console.log(action)
-}
+// const authCheckMiddleware = ({dispatch, getState}) => next => action => {
+//     console.log(action)
+// }
 
 export const store = createStore(
     rootReducer,
