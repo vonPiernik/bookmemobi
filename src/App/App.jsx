@@ -6,10 +6,12 @@ import { history } from '../_helpers';
 import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { Navbar } from './Navbar';
+import { AlertBox } from './AlertBox';
 import { Dashboard } from '../Dashboard';
 import { LandingPage } from '../LandingPage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
+
 
 import './App.css';
 
@@ -31,9 +33,7 @@ class App extends React.Component {
                 <Router history={history}>
                     <div>
                         <Navbar />
-                        {alert.message &&
-                            <div className={`alert ${alert.type}`}>{alert.message}</div>
-                        }
+                        <AlertBox />
                         <PrivateRoute exact path="/" component={Dashboard} />
                         <Route path="/landing" component={LandingPage} />
                         <Route path="/login" component={LoginPage} />

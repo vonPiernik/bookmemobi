@@ -3,6 +3,7 @@ import { authHeader, config } from '../_helpers';
 export const userService = {
     login,
     logout,
+    authCheck,
     register,
     getAll,
     upload
@@ -36,6 +37,16 @@ function logout() {
     localStorage.removeItem('user');
 }
 
+
+function authCheck(){
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    let user = JSON.parse(localStorage.getItem('user'));
+    return fetch(config.apiUrl + '/users/' + user.id , requestOptions).then(handleResponse, handleError);
+}
+
 function getAll() {
     const requestOptions = {
         method: 'GET',
@@ -63,6 +74,7 @@ function register(user) {
 
     return fetch(config.apiUrl + '/users', requestOptions).then(handleResponse, handleError);
 }
+
 
 
 function upload(files, userId) {

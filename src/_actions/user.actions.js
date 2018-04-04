@@ -6,9 +6,9 @@ import { history } from '../_helpers';
 export const userActions = {
     login,
     logout,
+    authCheck,
     register,
     getAll,
-    upload
     // delete: _delete
 };
 
@@ -16,10 +16,9 @@ function login(username, password) {
     return dispatch => {
         dispatch(request({ username }));
 
-        userService.login(username, password)
+        return userService.login(username, password)
             .then(
                 user => { 
-                    console.log(username, password);
                     dispatch(success(user));
                     history.push('/');
                 },
@@ -34,38 +33,28 @@ function login(username, password) {
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
-function upload(files, userId) {
-    return dispatch => {
-        dispatch(request({ files }));
-
-        userService.upload(files, userId)
-            .then(
-                files => { 
-                    console.log(files);
-                    dispatch(success(files));
-                },
-                error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
-                }
-            );
-    };
-
-    function request(files) { return { type: userConstants.UPLOAD_REQUEST, files } }
-    function success(files) { return { type: userConstants.UPLOAD_SUCCESS, files } }
-    function failure(error) { return { type: userConstants.UPLOAD_FAILURE, error } }
+function logout() {
+    return userService.logout();
+    return { type: userConstants.LOGOUT };
 }
 
-function logout() {
-    userService.logout();
-    return { type: userConstants.LOGOUT };
+function authCheck(){
+    return userService.authCheck()
+        .then(
+            user => {
+                console.log("Auth is OK, something else must be wrong :(");
+            },
+            error => {
+                history.push('/login');
+            }
+        );
 }
 
 function register(user) {
     return dispatch => {
         dispatch(request(user));
 
-        userService.register(user)
+        return userService.register(user)
             .then(
                 () => { 
                     dispatch(success());
@@ -88,7 +77,7 @@ function getAll() {
     return dispatch => {
         dispatch(request());
 
-        userService.getAll()
+        return userService.getAll()
             .then(
                 users => dispatch(success(users)),
                 error => dispatch(failure(error))
@@ -100,12 +89,14 @@ function getAll() {
     function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
 }
 
+
+
 // // prefixed function name with underscore because delete is a reserved word in javascript
 // function _delete(id) {
 //     return dispatch => {
 //         dispatch(request(id));
 
-//         userService.delete(id)
+//         return userService.delete(id)
 //             .then(
 //                 () => { 
 //                     dispatch(success(id));

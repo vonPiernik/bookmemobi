@@ -8,8 +8,14 @@
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    <link rel="manifest" href="/public/manifest.json">
     <link rel="shortcut icon" href="/public/favicon.ico">
+    <!-- Tell the browser it's a PWA -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Tell iOS it's a PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Make sure theme-color is defined -->
+    <meta name="theme-color" content="#fa709a">
     <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
     <!-- <link rel="stylesheet" href="https://use.typekit.net/bjl7hby.css"> -->
     <!--
@@ -22,13 +28,61 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:500,600,800" rel="stylesheet">
+    <style>
+      .App-header h2{
+        margin: 15px 0 20px;
+        font-weight: 900;
+        font-size: 40px;
+        color: #fa709a;
+      }
+      .App-header{
+        margin-top: 120px;
+        text-align: center;
+        font-family: 'Raleway', sans-serif;
+      }
+      .App-intro{
+        font-size: 24px;
+        color: #888;
+        text-align: center;
+        font-family: 'Raleway', sans-serif;
+
+      }
+    </style>
     <title>BookMeMobi</title>
   </head>
-  <body>
+  <body> 
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+
+        <div class="App">
+            <div class="App-header">
+              <h2>BookMeMobi</h2>
+            </div>
+            <p class="App-intro">
+              Loading...
+            </p>
+          </div>
+
+    </div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+            // Registration was successful
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }, function(err) {
+            // registration failed :(
+            console.log('ServiceWorker registration failed: ', err);
+          }).catch(function(err) {
+            console.log(err)
+          });
+        });
+      } else {
+        console.log('service worker is not supported');
+      }
+    </script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

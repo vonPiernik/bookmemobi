@@ -1,17 +1,88 @@
 import React from 'react';
 // import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { booksActions } from '../../_actions';
+
+
+import TimeAgo from 'javascript-time-ago'
+ 
+// Load locale-specific relative date/time formatting rules.
+import en from 'javascript-time-ago/locale/en'
+ 
+// Add locale-specific relative date/time formatting rules.
+TimeAgo.locale(en)
+ 
+// Create relative date/time formatter.
+const timeAgo = new TimeAgo('en-US')
 
 import './BooksList.css';
+
+class BooksListRow extends React.Component {
+    render() {
+        const book = this.props.book;
+        const uploadDate = new Date(book.uploadDate);
+        return (
+            <tr onClick={this.props.onClick}>
+                <td><span className="book-letter-indicator">P</span></td>
+                <td>
+                    {book.title}
+                </td>
+                <td>
+                    {book.author}
+                </td>
+                <td>
+                    .{ book.format }
+                </td>
+                <td>
+                    {book.size}MB
+                </td>
+                {/* <td>
+                    {book.publishingDate}
+                </td> */}
+                <td>
+                {timeAgo.format(uploadDate)}
+                </td>
+            </tr>
+      );
+    }
+}
 
 class BooksList extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log(this.props);
+        // console.log(this.props);
+    }
+
+    componentDidMount(){
+        this.props.dispatch(booksActions.getUserBooks())
+        
+    }
+
+    // downloadBook(book){
+    //     this.props.dispatch(booksActions.downloadBook(book))
+    // }
+
+    getBook(bookId){
+        this.props.dispatch(booksActions.getBook(bookId))
     }
 
     render() {
+        const { user, userBooks } = this.props;
+        const rows = [];
+        if( userBooks.list ){
+            userBooks.list.items.forEach((book) => {
+                rows.push(
+                    <BooksListRow
+                        key={book.id}
+                        book={book} 
+                        onClick={() => { 
+                                    this.getBook(book.id);
+                                    this.props.showSidebar();
+                                } } />
+                );
+            })
+        }
         return (
             <div className="booksList">
                 <table className="books-list">
@@ -21,35 +92,16 @@ class BooksList extends React.Component {
                             <th>Book name</th>
                             <th>Author(s)</th>
                             <th>Format</th>
+                            <th>File size</th>
+                            {/* <th>Published</th> */}
                             <th>Added</th>
-                            <th>On Kindle?</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><span className="book-letter-indicator">P</span></td>
-                            <td>W poszukiwaniu straconego czasu</td>
-                            <td>Proust, Marcel</td>
-                            <td>.mobi</td>
-                            <td>yesterday</td>
-                            <td><span className="on-kindle">Yes</span></td>
-                        </tr>
-                        <tr>
-                            <td><span className="book-letter-indicator book-letter-indicator--green">M</span></td>
-                            <td>Mike Tyson Autobiografia</td>
-                            <td>Mike Tyson</td>
-                            <td>.azw3</td>
-                            <td>two days ago</td>
-                            <td><span className="on-kindle">No</span></td>
-                        </tr>
-                        <tr>
-                            <td><span className="book-letter-indicator">P</span></td>
-                            <td>Czas odnaleziony</td>
-                            <td>Proust, Marcel</td>
-                            <td>.mobi</td>
-                            <td>12.03.2018</td>
-                            <td><span className="on-kindle">Yes</span></td>
-                        </tr>
+                        { userBooks.loading && <tr><td></td><td>Loading books...</td></tr> }
+                        { userBooks.list && userBooks.list.totalItems == 0 && <tr><td></td><td>You don't have any books. Add one now!</td></tr> }
+                        { rows }
+                        
                     </tbody>
                 </table>
             </div>
@@ -58,9 +110,12 @@ class BooksList extends React.Component {
 }
 // export default BooksList;
 function mapStateToProps(state) {
-    const { book } = state;
+    const { userBooks, downloadBook, authentication } = state;
+    const { user } = authentication;
     return {
-        book
+        userBooks,
+        downloadBook,
+        user
     };
 }
 

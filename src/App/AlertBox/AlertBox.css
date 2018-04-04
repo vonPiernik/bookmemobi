@@ -1,0 +1,42 @@
+
+/* info message box */
+
+.infoMessagesBox {
+    
+}
+
+@keyframes hideMessage {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }   
+}
+
+.infoMessage {
+    padding: 10px 20px;
+    background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
+    color: #fff;
+    width: 500px;
+    margin: 0px auto;
+    transition: .2s all;
+    transition-timing-function: ease-in-out;
+    transform: translateY(100%);
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    margin-left: -250px;
+}
+.infoMessage.infoMessageVisible{
+    transform: translateY(0);
+}
+.infoMessage.infoMessageVisible.alert-success, .infoMessage.infoMessageVisible.alert-error{
+    animation-name: hideMessage;
+    animation-duration: .2s;
+    animation-timing-function: ease-in-out;   
+    animation-delay: 4s;
+    animation-fill-mode: forwards;
+}

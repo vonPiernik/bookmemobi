@@ -18,3 +18,18 @@
     transform: translateX(380px);
     opacity: 0;
 }
+
+/* book details */
+.book-details {
+    text-align: left;
+    padding: 20px;
+}
+
+.book-cover {
+    width: 200px;
+    height: 270px;
+    background: #dddddd;
+    text-align: center;
+    line-height: 270px;
+    color: #fa709a;
+}

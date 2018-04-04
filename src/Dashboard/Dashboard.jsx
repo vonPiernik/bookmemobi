@@ -6,18 +6,20 @@ import { SideBar } from './SideBar';
 import { BooksList } from './BooksList';
 import { WeatherChart } from './WeatherChart';
 import { userActions } from '../_actions';
-import { bookActions } from '../_actions';
+import { booksActions } from '../_actions';
 import Dropzone from 'react-dropzone';
-
 import './Dashboard.css';
+
+// var fileDownload = require('js-file-download');
 
 class Dashboard extends React.Component {
     constructor() {
         super();
         this.state = {
             dropzoneActive: false,
-            files: []
-        }
+            files: [],
+            sidebarShow: false
+        } 
     }
 
     componentWillMount(){
@@ -40,51 +42,63 @@ class Dashboard extends React.Component {
             files,
             dropzoneActive: false
         });
-        console.log(files)
         if(files[0]){
-            this.props.dispatch(userActions.upload(files, this.props.user.id));
+            this.uploadBook(files);
         }
     }
-
+    
     toggleSidebar() {
-        (this.props.book.sidebarOpened) ? this.props.dispatch(bookActions.hideSidebar()) : this.props.dispatch(bookActions.showSidebar());
+        this.setState({
+            sidebarShow: (this.state.sidebarShow ? false : true)
+        });
+       
+    }
+    showSidebar() {
+        this.setState({
+            sidebarShow: true
+        });
+       
+    }
+
+    uploadBook(files,){
+        this.props.dispatch(booksActions.uploadBook(files))
     }
 
     render() {
-        const { user, users, book } = this.props;
+        const { user, users, uploadBook, alert } = this.props;
         const { files, dropzoneActive } = this.state;
-        console.log(user);
+        let dropzoneRef;
         return (
             <Dropzone
                 disableClick
                 style={{position: "relative"}}
                 onDrop={this.onDrop.bind(this)}
+                ref={(node) => { dropzoneRef = node; }}
                 accept=".mobi"
                 onDragEnter={this.onDragEnter.bind(this)}
                 onDragLeave={this.onDragLeave.bind(this)}
             >
             { dropzoneActive && <div className="dropzone-overlay">Drop files...</div> }
-            <div className={"dashboard-wrapper " + (book.sidebarOpened ? "dashboard-wrapper-side-bar-show" : "")}>
+            <div className={"dashboard-wrapper " + (this.state.sidebarShow ? "dashboard-wrapper-side-bar-show" : "")}>
                 <ActionBar />
                 
-                    <div className="container">
+                
+
+                <div className="container">
                     <h1 className="bold-title">Hi {user.firstName}!</h1>
                     <p>This is your dashboard where you can see all your books.</p>
-                    <WeatherChart />
-                    <ul>
-                        {
-                        files.map(f => <li>{f.name} - {f.size} bytes</li>)
-                        }
-                    </ul>
+                    {/* <WeatherChart /> */}
+                    <button type="button" className="button button-standard button-open-file-chooser" onClick={() => { dropzoneRef.open() }}>
+                        Upload Book
+                    </button>
 
-                    <BooksList />
+                    <BooksList showSidebar={this.showSidebar.bind(this)}/>
                     
                     <br/>
-                    <button className="button button-standard" onClick={this.toggleSidebar.bind(this)}>Toggle sidebar</button>
                 
-                    </div>
+                </div>
                 
-                <SideBar />
+                <SideBar sidebarShow={this.state.sidebarShow} />
             </div>
             </Dropzone>
         );
@@ -92,13 +106,13 @@ class Dashboard extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { users, authentication, files, book } = state;
+    const { users, authentication, uploadBook, alert } = state;
     const { user } = authentication;
     return {
         user,
         users,
-        files,
-        book
+        uploadBook,
+        alert
     };
 }
 

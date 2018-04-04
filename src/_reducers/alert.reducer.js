@@ -2,6 +2,11 @@ import { alertConstants } from '../_constants';
 
 export function alert(state = {}, action) {
   switch (action.type) {
+    case alertConstants.WAITING:
+      return {
+        type: 'alert-waiting',
+        message: action.message
+      };
     case alertConstants.SUCCESS:
       return {
         type: 'alert-success',
