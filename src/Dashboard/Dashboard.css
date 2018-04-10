@@ -1,10 +1,9 @@
 .dashboard-wrapper {
     padding-left: 57px;
-    /* padding-top: 57px; */
-    min-height: 100vh;
-    margin-bottom: -16px;
-    transition: .2s padding;
-    transition-timing-function: ease-in-out;
+    min-height: calc(100vh - 57px);
+    overflow: hidden;
+    transition: .2s all;
+    transition-timing-function: ease-out;
 }
 .dashboard-wrapper.dashboard-wrapper-side-bar-show {
     padding-right: 380px;
@@ -36,4 +35,14 @@
     float: right;
     clear: right;
     margin: 10px 0;
+}
+
+@media(max-width: 776px){
+    .dashboard-wrapper{
+        padding-left: 0;
+        transition: none;
+    }
+    .dashboard-wrapper.dashboard-wrapper-side-bar-show {
+        padding-right: 0;
+    }
 }

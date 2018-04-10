@@ -56,6 +56,7 @@ const books = {
     ]
 }
 
+
 describe('async books actions', () => {
     beforeEach(() => {
         // or individually reset a mock used
@@ -83,7 +84,7 @@ describe('async books actions', () => {
             expect(store.getActions()).toEqual(expectedActions)
         });
     });
-    it('dispatches GET_BOOK_DETAILS_FAILURE when fetching single book details has been done WITH ERROR', () => {
+    it('dispatches FAILURE AND ALERT WITH ERROR when fetching single book details WITH ERROR', () => {
         fetchMock.getOnce(config.apiUrl + '/users/'+ testId +'/books/' + testId, {
             body: testErrorMessage, status: 500
         });
@@ -112,4 +113,20 @@ describe('async books actions', () => {
             expect(store.getActions()).toEqual(expectedActions)
         });
     });
+    it('dispatches FAILURE AND ALERT WITH ERROR when fetching all user books WITH ERROR', () => {
+        fetchMock.getOnce(config.apiUrl + '/users/' + testId + '/books', {
+            body: testErrorMessage, status: 500
+        });
+        const expectedActions = [
+            { type: booksConstants.GET_BOOKS_REQUEST },
+            { type: booksConstants.GET_BOOKS_FAILURE, error: testErrorMessage },
+            { type: alertConstants.ERROR, message: testErrorMessage}
+        ];
+        const store = mockStore({}); 
+        return store.dispatch(booksActions.getUserBooks()).then(() => {
+            expect(store.getActions()).toEqual(expectedActions)
+        });
+    });
+    
+
 })

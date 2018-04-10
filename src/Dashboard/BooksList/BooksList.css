@@ -42,6 +42,9 @@ span.book-letter-indicator--green {
 .books-list tbody tr:hover {
     background-color: #f9c59757;
 }
+.books-list tbody tr.no-books:hover {
+    background-color: transparent;
+}
 .books-list tbody td {
     color: #444;
 }
@@ -53,4 +56,50 @@ span.book-letter-indicator--green {
 
 .books-list tbody tr td:nth-child(n+3) {
     color: #a3a3a3;
+}
+tr.no-books td {
+    padding: 20px 0;
+}
+
+/* pagination */
+.pagination {
+    text-align: center;
+}
+
+.pagination-counter {
+    display: inline-block;
+    margin-right: 10px;
+    color: #c5c5c5;
+}
+
+.pagination-counter .current {
+    font-weight: bold;
+    padding: 0 5px;
+    color: #222;
+}
+
+.pagination-counter .total {
+    padding: 0 5px;
+    /* color: #555; */
+}
+
+
+@media(max-width: 776px){
+    table.books-list{
+        margin: 15px auto;
+        display: block;
+    }
+    .booksList{
+        padding: 0 10px;
+    }
+    .books-list thead tr th:nth-child(n+3), .books-list tbody tr td:nth-child(n+3) {
+        display: none;
+    }
+    .books-list thead tr th:nth-child(1) {
+        width: 1%;
+    }
+    
+    .books-list thead tr th:nth-child(2),.books-list tbody tr td:nth-child(2) {
+        padding-left: 10px;
+    }
 }

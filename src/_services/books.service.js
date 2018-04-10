@@ -1,27 +1,41 @@
-import { authHeader, config } from '../_helpers';
+import { serialize, authHeader, config } from '../_helpers';
 
 export const booksService = {
     getUserBooks,
     getBook,
     downloadBook,
-    uploadBook
-    // upload
+    uploadBook,
+    deleteBook
 };
 
-function getUserBooks() {
+
+function getUserBooks(args) {
+    if(args === undefined){ args = {} };
+
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
+
     let user = JSON.parse(localStorage.getItem('user'));
 
-    return fetch(config.apiUrl + '/users/' + user.id + "/books", requestOptions).then(handleResponse, handleError);
+    return fetch(config.apiUrl + '/users/' + user.id + "/books?" + serialize(args), requestOptions).then(handleResponse, handleError);
 }
 
 
 function getBook(bookId) {
     const requestOptions = {
         method: 'GET',
+        headers: authHeader()
+    };
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    return fetch(config.apiUrl + '/users/' + user.id + "/books/" + bookId, requestOptions).then(handleResponse, handleError);
+}
+
+function deleteBook(bookId) {
+    const requestOptions = {
+        method: 'DELETE',
         headers: authHeader()
     };
     let user = JSON.parse(localStorage.getItem('user'));

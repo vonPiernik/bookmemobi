@@ -82,8 +82,6 @@ class Dashboard extends React.Component {
             <div className={"dashboard-wrapper " + (this.state.sidebarShow ? "dashboard-wrapper-side-bar-show" : "")}>
                 <ActionBar />
                 
-                
-
                 <div className="container">
                     <h1 className="bold-title">Hi {user.firstName}!</h1>
                     <p>This is your dashboard where you can see all your books.</p>
@@ -98,7 +96,12 @@ class Dashboard extends React.Component {
                 
                 </div>
                 
-                <SideBar sidebarShow={this.state.sidebarShow} />
+                {this.state.sidebarShow &&
+                <div className="side-bar-overlay" onClick={this.toggleSidebar.bind(this)}></div>
+                }                
+                <SideBar    sidebarShow={this.state.sidebarShow}  
+                            toggleSidebar={this.toggleSidebar.bind(this)}/>
+
             </div>
             </Dropzone>
         );

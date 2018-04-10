@@ -12,26 +12,31 @@ class LandingPage extends React.Component {
     render() {
         const { user, users } = this.props;
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h1>Hi {user.firstName}!</h1>
-                <p>This is landing page</p>
-                <h3>All registered users:</h3>
-                {users.loading && <em>Loading users...</em>}
-                {users.error && <span className="text-danger">ERROR: {users.error}</span>}
-                {users.items &&
-                    <ul>
-                        {users.items.map((user, index) =>
-                            <li key={user.userName}>
-                                <strong>{ user.userName }</strong> ({user.firstName + ' ' + user.lastName})
-                                
-                            </li>
-                        )}
-                    </ul>
-                }
-                <p>
-                    <Link to="/login">Logout</Link>
-                    <Link to="/">Dashboard</Link>
-                </p>
+            <div className="landing-wrapper">
+                <div className="container">
+                
+                    <div className="col-md-6 col-md-offset-3">
+                        <h1 className="bold-title">Hi {user.firstName}!</h1>
+                        <p>This is landing page</p>
+                        <h3>All registered users:</h3>
+                        {users.loading && <em>Loading users...</em>}
+                        {users.error && <span className="text-danger">ERROR: {users.error}</span>}
+                        {users.list &&
+                            <ul>
+                                {users.list.items.map((user, index) =>
+                                    <li key={user.userName}>
+                                        <strong>{ user.userName }</strong> ({user.firstName + ' ' + user.lastName})
+                                        
+                                    </li>
+                                )}
+                            </ul>
+                        }
+                        <p>
+                            <Link className="button button-standard" to="/">Dashboard</Link>
+                            <Link className="button button-less-important" to="/login">Logout</Link>
+                        </p>
+                    </div>
+                </div>
             </div>
         );
     }

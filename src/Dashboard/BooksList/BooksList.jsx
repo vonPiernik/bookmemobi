@@ -47,6 +47,35 @@ class BooksListRow extends React.Component {
     }
 }
 
+class Pagination extends React.Component {
+    render() {
+        const list = this.props.list;
+        return (
+            <div className="pagination">
+            <button 
+                className="button button-pagination button-pagination-next"
+                disabled={list.hasPreviousPage ? "" : "disabled" }
+                onClick={() => this.getUserBooks({ pageNumber: (list.pageNumber - 1)})}
+                >
+                Previous page
+            </button>
+            <div className="pagination-counter">
+                <span className="current">{ list.pageNumber }</span>
+                /
+                <span className="total">{ list.totalPages }</span>
+            </div>
+            <button 
+                className="button button-pagination button-pagination-next"
+                disabled={list.hasNextPage ? "" : "disabled" }
+                onClick={() => this.getUserBooks({ pageNumber: (list.pageNumber + 1)})}
+                >
+                Next page
+            </button>
+            </div>
+        )
+    }
+}
+
 class BooksList extends React.Component {
     constructor(props) {
         super(props);
@@ -55,16 +84,15 @@ class BooksList extends React.Component {
     }
 
     componentDidMount(){
-        this.props.dispatch(booksActions.getUserBooks())
-        
+        this.getUserBooks();
     }
 
-    // downloadBook(book){
-    //     this.props.dispatch(booksActions.downloadBook(book))
-    // }
+    getUserBooks(args){
+        this.props.dispatch(booksActions.getUserBooks(args));
+    }
 
     getBook(bookId){
-        this.props.dispatch(booksActions.getBook(bookId))
+        this.props.dispatch(booksActions.getBook(bookId));
     }
 
     render() {
@@ -99,11 +127,14 @@ class BooksList extends React.Component {
                     </thead>
                     <tbody>
                         { userBooks.loading && <tr><td></td><td>Loading books...</td></tr> }
-                        { userBooks.list && userBooks.list.totalItems == 0 && <tr><td></td><td>You don't have any books. Add one now!</td></tr> }
+                        { userBooks.list && userBooks.list.totalItems == 0 && <tr className="no-books"><td></td><td>You don't have any books. Add one now!</td></tr> }
                         { rows }
                         
                     </tbody>
                 </table>
+                { userBooks.list && userBooks.list.totalPages > 0 &&
+                    <Pagination list={userBooks.list} />
+                }
             </div>
         );
     }

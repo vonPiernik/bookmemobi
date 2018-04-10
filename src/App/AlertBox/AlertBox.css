@@ -40,3 +40,6 @@
     animation-delay: 4s;
     animation-fill-mode: forwards;
 }
+.infoMessage.alert-danger {
+    background-image: linear-gradient(120deg, #F44336 0%, #E91E63 100%);
+}

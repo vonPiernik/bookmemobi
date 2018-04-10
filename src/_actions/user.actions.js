@@ -42,9 +42,10 @@ function authCheck(){
     return userService.authCheck()
         .then(
             user => {
-                console.log("Auth is OK, something else must be wrong :(");
+                dispatch(alertActions.error("Unknown error occured. Please contact us, so we can fix it."));
             },
             error => {
+                dispatch(alertActions.error(error));
                 history.push('/login');
             }
         );
@@ -80,7 +81,10 @@ function getAll() {
         return userService.getAll()
             .then(
                 users => dispatch(success(users)),
-                error => dispatch(failure(error))
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                }
             );
     };
 

@@ -18,6 +18,9 @@ body{
 }
 
 /* buttons */
+button {
+    outline: none;
+}
 .button{
     margin-right: 10px;
     color: #fff;
@@ -28,23 +31,32 @@ body{
     text-transform: uppercase;
     border: 0;
     text-decoration: none;
+    margin-bottom: 10px;
 }
 .button-standard{
     background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
 }
 .button-green{
-    
+    background-image: linear-gradient(135deg, #4CAF50 0%, #009688 100%);
 }
+.button:disabled {
+    opacity: .7;
+}
+.button-less-important {
+    background-image: linear-gradient(135deg, #d2dceb 0%, #8ea3c5 100%);
+}
+.button-danger {
+    background-image: linear-gradient(135deg, #E91E63 0%, #F44336 100%);
+}
+
 .button:hover {
     transform: scale(1.05);
     color: #fff;
     text-decoration: none;
 }
-
-.button-less-important {
-    background-image: linear-gradient(135deg, #d2dceb 0%, #8ea3c5 100%);
+.button:disabled:hover {
+    transform: none;
 }
-
 
 /* auth styles */
 .auth-form-wrapper {

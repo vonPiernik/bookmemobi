@@ -9,16 +9,17 @@ export const booksActions = {
     getUserBooks,
     getBook,
     downloadBook,
-    uploadBook
+    uploadBook,
+    deleteBook
 };
 
 
 // get list of all books that belongs to logged user
-function getUserBooks() {
+function getUserBooks(args) {
     return dispatch => {
         dispatch(request());
 
-        return booksService.getUserBooks()
+        return booksService.getUserBooks(args)
             .then(
                 books => {
                     dispatch(success(books));
@@ -26,7 +27,7 @@ function getUserBooks() {
                 error => {
                     dispatch(failure(error));
                     dispatch(alertActions.error(error));
-                    dispatch(userActions.authCheck);
+                    // dispatch(userActions.authCheck);
                 }
             );
     };
@@ -49,7 +50,7 @@ function getBook(bookId) {
                 error => {
                     dispatch(failure(error));
                     dispatch(alertActions.error(error));
-                    dispatch(userActions.authCheck);
+                    // dispatch(userActions.authCheck);
                 }
             );
     };
@@ -57,6 +58,30 @@ function getBook(bookId) {
     function request() { return { type: booksConstants.GET_BOOK_REQUEST } }
     function success(book) { return { type: booksConstants.GET_BOOK_SUCCESS, book } }
     function failure(error) { return { type: booksConstants.GET_BOOK_FAILURE, error } }
+}
+
+// delete single book
+function deleteBook(bookId) {
+    return dispatch => {
+        dispatch(request());
+
+        return booksService.deleteBook(bookId)
+            .then(
+                book => {
+                    dispatch(this.getUserBooks());
+                    dispatch(success(book));
+                },
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                    // dispatch(userActions.authCheck);
+                }
+            );
+    };
+
+    function request() { return { type: booksConstants.DELETE_REQUEST } }
+    function success(book) { return { type: booksConstants.DELETE_SUCCESS, book } }
+    function failure(error) { return { type: booksConstants.DELETE_FAILURE, error } }
 }
 
 
