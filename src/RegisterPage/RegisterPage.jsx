@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link , StaticRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
@@ -13,6 +13,7 @@ class RegisterPage extends React.Component {
                 firstName: '',
                 lastName: '',
                 email: '',
+                kindleEmail: '',
                 username: '',
                 password: ''
             },
@@ -53,36 +54,41 @@ class RegisterPage extends React.Component {
                 <h2>Register</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !user.firstName ? ' has-error' : '')}>
-                        <label htmlFor="firstName">First Name</label>
-                        <input type="text" className="form-control" name="firstName" value={user.firstName} onChange={this.handleChange} />
+                        <label htmlFor="firstName">First Name <span className="required-star">*</span></label>
+                        <input type="text" className="form-control" name="firstName" value={user.firstName} onChange={this.handleChange} required/>
                         {submitted && !user.firstName &&
                             <div className="help-block">First Name is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.lastName ? ' has-error' : '')}>
-                        <label htmlFor="lastName">Last Name</label>
-                        <input type="text" className="form-control" name="lastName" value={user.lastName} onChange={this.handleChange} />
+                        <label htmlFor="lastName">Last Name <span className="required-star">*</span></label>
+                        <input type="text" className="form-control" name="lastName" value={user.lastName} onChange={this.handleChange} required/>
                         {submitted && !user.lastName &&
                             <div className="help-block">Last Name is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.username ? ' has-error' : '')}>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={user.username} onChange={this.handleChange} />
+                        <label htmlFor="username">Username <span className="required-star">*</span></label>
+                        <input type="text" className="form-control" name="username" value={user.username} onChange={this.handleChange} required/>
                         {submitted && !user.username &&
                             <div className="help-block">Username is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.email ? ' has-error' : '')}>
-                        <label htmlFor="username">Email</label>
-                        <input type="email" className="form-control" name="email" value={user.email} onChange={this.handleChange} />
+                        <label htmlFor="username">Email <span className="required-star">*</span></label>
+                        <input type="email" className="form-control" name="email" value={user.email} onChange={this.handleChange} required/>
                         {submitted && !user.email &&
                             <div className="help-block">Email is required</div>
                         }
                     </div>
+                    <div className={'form-group' + (submitted && !user.kindleEmail ? ' has-error' : '')}>
+                        <label htmlFor="username">Kindle Email
+                            <br/><small>This is your kindle email - an email adress your ebooks will be sent on. <strong>You can fill this later.</strong></small></label>
+                        <input type="email" className="form-control" name="email" value={user.kindleEmail} onChange={this.handleChange} />
+                    </div>
                     <div className={'form-group' + (submitted && !user.password ? ' has-error' : '')}>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
+                        <label htmlFor="password">Password <span className="required-star">*</span></label>
+                        <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} required/>
                         {submitted && !user.password &&
                             <div className="help-block">Password is required</div>
                         }

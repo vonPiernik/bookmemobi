@@ -25,13 +25,13 @@
 
 @media(max-width: 776px){
     .action-bar {
+        display: none;
         top: initial;
         bottom: 0;
         height: 57px;
         width: 100%;
         padding-top: 0;
     }
-    
     .action-bar a {
         display: inline-block;
         line-height: 57px;

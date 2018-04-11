@@ -39,7 +39,8 @@ span.book-letter-indicator--green {
     cursor: pointer;
     transition: .15s background-color;
 }
-.books-list tbody tr:hover {
+.books-list tbody tr:hover,
+.books-list tbody tr.active {
     background-color: #f9c59757;
 }
 .books-list tbody tr.no-books:hover {
@@ -83,6 +84,29 @@ tr.no-books td {
     /* color: #555; */
 }
 
+
+@media(max-width: 991px){
+    .button-pagination-prev {
+        text-indent: -9999px;
+        overflow: hidden;
+        background-image: url(/public/img/icons/left-arrow.png);
+        width: 70px;
+    }
+    
+    .button-pagination {
+        background-size: 20px;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: 0ms;
+    }
+    
+    .button-pagination-next {
+        text-indent: -9999px;
+        overflow: hidden;
+        background-image: url(/public/img/icons/right-arrow.png);
+        width: 70px;
+    }
+}
 
 @media(max-width: 776px){
     table.books-list{

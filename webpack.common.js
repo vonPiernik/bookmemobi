@@ -4,12 +4,30 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: './src/index.js'
+        app: './src/index.jsx'
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
+    module: {
+        loaders: [
+            { test: /\.css$/, loader: "style-loader!css-loader" },
+            {
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['@babel/react', '@babel/preset-env', '@babel/preset-stage-3']
+                }
+            }
+        ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
-            title: 'Production'
+            template: './public/index.html',
+            filename: 'index.html',
+            inject: 'body',
+            title: 'BookMeMobi'
         })
     ],
     output: {

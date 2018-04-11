@@ -104,7 +104,19 @@
     opacity: 1;
     display: block;
 }
+
+.mobile-menu-visible .user-menu {
+    box-shadow: none;
+    border: 0;
+    position: static;
+    background: #eeeeee;
+    border-top: 2px solid #e3abe347;
+}
 @media(max-width: 776px){
+    .navbar-brand-not-logged-in.navbar-brand::after{
+        display: none;
+    }
+
     .mobile-menu-overlay {
         position: fixed;
         left: 0;

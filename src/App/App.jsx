@@ -25,11 +25,16 @@ class App extends React.Component {
             dispatch(alertActions.clear());
         });
     }
-
+    componentDidMount(){
+        //prevent right click
+        document.getElementById("app").oncontextmenu = function (e) {
+            e.preventDefault();
+        };
+    }
     render() {
         const { alert } = this.props;
         return (
-            <div className="wrapper">
+            <div className="wrapper" onContextMenu={()=>{return false;}}>
                 <Router history={history}>
                     <div>
                         <Navbar />

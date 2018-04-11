@@ -8,6 +8,8 @@ import { WeatherChart } from './WeatherChart';
 import { userActions } from '../_actions';
 import { booksActions } from '../_actions';
 import Dropzone from 'react-dropzone';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+
 import './Dashboard.css';
 
 // var fileDownload = require('js-file-download');
@@ -18,7 +20,7 @@ class Dashboard extends React.Component {
         this.state = {
             dropzoneActive: false,
             files: [],
-            sidebarShow: false
+            sidebarVisible: false
         } 
     }
 
@@ -49,13 +51,13 @@ class Dashboard extends React.Component {
     
     toggleSidebar() {
         this.setState({
-            sidebarShow: (this.state.sidebarShow ? false : true)
+            sidebarVisible: (this.state.sidebarVisible ? false : true)
         });
        
     }
     showSidebar() {
         this.setState({
-            sidebarShow: true
+            sidebarVisible: true
         });
        
     }
@@ -79,7 +81,10 @@ class Dashboard extends React.Component {
                 onDragLeave={this.onDragLeave.bind(this)}
             >
             { dropzoneActive && <div className="dropzone-overlay">Drop files...</div> }
-            <div className={"dashboard-wrapper " + (this.state.sidebarShow ? "dashboard-wrapper-side-bar-show" : "")}>
+            <ContextMenuTrigger id="context_dashboard_main">
+            <div className={"dashboard-wrapper " + (this.state.sidebarVisible ? "dashboard-wrapper-side-bar-show" : "")}>
+        
+
                 <ActionBar />
                 
                 <div className="container">
@@ -90,20 +95,37 @@ class Dashboard extends React.Component {
                         Upload Book
                     </button>
 
-                    <BooksList showSidebar={this.showSidebar.bind(this)}/>
+                    <BooksList 
+                        showSidebar={this.showSidebar.bind(this)}
+                        sidebarVisible={this.state.sidebarVisible} />
                     
                     <br/>
                 
                 </div>
                 
-                {this.state.sidebarShow &&
+                {this.state.sidebarVisible &&
                 <div className="side-bar-overlay" onClick={this.toggleSidebar.bind(this)}></div>
                 }                
-                <SideBar    sidebarShow={this.state.sidebarShow}  
+                <SideBar    sidebarVisible={this.state.sidebarVisible}  
                             toggleSidebar={this.toggleSidebar.bind(this)}/>
 
             </div>
+
+            <ContextMenu id="context_dashboard_main">
+                <MenuItem onClick={() => { dropzoneRef.open() }}> 
+                    <img src="/public/img/icons/cloud-computing.png" alt="Upload book"/>
+                    Upload book
+                </MenuItem>
+                <MenuItem data={ "some_data"}> ContextMenu Item 2
+                </MenuItem>
+                <MenuItem divider />
+                <MenuItem data={ "some_data"}> ContextMenu Item 3
+                </MenuItem>
+            </ContextMenu>
+            </ContextMenuTrigger>
             </Dropzone>
+
+
         );
     }
 }

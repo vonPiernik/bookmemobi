@@ -64,7 +64,7 @@ class Navbar extends React.Component {
         return (
             <nav className="navbar">
                     {!user &&
-                    <Link to="/" className="navbar-brand">
+                    <Link to="/" className="navbar-brand navbar-brand-not-logged-in">
                         <img src="/public/img/logo-poziom.png" />
                     </Link>
                     }
@@ -102,7 +102,10 @@ class Navbar extends React.Component {
                                 </a>
                                 <div className={"user-menu " + (this.state.userMenuVisible ? "user-menu-visible" : "")} id="userMenu">
                                     <div className="dropdown-divider"></div>
-                                    <Link to="/login" className="dropdown-item disabled">Logout</Link>
+                                    <Link to="/login" className="dropdown-item disabled"
+                                             onClick={this.toggleMobileMenu.bind(this)}>
+                                             Logout
+                                    </Link>
                                 </div>
                             </li>
                         </ul>
@@ -111,12 +114,12 @@ class Navbar extends React.Component {
                     {!user && 
                     <div className={"app-menu app-menu-unauthorized " + (this.state.mobileMenuVisible ? "mobile-menu-visible" : "mobile-menu-hidden")} id="navbarSupportedContent">
                         <ul className="app-menu-right">
-                            <li className="nav-item">
+                            <li className="nav-item" onClick={this.toggleMobileMenu.bind(this)}>
                                 <NavLink to="/login" className="nav-link">
                                 <img src="/public/img/icons/user.png" alt="Login"/>
                                 Login</NavLink>                        
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item" onClick={this.toggleMobileMenu.bind(this)}>
                                 <NavLink to="/register" className="nav-link">
                                 <img src="/public/img/icons/users.png" alt="Register"/>
                                 Register</NavLink>

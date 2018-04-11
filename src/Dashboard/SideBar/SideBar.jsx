@@ -21,7 +21,7 @@ class SideBar extends React.Component {
     render() {
         const { getBook, book } = this.props;
         return (
-            <div className={"side-bar " + (this.props.sidebarShow ? "side-bar-show" : "side-bar-hide")} >
+            <div className={"side-bar " + (this.props.sidebarVisible ? "side-bar-show" : "side-bar-hide")} >
                 <div className="side-bar-header">
                     <button className="side-bar-close-button" onClick={() => this.props.toggleSidebar()} >
                         <span></span><span></span>
