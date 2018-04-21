@@ -22,24 +22,34 @@ class SideBar extends React.Component {
         const { getBook, book } = this.props;
         return (
             <div className={"side-bar " + (this.props.sidebarVisible ? "side-bar-show" : "side-bar-hide")} >
+
+                {/* Sidebar header, by default visible only on mobile */}
                 <div className="side-bar-header">
                     <button className="side-bar-close-button" onClick={() => this.props.toggleSidebar()} >
                         <span></span><span></span>
                     </button>
                     Book details
                 </div>
+
                 {getBook && getBook.loading &&
                     <p>Loading...</p>
                 }
+
+                {/* If the book exist (is fetched with success) */}
                 {book &&
                     <div className="book-details">
+                    
                         <h3>{ book.title }</h3>
+
                         <p><small>{ book.fileName } ( { book.size }MB )</small></p>
+
                         <div className="book-cover">
                             <span>This book has no cover.</span>
                         </div>
+
                         <p><strong>Author: </strong> { book.author } </p>
                         <p><strong>Publishing Date: </strong> { book.publishingDate }</p>
+
                         <br />
                         <button     className="button button-less-important" 
                                     onClick={() => this.downloadBook(book)}>
@@ -49,6 +59,7 @@ class SideBar extends React.Component {
                                     onClick={() => this.deleteBook(book.id)}>
                                     Delete this book
                         </button>
+
                     </div>
 
 

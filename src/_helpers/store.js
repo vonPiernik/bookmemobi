@@ -3,14 +3,15 @@ import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../_reducers';
 import { alertConstants } from '../_constants';
+import { history } from '../_helpers';
 
 const loggerMiddleware = createLogger();
 
 // middleware that helps with unit test, now actions returns promise
 const authCheckMiddleware = ({dispatch, getState}) => next => action => {
-    console.log("Auth check middleware", action.type);
     if(action.type === alertConstants.ERROR){
-        console.log(action.message);
+        // remove user from local storage to log user out
+        localStorage.removeItem('user');        
     }
     return next(action);
 }

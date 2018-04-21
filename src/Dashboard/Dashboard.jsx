@@ -24,26 +24,28 @@ class Dashboard extends React.Component {
         } 
     }
 
-    componentWillMount(){
-    }
-
+    // When you drag file(s) into drop area then activate Dropzone
     onDragEnter() {
         this.setState({
             dropzoneActive: true
         });
     }
 
+    // When you stop draging files over drop area then disable Dropzone
     onDragLeave() {
         this.setState({
             dropzoneActive: false
         });
     }
 
+    // When you drop files in drop area (Dropzone)
     onDrop(files) {
         this.setState({
             files,
             dropzoneActive: false
         });
+
+        // If there are any files then run upload
         if(files[0]){
             this.uploadBook(files);
         }
@@ -62,7 +64,7 @@ class Dashboard extends React.Component {
        
     }
 
-    uploadBook(files,){
+    uploadBook(files){
         this.props.dispatch(booksActions.uploadBook(files))
     }
 
@@ -71,57 +73,103 @@ class Dashboard extends React.Component {
         const { files, dropzoneActive } = this.state;
         let dropzoneRef;
         return (
+            // Wrap whole dashboard in dropzone, so if you drop files anywhere in dashboard
+            // upload will start
             <Dropzone
                 disableClick
                 style={{position: "relative"}}
                 onDrop={this.onDrop.bind(this)}
-                ref={(node) => { dropzoneRef = node; }}
+                ref={(node) => { dropzoneRef = node; }} // allows triggering dropzone with button
                 accept=".mobi"
                 onDragEnter={this.onDragEnter.bind(this)}
                 onDragLeave={this.onDragLeave.bind(this)}
             >
+
+            {/* Dropzone overlay that shows up when you drag files over dashboard */}
             { dropzoneActive && <div className="dropzone-overlay">Drop files...</div> }
+
+            {/* 
+              * Wrap whole dashboard in context menu trigger, 
+              * so right clicking anywhere in dashboard will trigger #context_dashboard_main menu 
+            */}
             <ContextMenuTrigger id="context_dashboard_main">
-            <div className={"dashboard-wrapper " + (this.state.sidebarVisible ? "dashboard-wrapper-side-bar-show" : "")}>
-        
 
-                <ActionBar />
-                
-                <div className="container">
-                    <h1 className="bold-title">Hi {user.firstName}!</h1>
-                    <p>This is your dashboard where you can see all your books.</p>
-                    {/* <WeatherChart /> */}
-                    <button type="button" className="button button-standard button-open-file-chooser" onClick={() => { dropzoneRef.open() }}>
-                        Upload Book
-                    </button>
-
-                    <BooksList 
-                        showSidebar={this.showSidebar.bind(this)}
-                        sidebarVisible={this.state.sidebarVisible} />
+                {/* Give the wrapper class depending on sidebar visibility
+                    It lets add padding to the wrapper when sidebar is open  */}
+                <div className={"dashboard-wrapper " 
+                                + (this.state.sidebarVisible 
+                                ? "dashboard-wrapper-side-bar-show" : "")}>
+            
+                    {/* Render action bar */}
+                    <ActionBar />
                     
-                    <br/>
-                
+
+                    {/* Main dashboard container */}
+                    <div className="container">
+
+                        {/* Welcome message */}
+                        <h1 className="bold-title">Hi {user.firstName}!</h1>
+                        <p>This is your dashboard where you can see all your books.</p>
+
+                        {/* Weahter chart, completely useless component */}
+                        {/* <WeatherChart /> */}
+
+                        {/* {files.map((file, i) => {           
+                            return (<p key={i}>{file.name}</p>) 
+                        })} */}
+                   
+                        <div className="dropzone-previews"></div>
+                   
+                        {/* Dropzone files counter */}
+                        <div className="dropzone-progress">
+                            {files.forEach((file) => {
+                                <div className="file-progress">{file}</div>
+                            })}
+                        </div>
+                    
+
+
+                        {/* Book upload button, should be moved somewhere else */}
+                        <button 
+                            type="button" 
+                            className="button button-standard button-open-file-chooser" 
+                            onClick={() => { dropzoneRef.open() }}
+                        >
+                            Upload Book
+                        </button>
+
+                        {/* Books list */}
+                        <BooksList 
+                            showSidebar={this.showSidebar.bind(this)} 
+                            sidebarVisible={this.state.sidebarVisible} />
+                        
+                        <br/>
+                    
+                    </div>
+                    
+                    {/* If sidebar is open render an overlay (visible only on mobile) */}
+                    {this.state.sidebarVisible &&
+                        <div className="side-bar-overlay" onClick={this.toggleSidebar.bind(this)}></div>
+                    }
+
+                    {/* Sidebar */}
+                    <SideBar    sidebarVisible={this.state.sidebarVisible}  
+                                toggleSidebar={this.toggleSidebar.bind(this)}/>
+
+
                 </div>
-                
-                {this.state.sidebarVisible &&
-                <div className="side-bar-overlay" onClick={this.toggleSidebar.bind(this)}></div>
-                }                
-                <SideBar    sidebarVisible={this.state.sidebarVisible}  
-                            toggleSidebar={this.toggleSidebar.bind(this)}/>
 
-            </div>
+                {/* Context menu */}
+                <ContextMenu id="context_dashboard_main">
+                    <MenuItem onClick={() => { dropzoneRef.open() }}>  
+                        <img src="/public/img/icons/cloud-computing.png" alt="Upload book"/>
+                        Upload book
+                    </MenuItem>
+                    <MenuItem> ContextMenu Item 2 </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem> ContextMenu Item 3 </MenuItem>
+                </ContextMenu>
 
-            <ContextMenu id="context_dashboard_main">
-                <MenuItem onClick={() => { dropzoneRef.open() }}> 
-                    <img src="/public/img/icons/cloud-computing.png" alt="Upload book"/>
-                    Upload book
-                </MenuItem>
-                <MenuItem data={ "some_data"}> ContextMenu Item 2
-                </MenuItem>
-                <MenuItem divider />
-                <MenuItem data={ "some_data"}> ContextMenu Item 3
-                </MenuItem>
-            </ContextMenu>
             </ContextMenuTrigger>
             </Dropzone>
 

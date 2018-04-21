@@ -39,8 +39,8 @@ class App extends React.Component {
                     <div>
                         <Navbar />
                         <AlertBox />
-                        <PrivateRoute exact path="/" component={Dashboard} />
-                        <Route path="/landing" component={LandingPage} />
+                        <PrivateRoute path="/dashboard" component={Dashboard} />
+                        <Route exact path="/" component={LandingPage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                     </div>

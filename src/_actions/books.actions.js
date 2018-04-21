@@ -64,11 +64,13 @@ function getBook(bookId) {
 function deleteBook(bookId) {
     return dispatch => {
         dispatch(request());
+        dispatch(alertActions.waiting("Deleting..."));
 
         return booksService.deleteBook(bookId)
             .then(
                 book => {
-                    dispatch(this.getUserBooks());
+                    dispatch(alertActions.success("Book deleted"));
+                    dispatch(this.getUserBooks()); // refresh books list after deleting
                     dispatch(success(book));
                 },
                 error => {
@@ -137,7 +139,7 @@ function uploadBook(files) {
         return booksService.uploadBook(files)
             .then(
                 files => { 
-                    dispatch(this.getUserBooks());
+                    dispatch(this.getUserBooks()); // refresh books list
                     dispatch(success(files));
                     dispatch(alertActions.success("Uploaded!"));
                 },

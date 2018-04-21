@@ -18,6 +18,7 @@ const timeAgo = new TimeAgo('en-US')
 import './BooksList.css';
 
 class BooksListRow extends React.Component {
+    
     getDateWithTimezoneOffset(date){
         let dateWithoutOffset = new Date(date);
         let offsetInMiliseconds = (dateWithoutOffset.getTimezoneOffset() * 60 * 1000);
@@ -56,28 +57,28 @@ class BooksListRow extends React.Component {
 
 class Pagination extends React.Component {
     render() {
-        const list = this.props.list;
+        const {list, getUserBooks} = this.props;
         return (
             <div className="pagination">
-            <button 
-                className="button button-pagination button-pagination-prev"
-                disabled={list.hasPreviousPage ? "" : "disabled" }
-                onClick={() => this.getUserBooks({ pageNumber: (list.pageNumber - 1)})}
-                >
-                Previous page
-            </button>
-            <div className="pagination-counter">
-                <span className="current">{ list.pageNumber }</span>
-                /
-                <span className="total">{ list.totalPages }</span>
-            </div>
-            <button 
-                className="button button-pagination button-pagination-next"
-                disabled={list.hasNextPage ? "" : "disabled" }
-                onClick={() => this.getUserBooks({ pageNumber: (list.pageNumber + 1)})}
-                >
-                Next page
-            </button>
+                <button 
+                    className="button button-pagination button-pagination-prev"
+                    disabled={list.hasPreviousPage ? "" : "disabled" }
+                    onClick={() => getUserBooks({ pageNumber: (list.pageNumber - 1)})} //get previous page
+                    >
+                    Previous page
+                </button>
+                <div className="pagination-counter">
+                    <span className="current">{ list.pageNumber }</span>
+                    /
+                    <span className="total">{ list.totalPages }</span>
+                </div>
+                <button 
+                    className="button button-pagination button-pagination-next"
+                    disabled={list.hasNextPage ? "" : "disabled" }
+                    onClick={() => getUserBooks({ pageNumber: (list.pageNumber + 1)})} //get next page
+                    >
+                    Next page
+                </button>
             </div>
         )
     }
@@ -104,27 +105,39 @@ class BooksList extends React.Component {
         const { getBook, user, userBooks, sidebarVisible } = this.props;
         const rows = [];
         let bookRowActive = false;
+
         if( userBooks.list ){
             userBooks.list.items.forEach((book) => {
+
+                // if a book is selected (and fetched from the server) and the sidebar is open
+                // set the current book (row) as active
                 if(getBook.book && sidebarVisible && getBook.book.id === book.id){
                     bookRowActive = true;
                 } else {
                     bookRowActive = false;
                 }
+
                 rows.push(
                     <BooksListRow
                         key={book.id}
                         book={book} 
                         bookRowActive={bookRowActive}
                         onClick={() => { 
-                                    this.getBook(book.id);
-                                    this.props.showSidebar();
+                                    this.getBook(book.id); //fetch book with specified id
+                                    this.props.showSidebar(); //show the sidebar
                                 } } />
                 );
+
             })
         }
         return (
             <div className="booksList">
+
+                {/* book upload progress indicator */}
+                <div id="progressBox">
+                    <div id="progressIndicator"></div>
+                </div>
+
                 <table className="books-list">
                     <thead>
                         <tr>
@@ -143,11 +156,16 @@ class BooksList extends React.Component {
                     </tbody>
                 </table> 
                 { userBooks.loading && <p>Loading books...</p> }
+
+                {/* If books list didn't contain any books display an info message */}
                 { userBooks.list && userBooks.list.totalItems == 0 && 
-                    <p className="no-books">You don't have any books. Add one now</p> }
-                        
+                    <p className="no-books">You don't have any books. Add one now</p> 
+                }
+                
+                {/* If books list contains at least one page render pagination */}
                 { userBooks.list && userBooks.list.totalPages > 0 &&
-                    <Pagination list={userBooks.list} />
+                    <Pagination list={userBooks.list}
+                                getUserBooks={this.getUserBooks.bind(this)} />
                 }
             </div>
         );

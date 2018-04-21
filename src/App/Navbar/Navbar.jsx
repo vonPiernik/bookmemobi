@@ -64,12 +64,12 @@ class Navbar extends React.Component {
         return (
             <nav className="navbar">
                     {!user &&
-                    <Link to="/" className="navbar-brand navbar-brand-not-logged-in">
+                    <Link to="/login" className="navbar-brand navbar-brand-not-logged-in">
                         <img src="/public/img/logo-poziom.png" />
                     </Link>
                     }
                     {user &&
-                    <Link to="/" className="navbar-brand navbar-brand-logged-in">
+                    <Link to="/dashboard" className="navbar-brand navbar-brand-logged-in">
                         <img src="/public/img/logo.png" className="logo-logged-in" />
                     </Link>
                     }
@@ -86,12 +86,12 @@ class Navbar extends React.Component {
                     <div className={"app-menu " + (this.state.mobileMenuVisible ? "mobile-menu-visible" : "mobile-menu-hidden")} id="appMenu">
                         <ul className="app-menu-left">
                             <li className="nav-item">
-                                <NavLink to="/landing" className="nav-link" onClick={this.toggleMobileMenu.bind(this)}>
+                                <NavLink to="/" className="nav-link" onClick={this.toggleMobileMenu.bind(this)}>
                                 <img src="/public/img/icons/newspaper.png" alt="Landing"/>Landing
                                 </NavLink>                        
                             </li>
                             <li className="nav-item" onClick={this.toggleMobileMenu.bind(this)}>
-                                <NavLink to="/" exact className="nav-link">
+                                <NavLink to="/dashboard" exact className="nav-link">
                                 <img src="/public/img/icons/home.png" alt="Dashboard"/>Dashboard</NavLink>
                             </li>
                         </ul>

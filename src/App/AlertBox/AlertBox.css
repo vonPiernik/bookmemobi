@@ -1,9 +1,7 @@
 
 /* info message box */
 
-.infoMessagesBox {
-    
-}
+.infoMessagesBox {}
 
 @keyframes hideMessage {
     0% {
@@ -29,6 +27,7 @@
     bottom: 0;
     left: 50%;
     margin-left: -250px;
+    z-index: 20;
 }
 .infoMessage.infoMessageVisible{
     transform: translateY(0);

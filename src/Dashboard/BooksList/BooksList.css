@@ -3,6 +3,7 @@
     padding: 5px 20px;
     border: 1px solid #ededed;
     clear: both;
+    position: relative;
 }
 
 table.books-list {
@@ -34,6 +35,7 @@ span.book-letter-indicator--green {
     font-weight: 400;
     font-size: 14px;
     text-align: left;
+    padding: 0 5px;
 }
 .books-list tbody tr {
     cursor: pointer;
@@ -48,6 +50,7 @@ span.book-letter-indicator--green {
 }
 .books-list tbody td {
     color: #444;
+    padding: 0 5px;
 }
 
 .books-list tbody tr td:nth-child(2) {
@@ -60,6 +63,53 @@ span.book-letter-indicator--green {
 }
 tr.no-books td {
     padding: 20px 0;
+}
+
+/* upload progress indicator */
+@keyframes hideIndicator {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }   
+}
+div#progressBox {
+    height: 3px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+div#progressIndicator {
+    transition: .6s all;
+    transition-timing-function: ease-out;
+    width: 0%;
+    background: #fa709a;
+    position: relative;
+    height: 3px;
+    top: 0;
+}
+div#progressIndicator.complete{
+    animation-name: hideIndicator;
+    animation-duration: .2s;
+    animation-timing-function: ease-in-out;   
+    animation-delay: 4s;
+    animation-fill-mode: forwards;
+}
+div#progressIndicator span {
+    color: #f7c19b;
+    position: absolute;
+    /* width: 80px; */
+    font-size: 18px;
+    right: 0;
+    padding-right: 2px;
+    text-align: center;
+    top: 5px;
+    /* margin-left: -40px; */
+    height: 20px;
+    line-height: 20px;
 }
 
 /* pagination */

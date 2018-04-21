@@ -16,7 +16,7 @@ class LandingPage extends React.Component {
                 <div className="container">
                 
                     <div className="col-md-6 col-md-offset-3">
-                        <h1 className="bold-title">Hi {user.firstName}!</h1>
+                        <h1 className="bold-title">Welcome to BookMeMobi!</h1>
                         <p>This is landing page</p>
                         <h3>All registered users:</h3>
                         {users.loading && <em>Loading users...</em>}

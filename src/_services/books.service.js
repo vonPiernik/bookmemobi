@@ -1,4 +1,4 @@
-import { serialize, authHeader, config } from '../_helpers';
+import { makeXHRRequest, serialize, authHeader, config } from '../_helpers';
 
 export const booksService = {
     getUserBooks,
@@ -70,11 +70,16 @@ function uploadBook(files) {
         body: data
     };
     let user = JSON.parse(localStorage.getItem('user'));
-    return fetch(config.apiUrl + '/users/' + user.id + '/books', requestOptions)
-        .then(handleResponse, handleError)
-        .then(files => {
-            return files;
-        });
+    // return fetch(config.apiUrl + '/users/' + user.id + '/books', requestOptions)
+    //     .then(handleResponse, handleError)
+    //     .then(files => {
+    //         console.log("in books service", files)
+    //         return files;
+    //     });  
+    
+    // makeXHRRequest('POST', config.apiUrl + '/users/' + user.id + '/books', authHeader().Authorization);
+                                                    
+    return makeXHRRequest('POST', config.apiUrl + '/users/' + user.id + '/books', authHeader().Authorization, data);
 }
 
 function handleResponse(response) {
