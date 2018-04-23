@@ -2,6 +2,7 @@ import React from 'react';
 // import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { booksActions } from '../../_actions';
+import { Button } from '../../_components';
 
 import './SideBar.css';
 
@@ -51,14 +52,19 @@ class SideBar extends React.Component {
                         <p><strong>Publishing Date: </strong> { book.publishingDate }</p>
 
                         <br />
-                        <button     className="button button-less-important" 
-                                    onClick={() => this.downloadBook(book)}>
-                                    Download book file
-                        </button>
-                        <button     className="button button-danger" 
-                                    onClick={() => this.deleteBook(book.id)}>
-                                    Delete this book
-                        </button>
+                        
+                        <Button 
+                            text="Download book file"
+                            type="less-important"
+                            role="download-book" 
+                            onClick={() => this.downloadBook(book)}
+                        />
+                        <Button 
+                            text="Delete this book"
+                            type="danger"
+                            role="delete-book" 
+                            onClick={() => this.deleteBook(book.id)}
+                        />
 
                     </div>
 

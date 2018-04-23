@@ -7,6 +7,9 @@ import { BooksList } from './BooksList';
 import { WeatherChart } from './WeatherChart';
 import { userActions } from '../_actions';
 import { booksActions } from '../_actions';
+
+import { Button } from '../_components';
+
 import Dropzone from 'react-dropzone';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
@@ -129,14 +132,13 @@ class Dashboard extends React.Component {
                     
 
 
-                        {/* Book upload button, should be moved somewhere else */}
-                        <button 
-                            type="button" 
-                            className="button button-standard button-open-file-chooser" 
+                        {/* Book upload button */}
+                        <Button 
+                            text="Upload Book"
+                            role="open-file-chooser" 
                             onClick={() => { dropzoneRef.open() }}
-                        >
-                            Upload Book
-                        </button>
+                        />
+                            
 
                         {/* Books list */}
                         <BooksList 

@@ -1,0 +1,46 @@
+/* buttons styles */
+.button{
+    margin-right: 10px;
+    color: #fff;
+    transition: .3s all;
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 40px;
+    text-transform: uppercase;
+    border: 0;
+    text-decoration: none;
+    margin-bottom: 10px;
+    outline: none;
+}
+.button-standard{
+    background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
+}
+.button-green{
+    background-image: linear-gradient(135deg, #4CAF50 0%, #009688 100%);
+}
+.button:disabled {
+    opacity: .3;
+    color: #000;
+}
+.button-less-important {
+    background-image: linear-gradient(135deg, #d2dceb 0%, #8ea3c5 100%);
+}
+.button-danger {
+    background-image: linear-gradient(135deg, #E91E63 0%, #F44336 100%);
+}
+
+.button:hover {
+    transform: scale(1.05);
+    color: #fff;
+    text-decoration: none;
+}
+.button:disabled:hover {
+    transform: none;
+    color: #000;
+}
+
+.button-role-open-file-chooser {
+    float: right;
+    clear: right;
+    margin: 10px 0;
+}

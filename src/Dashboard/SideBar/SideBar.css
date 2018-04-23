@@ -77,6 +77,10 @@ button.side-bar-close-button span:nth-child(2) {
     color: #fa709a;
 }
 
+.book-details{
+    overflow-y: auto;
+    max-height: 100%;
+}
 
 @media(max-width: 776px){
     .side-bar {
@@ -86,10 +90,6 @@ button.side-bar-close-button span:nth-child(2) {
         max-width: 80%;
         box-shadow: -15px 0px 20px #00000014;
         border: 0;
-    }
-    .book-details{
-        overflow-y: scroll;
-        max-height: 100%;
     }
     .side-bar-overlay {
         position: fixed;
