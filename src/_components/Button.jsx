@@ -6,13 +6,17 @@ export const Button = (props) => (
     <button 
         className={ 
                 "button button-" 
-                + (props.type ? props.type : "standard")
+                + props.type
                 + (props.role ? " button-role-" + props.role : null)
                 }
         onClick={ props.onClick }>
         { props.text }
     </button>
 );
+
+Button.defaultProps = {
+    type: "standard",
+};
 
 Button.propTypes = {
     type: PropTypes.string,
