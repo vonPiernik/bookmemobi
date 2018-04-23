@@ -79,10 +79,12 @@ function uploadBook(files) {
     
     // makeXHRRequest('POST', config.apiUrl + '/users/' + user.id + '/books', authHeader().Authorization);
                                                     
-    return makeXHRRequest('POST', config.apiUrl + '/users/' + user.id + '/books', authHeader().Authorization, data);
+    return makeXHRRequest('POST', config.apiUrl + '/users/' + user.id + '/books', authHeader().Authorization, data)
+        .then(handleResponse,handleError);
 }
 
 function handleResponse(response) {
+    console.log("ODPOWIEDŹ ", );
     return new Promise((resolve, reject) => {
         if (response.ok) {
             // return json if it was returned in the response
@@ -92,6 +94,8 @@ function handleResponse(response) {
             } else {
                 resolve();
             }
+        } else if (response instanceof XMLHttpRequest && response.readyState == 4 && response.status === 200){
+            resolve(JSON.parse(response.responseText));
         } else {
             // return error message from response body
             response.text().then(text => reject(text));

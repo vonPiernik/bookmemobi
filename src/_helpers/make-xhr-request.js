@@ -15,7 +15,6 @@ export function makeXHRRequest(method, url, token, data) {
         xhr.open(method, url, true);
         xhr.setRequestHeader("Authorization", token);
         xhr.onload = function(){
-            console.log("FULL XHR", xhr)
             return resolve(xhr);
         };
         xhr.onerror = reject;
