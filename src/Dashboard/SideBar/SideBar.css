@@ -80,6 +80,10 @@ button.side-bar-close-button span:nth-child(2) {
 .book-details{
     overflow-y: auto;
     max-height: 100%;
+    transition: .3s opacity;
+}
+.book-details.loading {
+    opacity: .3;
 }
 
 @media(max-width: 776px){

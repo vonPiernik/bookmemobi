@@ -2,7 +2,7 @@ import React from 'react';
 // import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { booksActions } from '../../_actions';
-import { Button } from '../../_components';
+import { Button, Spinner } from '../../_components';
 
 import './SideBar.css';
 
@@ -33,12 +33,13 @@ class SideBar extends React.Component {
                 </div>
 
                 {getBook && getBook.loading &&
-                    <p>Loading...</p>
+                    <Spinner role="side-bar" />
                 }
 
                 {/* If the book exist (is fetched with success) */}
                 {book &&
-                    <div className="book-details">
+                    <div className={"book-details"
+                                    + ((getBook && getBook.loading) ? " loading" : "")}>
                     
                         <h3>{ book.title }</h3>
 
@@ -49,7 +50,7 @@ class SideBar extends React.Component {
                         </div>
 
                         <p><strong>Author: </strong> { book.author } </p>
-                        <p><strong>Publishing Date: </strong> { book.publishingDate }</p>
+                        <p><strong>Publishing Date: </strong> { (book.publishingDate != null) ? book.publishingDate : "No data" }</p>
 
                         <br />
                         

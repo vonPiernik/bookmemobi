@@ -8,7 +8,7 @@ import { WeatherChart } from './WeatherChart';
 import { userActions } from '../_actions';
 import { booksActions } from '../_actions';
 
-import { Button } from '../_components';
+import { Button, KindleEmailManual } from '../_components';
 
 import Dropzone from 'react-dropzone';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
@@ -106,6 +106,8 @@ class Dashboard extends React.Component {
                     {/* Render action bar */}
                     <ActionBar />
                     
+                    {/* Render kindle email configuration manual */}
+                    {/* <KindleEmailManual /> */}
 
                     {/* Main dashboard container */}
                     <div className="container">

@@ -4,6 +4,7 @@
     border: 1px solid #ededed;
     clear: both;
     position: relative;
+    min-height: 677px;
 }
 
 table.books-list {

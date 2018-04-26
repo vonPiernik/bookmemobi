@@ -48,3 +48,9 @@
     bottom: 0;
     margin: 320px auto 320px;
 }
+
+.spinner.spinner-role-side-bar {
+  position: absolute;
+  margin-left: -35px;
+  left: 50%;
+}

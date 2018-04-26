@@ -9,6 +9,7 @@ export const Button = (props) => (
                 + props.type
                 + (props.role ? " button-role-" + props.role : "")
                 }
+        disabled={props.disabled}
         onClick={ props.onClick }>
         { props.text }
     </button>
@@ -16,10 +17,12 @@ export const Button = (props) => (
 
 Button.defaultProps = {
     type: "standard",
+    disabled: false,
 };
 
 Button.propTypes = {
     type: PropTypes.string,
+    disabled: PropTypes.string,
     text: PropTypes.string.isRequired,
     role: PropTypes.string
 };
