@@ -5,6 +5,7 @@ export function userBooks(state = {}, action) {
     // get all books actions
     case booksConstants.GET_BOOKS_REQUEST:
       return {
+        ...state,
         loading: true
       };
     case booksConstants.GET_BOOKS_SUCCESS:

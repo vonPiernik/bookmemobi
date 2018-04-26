@@ -10,6 +10,10 @@ table.books-list {
     width: 100%;
     /* max-width: 1400px; */
     margin: 50px auto;
+    transition: .3s opacity;
+}
+table.books-list.loading{
+    opacity: .3;
 }
 
 span.book-letter-indicator {
@@ -91,13 +95,13 @@ div#progressIndicator {
     height: 3px;
     top: 0;
 }
-div#progressIndicator.complete{
+/* div#progressIndicator.complete{
     animation-name: hideIndicator;
     animation-duration: .2s;
     animation-timing-function: ease-in-out;   
     animation-delay: 4s;
     animation-fill-mode: forwards;
-}
+} */
 div#progressIndicator span {
     color: #f7c19b;
     position: absolute;

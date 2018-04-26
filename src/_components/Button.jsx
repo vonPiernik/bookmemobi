@@ -7,7 +7,7 @@ export const Button = (props) => (
         className={ 
                 "button button-" 
                 + props.type
-                + (props.role ? " button-role-" + props.role : null)
+                + (props.role ? " button-role-" + props.role : "")
                 }
         onClick={ props.onClick }>
         { props.text }

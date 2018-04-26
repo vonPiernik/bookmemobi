@@ -60,7 +60,7 @@ function downloadBook(bookId) {
 
 
 function uploadBook(files) {
-    var data = new FormData()
+    let data = new FormData()
     files.forEach(function(file){
         data.append('file[]', file)
     })

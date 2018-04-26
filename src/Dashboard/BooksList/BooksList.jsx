@@ -2,7 +2,7 @@ import React from 'react';
 // import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { booksActions } from '../../_actions';
-
+import { Spinner } from '../../_components'
 
 import TimeAgo from 'javascript-time-ago'
  
@@ -138,7 +138,7 @@ class BooksList extends React.Component {
                     <div id="progressIndicator"></div>
                 </div>
 
-                <table className="books-list">
+                <table className={"books-list" + ( userBooks.loading ? " loading" : "" ) }>
                     <thead>
                         <tr>
                             <th></th>
@@ -155,8 +155,7 @@ class BooksList extends React.Component {
                         
                     </tbody>
                 </table> 
-                { userBooks.loading && <p>Loading books...</p> }
-
+                { userBooks.loading && <Spinner role="books-list" /> }
                 {/* If books list didn't contain any books display an info message */}
                 { userBooks.list && userBooks.list.totalItems == 0 && 
                     <p className="no-books">You don't have any books. Add one now</p> 
