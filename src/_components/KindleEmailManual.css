@@ -1,4 +1,4 @@
-.kindle-email-manual {
+.kindle-email-manual-overlay {
     position: fixed;
     left: 0;
     top: 0;
@@ -9,7 +9,7 @@
 }
 
 .kindle-email-manual-wrapper {
-    position: absolute;
+    position: fixed;
     width: 700px;
     background-color: #fff;
     max-height: 100%;
@@ -20,6 +20,7 @@
     height: calc(100% - 200px);
     box-shadow: 10px 10px 20px #0000001c;
     overflow: hidden;
+    z-index: 2;
 }
 
 .kindle-email-manual-nav {
@@ -50,16 +51,43 @@
 
 .kindle-email-manual-slides .slide {
     height: 100%;
-    width: 700px;
+    width: 25%;
     position: absolute;
     background: #fff;
+    text-align: left;
+    padding: 25px 40px 25px;
 }
 
 
+.button-role-close-manual{
+    width: 57px;
+    height: 57px;
+    position: absolute;
+    border: 0;
+    right: 0;
+    background: transparent;
+    z-index: 1;
+    cursor: pointer;
+}
+.button-role-close-manual span {
+    height: 2px;
+    background: #d5d5d5;
+    width: 43px;
+    position: absolute;
+    left: 7px;
+}
+
+.button-role-close-manual span:first-child {
+    transform: rotate(45deg);
+}
+
+.button-role-close-manual span:nth-child(2) {
+    transform: rotate(-45deg);
+}
 
 .kindle-email-manual-slides {
     position: absolute;
-    width: 2800px;
+    width: 400%;
     height: calc(100% - 50px);
     top: 0;
     /* left: 0; */
@@ -71,16 +99,17 @@
 }
 
 .kindle-email-manual-slides.slide-active-2 {
-    left: -700px;
+    left: -100%;
 }
 
 .kindle-email-manual-slides.slide-active-3 {
-    left: -1400px;
+    left: -200%;
 }
 
 .kindle-email-manual-slides.slide-active-4 {
-    left: -2100px;
+    left: -300%;
 }
+
 
 
 .button-role-kindle-email-manual-nav-prev {
@@ -119,4 +148,122 @@
     top: 0;
     margin-left: -25px;
     color: #da87e2;
+}
+
+
+.kindle-email-manual-slides h1 {
+    color: #fa709a;
+    margin-top: 0;
+}
+
+.kindle-email-manual-slides .slide small {
+    font-size: 16px;
+    /* text-transform: uppercase; */
+    color: #a7a7a7;
+}
+
+.kindle-email-manual-slides .slide p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+
+.kindle-email-set {
+    padding: 20px;
+    border: 1px solid #dedede;
+    margin: 15px 0;
+    text-align: center;
+}
+
+p.kindle-email-empty {
+    margin-top: 0;
+    color: #FF5722;
+}
+p.kindle-email-ok {
+    color: #0f9b7c;
+    margin-top: 0;
+}
+
+label[for="kindleEmail"] {
+    font-size: 18px;
+    color: #6b6b6b;
+}
+
+input#kindleEmail {
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px solid #b9b9b9;
+}
+.button-role-kindle-email-manual-set-email {
+    /* background: #4CAF50; */
+    display: block;
+    margin: 15px auto 0;
+}
+strong.bookme-email-adress {
+    color: #fa709a;
+}
+
+.add-email-to-approved {
+    padding: 20px;
+    border: 1px solid #dedede;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.slide .add-email-to-approved p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.slide .add-email-to-approved strong {
+    font-size: 24px;
+    margin: 10px 0;
+    color: #fa709a;
+    display: block;
+}
+.slide p.important {
+    color: #515151;
+}
+
+.slide p.important strong {
+    color: red;
+}
+
+.slide .if-its-not-working {
+    padding: 20px;
+    border: 1px solid #dedede;
+    margin: 15px 0;
+    text-align: center;
+    /* font-size: 14px; */
+}
+
+.kindle-email-manual-slides .if-its-not-working p {
+    font-size: 14px;
+}
+.button-role-confirm-configuration-steps {
+    display: block;
+    margin: auto;
+}
+.close-manual {
+    position: absolute;
+    bottom: 50px;
+    line-height: 24px;
+    width: 400px;
+    left: 50%;
+    margin-left: -200px;
+    color: #7f7f7f;
+    cursor: pointer;
+}
+.kindle-email-manual-slides img {
+    border: 6px solid #dfdfdf;
+}
+
+@media(max-width: 776px){
+    .kindle-email-manual-wrapper {
+        width: 100%;
+        left: 0;
+        margin-left: 0;
+        top: 0;
+        height: 100%;
+    }
 }

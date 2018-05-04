@@ -16,6 +16,7 @@ TimeAgo.locale(en)
 const timeAgo = new TimeAgo('en-US')
 
 import './BooksList.css';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 class BooksListRow extends React.Component {
     
@@ -30,27 +31,39 @@ class BooksListRow extends React.Component {
         const bookRowActive = this.props.bookRowActive;
         const uploadDate = this.getDateWithTimezoneOffset(book.uploadDate);
         return (
-            <tr onClick={this.props.onClick} className={(bookRowActive) ? "active" : ""}>
-                <td><span className="book-letter-indicator">P</span></td>
-                <td>
+            <ContextMenuTrigger id="context_books_list_item">
+            <div onClick={this.props.onClick} className={(bookRowActive) ? "active" : ""}>
+                {/* <div>
+                    <span className="book-letter-indicator">P</span>
+                    <img src={ book.coverUrl } alt={ book.title }/>
+                </div> */}
+                <div className="books-list-column column-title">
                     {book.title}
-                </td>
-                <td>
+                </div>
+                <div className="books-list-column column-author">
                     {book.author}
-                </td>
-                <td>
+                </div>
+                <div className="books-list-column column-format">
                     .{ book.format }
-                </td>
-                <td>
+                </div>
+                <div className="books-list-column column-size">
                     {book.size}MB
-                </td>
-                {/* <td>
+                </div>
+                {/* <div>
                     {book.publishingDate}
-                </td> */}
-                <td>
+                </div> */}
+                <div className="books-list-column column-upload-date">
                     {timeAgo.format(uploadDate)}
-                </td>
-            </tr>
+                </div>
+            </div>
+            
+            {/* Context menu */}
+            <ContextMenu id="context_books_list_item">
+                <MenuItem onClick={() => { this.props.getBook() }}>  
+                    Book details
+                </MenuItem>
+            </ContextMenu>
+            </ContextMenuTrigger>
       );
     }
 }
@@ -122,6 +135,10 @@ class BooksList extends React.Component {
                         key={book.id}
                         book={book} 
                         bookRowActive={bookRowActive}
+                        getBook={() => { 
+                            this.getBook(book.id); //fetch book with specified id
+                            this.props.showSidebar(); //show the sidebar
+                        } }
                         onClick={() => { 
                                     this.getBook(book.id); //fetch book with specified id
                                     this.props.showSidebar(); //show the sidebar
@@ -138,23 +155,20 @@ class BooksList extends React.Component {
                     <div id="progressIndicator"></div>
                 </div>
 
-                <table className={"books-list" + ( userBooks.loading ? " loading" : "" ) }>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Book name</th>
-                            <th>Author(s)</th>
-                            <th>Format</th>
-                            <th>File size</th>
-                            {/* <th>Published</th> */}
-                            <th>Added</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div className={"books-list" + ( userBooks.loading ? " loading" : "" ) }>
+                    <div className="books-list-header">
+                        {/* <div></div> */}
+                        <div className="books-list-column column-title">Book name</div>
+                        <div className="books-list-column column-author">Authors(s)</div>
+                        <div className="books-list-column column-format">Format</div>
+                        <div className="books-list-column column-size">File size</div>
+                        {/* <div>Published</div> */}
+                        <div className="books-list-column column-upload-date">Added</div>
+                    </div>
+                    <div className="books-list-body">
                        { rows }
-                        
-                    </tbody>
-                </table> 
+                    </div>
+                </div> 
                 { userBooks.loading && <Spinner role="books-list" /> }
                 {/* If books list didn't contain any books display an info message */}
                 { userBooks.list && userBooks.list.totalItems == 0 && 

@@ -31,7 +31,19 @@
     color: #fa709a;
 }
 
+.button-role-show-manual {
+    float: right;
+    margin: 10px;
+    background: white;
+    color: #5c5c5c;
+    border: 1px solid grey;
+    padding: 9px 30px;
+}
 
+.button-role-show-manual:hover {
+    /* background-color: #e9e9e9; */
+    color: #000;
+}
 
 
 @media(max-width: 776px){

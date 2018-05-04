@@ -69,12 +69,12 @@ button.side-bar-close-button span:nth-child(2) {
 }
 
 .book-cover {
-    width: 200px;
-    height: 270px;
-    background: #dddddd;
-    text-align: center;
-    line-height: 270px;
+    height: 290px;
     color: #fa709a;
+}
+.book-cover img{
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .book-details{
@@ -85,6 +85,20 @@ button.side-bar-close-button span:nth-child(2) {
 .book-details.loading {
     opacity: .3;
 }
+.deleted-book-overlay {
+    position: absolute;
+    left: 0;
+    top: 57px;
+    right: 0;
+    padding: 250px 0;
+    z-index: 1;
+    /* background: linear-gradient(to bottom, #ffffff00 26%, #f4bca261, #ffffff00 74%); */
+}
+
+.book-details.deleted {
+    opacity: .15;
+}
+
 
 @media(max-width: 776px){
     .side-bar {

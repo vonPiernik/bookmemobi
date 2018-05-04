@@ -8,6 +8,7 @@ import { getBook } from './getBook.reducer';
 import { userBooks } from './userBooks.reducer';
 import { downloadBook } from './downloadBook.reducer';
 import { uploadBook } from './uploadBook.reducer';
+import { sendBook } from './sendBook.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   userBooks,
   downloadBook,
   uploadBook,
+  sendBook,
 });
 
 export default rootReducer;

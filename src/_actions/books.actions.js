@@ -10,7 +10,8 @@ export const booksActions = {
     getBook,
     downloadBook,
     uploadBook,
-    deleteBook
+    deleteBook,
+    sendBook
 };
 
 
@@ -71,6 +72,7 @@ function deleteBook(bookId) {
                 book => {
                     dispatch(alertActions.success("Book deleted"));
                     dispatch(this.getUserBooks()); // refresh books list after deleting
+                    dispatch(this.getBook(book.id)); // refresh book
                     dispatch(success(book));
                 },
                 error => {
@@ -84,6 +86,31 @@ function deleteBook(bookId) {
     function request() { return { type: booksConstants.DELETE_REQUEST } }
     function success(book) { return { type: booksConstants.DELETE_SUCCESS, book } }
     function failure(error) { return { type: booksConstants.DELETE_FAILURE, error } }
+}
+
+// send book
+function sendBook(bookId) {
+    return dispatch => {
+        dispatch(request());
+        dispatch(alertActions.waiting("Sending..."));
+
+        return booksService.sendBook(bookId)
+            .then(
+                response => {
+                    dispatch(alertActions.success("Book has been sent"));
+                    dispatch(success(response));
+                },
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                    // dispatch(userActions.authCheck);
+                }
+            );
+    };
+
+    function request() { return { type: booksConstants.SEND_BOOK_REQUEST } }
+    function success(response) { return { type: booksConstants.SEND_BOOK_SUCCESS, response } }
+    function failure(error) { return { type: booksConstants.SEND_BOOK_FAILURE, error } }
 }
 
 

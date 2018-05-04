@@ -5,7 +5,8 @@ export const booksService = {
     getBook,
     downloadBook,
     uploadBook,
-    deleteBook
+    deleteBook,
+    sendBook
 };
 
 
@@ -41,6 +42,16 @@ function deleteBook(bookId) {
     let user = JSON.parse(localStorage.getItem('user'));
 
     return fetch(config.apiUrl + '/users/' + user.id + "/books/" + bookId, requestOptions).then(handleResponse, handleError);
+}
+
+function sendBook(bookId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    return fetch(config.apiUrl + '/users/' + user.id + "/books/" + bookId + "/send", requestOptions).then(handleResponse, handleError);
 }
 
 

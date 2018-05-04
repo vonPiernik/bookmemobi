@@ -22,7 +22,6 @@ Button.defaultProps = {
 
 Button.propTypes = {
     type: PropTypes.string,
-    disabled: PropTypes.string,
     text: PropTypes.string.isRequired,
     role: PropTypes.string
 };

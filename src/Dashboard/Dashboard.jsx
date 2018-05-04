@@ -23,7 +23,8 @@ class Dashboard extends React.Component {
         this.state = {
             dropzoneActive: false,
             files: [],
-            sidebarVisible: false
+            sidebarVisible: false,
+            kindleEmailManualVisible: false
         } 
     }
 
@@ -54,6 +55,12 @@ class Dashboard extends React.Component {
         }
     }
     
+    toggleKindleEmailManual(){
+        this.setState((prevState,props) => ({
+            kindleEmailManualVisible: !prevState.kindleEmailManualVisible
+        }))
+    }
+
     toggleSidebar() {
         this.setState({
             sidebarVisible: (this.state.sidebarVisible ? false : true)
@@ -107,13 +114,14 @@ class Dashboard extends React.Component {
                     <ActionBar />
                     
                     {/* Render kindle email configuration manual */}
-                    {/* <KindleEmailManual /> */}
-
+                    {this.state.kindleEmailManualVisible &&
+                        <KindleEmailManual toggleKindleEmailManual={this.toggleKindleEmailManual.bind(this)}/>
+                    }
                     {/* Main dashboard container */}
                     <div className="container">
 
                         {/* Welcome message */}
-                        <h1 className="bold-title">Hi {user.firstName}!</h1>
+                        <h1 className="bold-title">Hi {user.firstName}! <small>(Your Kindle E-Mail is: {user.kindleMail})</small></h1>
                         <p>This is your dashboard where you can see all your books.</p>
 
                         {/* Weahter chart, completely useless component */}
@@ -139,6 +147,13 @@ class Dashboard extends React.Component {
                             text="Upload Book"
                             role="open-file-chooser" 
                             onClick={() => { dropzoneRef.open() }}
+                        />
+
+                        {/* Show kindle email configuration manual */}
+                        <Button 
+                            text="Configure connection"
+                            role="show-manual" 
+                            onClick={() => { this.toggleKindleEmailManual() }}
                         />
                             
 
