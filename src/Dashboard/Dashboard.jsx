@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ActionBar } from './ActionBar';
 import { SideBar } from './SideBar';
@@ -74,6 +74,10 @@ class Dashboard extends React.Component {
        
     }
 
+    clearCache(key){
+        this.props.dispatch(booksActions.clearCache(key))
+    }
+
     uploadBook(files){
         this.props.dispatch(booksActions.uploadBook(files))
     }
@@ -121,7 +125,7 @@ class Dashboard extends React.Component {
                     <div className="container">
 
                         {/* Welcome message */}
-                        <h1 className="bold-title">Hi {user.firstName}! <small>(Your Kindle E-Mail is: {user.kindleMail})</small></h1>
+                        <h1 className="bold-title">Hi {user.firstName}! <small>(Your Kindle E-Mail is: {user.kindleEmail})</small></h1>
                         <p>This is your dashboard where you can see all your books.</p>
 
                         {/* Weahter chart, completely useless component */}
@@ -155,6 +159,12 @@ class Dashboard extends React.Component {
                             role="show-manual" 
                             onClick={() => { this.toggleKindleEmailManual() }}
                         />
+                        {/* Show kindle email configuration manual */}
+                        {/* <Button 
+                            text="Clear cache"
+                            role="clear-cache" 
+                            onClick={() => { this.clearCache("books") }}
+                        /> */}
                             
 
                         {/* Books list */}
@@ -181,7 +191,7 @@ class Dashboard extends React.Component {
                 {/* Context menu */}
                 <ContextMenu id="context_dashboard_main">
                     <MenuItem onClick={() => { dropzoneRef.open() }}>  
-                        <img src="/public/img/icons/cloud-computing.png" alt="Upload book"/>
+                        <img src="/public/img/icons/cloud-upload.png" alt="Upload book"/>
                         Upload book
                     </MenuItem>
                     <MenuItem> ContextMenu Item 2 </MenuItem>

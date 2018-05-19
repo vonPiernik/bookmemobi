@@ -19,6 +19,8 @@
     "history": "^4.6.3",
     "javascript-time-ago": "^1.0.28",
     "jest": "^22.4.3",
+    "memcached": "^2.2.2",
+    "node-cache": "^4.2.0",
     "react": "^16.0.0",
     "react-contextmenu": "^2.9.2",
     "react-dom": "^16.0.0",

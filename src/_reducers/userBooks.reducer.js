@@ -10,12 +10,30 @@ export function userBooks(state = {}, action) {
       };
     case booksConstants.GET_BOOKS_SUCCESS:
       return {
+        ...state,
+        loading: false,
+        args: {
+          ...state.args,
+          ...action.args
+        },
         list: action.books
       };
     case booksConstants.GET_BOOKS_FAILURE:
       return { 
         error: action.error
       };
+
+
+    // set query parameters (arguments)
+    case booksConstants.SET_ARGS:
+      return {
+        ...state,
+        args: {
+          ...state.args,
+          ...action.args
+        }
+      };
+
     default:
       return state
   }

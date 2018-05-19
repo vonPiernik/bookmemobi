@@ -98,7 +98,7 @@ class Navbar extends React.Component {
                         <ul className="app-menu-right">
                             <li className="nav-item dropdown" id="userMenuDropdown">
                                 <a className="nav-link dropdown-toggle" href="#" onClick={this.toggleUserMenu.bind(this)}>
-                                    <img src="/public/img/icons/user.png" alt="Login"/>{ user.userName }
+                                    <img src="/public/img/icons/user.png" alt="Login"/>{ user.userName }<div className="arrow-down"></div>
                                 </a>
                                 <div className={"user-menu " + (this.state.userMenuVisible ? "user-menu-visible" : "")} id="userMenu">
                                     <div className="dropdown-divider"></div>

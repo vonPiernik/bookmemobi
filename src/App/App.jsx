@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { history } from '../_helpers';
@@ -39,8 +39,10 @@ class App extends React.Component {
                     <div>
                         <Navbar />
                         <AlertBox />
+                        <Route path="/" exact render={() => (
+                                <Redirect to="/dashboard" />
+                        )}/>
                         <PrivateRoute path="/dashboard" component={Dashboard} />
-                        <Route exact path="/" component={LandingPage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                     </div>

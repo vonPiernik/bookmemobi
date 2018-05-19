@@ -32,8 +32,7 @@
 }
 
 .button:hover {
-    transform: scale(1.05);
-    color: #fff;
+    color: #fa709a;
     text-decoration: none;
 }
 .button:disabled:hover {
@@ -45,7 +44,22 @@
     float: right;
     clear: right;
     margin: 10px 0;
+    /* float: right; */
+    /* margin: 10px; */
+    background: white;
+    color: #5c5c5c;
+    border: 1px solid grey;
+    padding: 9px 25px 9px 45px;
+    text-indent: 15px;
+    overflow: hidden;
+    background-image: url(/public/img/icons/cloud-computing.png);
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: 22px 6px;
+}
+.button-role-open-file-chooser:hover{
+    color: #fa709a;
 }
 button.button.button-pagination {
-    background: #a7a7a7;
+    background-color: #a7a7a7;
 }

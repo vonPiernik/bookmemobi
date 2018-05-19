@@ -1,22 +1,16 @@
 import React from 'react';
-// import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { booksActions } from '../../_actions';
-import { Spinner } from '../../_components'
+import { Spinner } from '../../_components';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import './BooksList.css';
 
-import TimeAgo from 'javascript-time-ago'
- 
-// Load locale-specific relative date/time formatting rules.
-import en from 'javascript-time-ago/locale/en'
- 
-// Add locale-specific relative date/time formatting rules.
-TimeAgo.locale(en)
  
 // Create relative date/time formatter.
+TimeAgo.locale(en)
 const timeAgo = new TimeAgo('en-US')
-
-import './BooksList.css';
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 class BooksListRow extends React.Component {
     
@@ -31,8 +25,9 @@ class BooksListRow extends React.Component {
         const bookRowActive = this.props.bookRowActive;
         const uploadDate = this.getDateWithTimezoneOffset(book.uploadDate);
         return (
-            <ContextMenuTrigger id="context_books_list_item">
-            <div onClick={this.props.onClick} className={(bookRowActive) ? "active" : ""}>
+            <div>
+            <ContextMenuTrigger id={"context_books_list_item" + book.id}>
+            <div onClick={this.props.onClick} className={"books-list-row" + (bookRowActive ? " active" : "")}>
                 {/* <div>
                     <span className="book-letter-indicator">P</span>
                     <img src={ book.coverUrl } alt={ book.title }/>
@@ -56,14 +51,16 @@ class BooksListRow extends React.Component {
                     {timeAgo.format(uploadDate)}
                 </div>
             </div>
+            </ContextMenuTrigger>
+            
             
             {/* Context menu */}
-            <ContextMenu id="context_books_list_item">
-                <MenuItem onClick={() => { this.props.getBook() }}>  
+            <ContextMenu id={"context_books_list_item" + book.id}>
+                <MenuItem onClick={() => { this.props.getBook(); }}>  
                     Book details
                 </MenuItem>
             </ContextMenu>
-            </ContextMenuTrigger>
+            </div>
       );
     }
 }
@@ -107,11 +104,19 @@ class BooksList extends React.Component {
     }
 
     getUserBooks(args){
+        args = {
+            ...this.props.userBooks.args,
+            ...args
+        };
         this.props.dispatch(booksActions.getUserBooks(args));
     }
 
     getBook(bookId){
         this.props.dispatch(booksActions.getBook(bookId));
+    }
+
+    setArgs(args){
+        this.props.dispatch(booksActions.setArgs(args));
     }
 
     render() {
@@ -158,12 +163,20 @@ class BooksList extends React.Component {
                 <div className={"books-list" + ( userBooks.loading ? " loading" : "" ) }>
                     <div className="books-list-header">
                         {/* <div></div> */}
-                        <div className="books-list-column column-title">Book name</div>
-                        <div className="books-list-column column-author">Authors(s)</div>
+                        <div className="books-list-column column-title" 
+                                onClick={() => { this.getUserBooks({orderBy: "title"})}}
+                                >Book name</div>
+                        <div className="books-list-column column-author" 
+                                onClick={() => { this.getUserBooks({orderBy: "author"})}}
+                                >Authors(s)</div>
                         <div className="books-list-column column-format">Format</div>
-                        <div className="books-list-column column-size">File size</div>
+                        <div className="books-list-column column-size" 
+                                onClick={() => { this.getUserBooks({orderBy: "size"})}}
+                                >File size</div>
                         {/* <div>Published</div> */}
-                        <div className="books-list-column column-upload-date">Added</div>
+                        <div className="books-list-column column-upload-date" 
+                                onClick={() => { this.getUserBooks({orderBy: "uploadDate"})}}
+                                >Added</div>
                     </div>
                     <div className="books-list-body">
                        { rows }

@@ -3,15 +3,15 @@ import { booksService } from '../_services';
 import { alertActions } from './';
 import { userActions } from './';
 
-const { authCheck } = userActions;
-
 export const booksActions = {
     getUserBooks,
     getBook,
     downloadBook,
     uploadBook,
     deleteBook,
-    sendBook
+    sendBook,
+    clearCache,
+    setArgs
 };
 
 
@@ -23,19 +23,29 @@ function getUserBooks(args) {
         return booksService.getUserBooks(args)
             .then(
                 books => {
-                    dispatch(success(books));
+                    dispatch(success(books, args));
                 },
                 error => {
                     dispatch(failure(error));
                     dispatch(alertActions.error(error));
-                    // dispatch(userActions.authCheck);
+                    
                 }
             );
     };
 
     function request() { return { type: booksConstants.GET_BOOKS_REQUEST } }
-    function success(books) { return { type: booksConstants.GET_BOOKS_SUCCESS, books } }
+    function success(books, args) { return { type: booksConstants.GET_BOOKS_SUCCESS, books, args } }
     function failure(error) { return { type: booksConstants.GET_BOOKS_FAILURE, error } }
+}
+
+
+// set arguments that will be used for all next queries
+function setArgs(args) {
+    return dispatch => {
+        dispatch( set(args) );
+    };
+
+    function set(args) { return { type: booksConstants.SET_ARGS, args } }
 }
 
 // get details of single book
@@ -51,7 +61,7 @@ function getBook(bookId) {
                 error => {
                     dispatch(failure(error));
                     dispatch(alertActions.error(error));
-                    // dispatch(userActions.authCheck);
+                    
                 }
             );
     };
@@ -78,7 +88,7 @@ function deleteBook(bookId) {
                 error => {
                     dispatch(failure(error));
                     dispatch(alertActions.error(error));
-                    // dispatch(userActions.authCheck);
+                    
                 }
             );
     };
@@ -86,6 +96,16 @@ function deleteBook(bookId) {
     function request() { return { type: booksConstants.DELETE_REQUEST } }
     function success(book) { return { type: booksConstants.DELETE_SUCCESS, book } }
     function failure(error) { return { type: booksConstants.DELETE_FAILURE, error } }
+}
+
+//clearCache
+function clearCache(key){
+    console.log("ACTION usuwam kesz")
+    return dispatch => {
+        console.log(booksCache.get("books"));
+        // dispatch({type: "DELETE_CACHE"});
+        // return booksService.clearCache(key);
+    }
 }
 
 // send book
@@ -103,7 +123,6 @@ function sendBook(bookId) {
                 error => {
                     dispatch(failure(error));
                     dispatch(alertActions.error(error));
-                    // dispatch(userActions.authCheck);
                 }
             );
     };
