@@ -2,6 +2,9 @@ import { authHeader, config } from '../_helpers';
 
 export const userService = {
     login,
+    confirm,
+    remindPassword,
+    resetPassword,
     logout,
     authCheck,
     register,
@@ -11,6 +14,7 @@ export const userService = {
     // update,
     // delete: _delete
 };
+
 
 function login(username, password) {
     const requestOptions = {
@@ -30,6 +34,40 @@ function login(username, password) {
 
             return user;
         });
+}
+
+function confirm(userId, token) {
+    const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+    };
+    return fetch(config.apiUrl + '/users/' + userId + '/confirm?token=' + token, requestOptions)
+        .then(handleResponse, handleError)
+        .then(response => {
+            return response;
+        });
+}
+
+function remindPassword(username) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify( username )
+    };
+    return fetch(config.apiUrl + '/users/remindPassword', requestOptions)
+        .then(handleResponse, handleError);
+}
+
+
+function resetPassword(newPassword, userId, token) {
+    console.log("reset ", userId);
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({newPassword, token})
+    };
+    return fetch(config.apiUrl + '/users/' + userId +  '/resetPassword', requestOptions)
+        .then(handleResponse, handleError);
 }
 
 function logout() {

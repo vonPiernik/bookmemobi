@@ -75,16 +75,16 @@ class RegisterPage extends React.Component {
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.email ? ' has-error' : '')}>
-                        <label htmlFor="username">Email <span className="required-star">*</span></label>
+                        <label htmlFor="email">Email <span className="required-star">*</span></label>
                         <input type="email" className="form-control" name="email" value={user.email} onChange={this.handleChange} required/>
                         {submitted && !user.email &&
                             <div className="help-block">Email is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.kindleEmail ? ' has-error' : '')}>
-                        <label htmlFor="username">Kindle Email
+                        <label htmlFor="kindleEmail">Kindle Email
                             <br/><small>This is your kindle email - an email adress your ebooks will be sent on. <strong>You can fill this later.</strong></small></label>
-                        <input type="email" className="form-control" name="email" value={user.kindleEmail} onChange={this.handleChange} />
+                        <input type="email" className="form-control" name="kindleEmail" value={user.kindleEmail} onChange={this.handleChange} />
                     </div>
                     <div className={'form-group' + (submitted && !user.password ? ' has-error' : '')}>
                         <label htmlFor="password">Password <span className="required-star">*</span></label>

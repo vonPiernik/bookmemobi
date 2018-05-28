@@ -94,20 +94,61 @@ class Pagination extends React.Component {
     }
 }
 
+class BooksListColumnHeader extends React.Component {
+    render() {
+        const   {title, slug, orderingType, orderBy} = this.props;
+        return(
+            <div className={"books-list-column column-" + slug} onClick={() => { this.props.sortBooks({orderBy: slug}) }}>
+                    { title }
+
+                    {orderingType === "asc" && orderBy === slug &&
+                        <div className="arrow-up"></div>    
+                    }
+                    {orderingType === "desc" && orderBy === slug &&
+                        <div className="arrow-down"></div>
+                    }
+            </div>
+        );
+    }
+}
+
 class BooksList extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            sortingArgs: {
+                orderBy: "",
+                orderingType: "asc" 
+            }
+        }
     }
 
     componentDidMount(){
         this.getUserBooks();
     }
 
-    getUserBooks(args){
+    sortBooks(args){
+        if(args && args.orderBy){
+            this.setState((prevState,props) => ({
+                sortingArgs: {
+                    orderBy: args.orderBy,
+                    orderingType: (prevState.sortingArgs.orderingType === "asc" ? "desc" : "asc")
+                }
+            }), () => {
+                this.getUserBooks();
+            });
+        }
+    }
+
+    getUserBooks(args = {}){
+        console.log(args)
         args = {
             ...this.props.userBooks.args,
-            ...args
+            ...args,
+            orderBy: (this.state.sortingArgs.orderBy + " " + this.state.sortingArgs.orderingType)
         };
+        console.log(args);
         this.props.dispatch(booksActions.getUserBooks(args));
     }
 
@@ -120,8 +161,9 @@ class BooksList extends React.Component {
     }
 
     render() {
-        const { getBook, user, userBooks, sidebarVisible } = this.props;
-        const rows = [];
+        const   { getBook, user, userBooks, sidebarVisible } = this.props,
+                { orderingType, orderBy } = this.state.sortingArgs,
+                rows = [];
         let bookRowActive = false;
 
         if( userBooks.list ){
@@ -154,6 +196,10 @@ class BooksList extends React.Component {
         }
         return (
             <div className="booksList">
+                <div className="booksList-nav">
+                    <div className="all-books-tab">Your books</div>
+                    <div className="deleted-books-tab">Deleted</div>
+                </div>
 
                 {/* book upload progress indicator */}
                 <div id="progressBox">
@@ -162,21 +208,11 @@ class BooksList extends React.Component {
 
                 <div className={"books-list" + ( userBooks.loading ? " loading" : "" ) }>
                     <div className="books-list-header">
-                        {/* <div></div> */}
-                        <div className="books-list-column column-title" 
-                                onClick={() => { this.getUserBooks({orderBy: "title"})}}
-                                >Book name</div>
-                        <div className="books-list-column column-author" 
-                                onClick={() => { this.getUserBooks({orderBy: "author"})}}
-                                >Authors(s)</div>
-                        <div className="books-list-column column-format">Format</div>
-                        <div className="books-list-column column-size" 
-                                onClick={() => { this.getUserBooks({orderBy: "size"})}}
-                                >File size</div>
-                        {/* <div>Published</div> */}
-                        <div className="books-list-column column-upload-date" 
-                                onClick={() => { this.getUserBooks({orderBy: "uploadDate"})}}
-                                >Added</div>
+                        <BooksListColumnHeader sortBooks={this.sortBooks.bind(this)} orderingType={orderingType} orderBy={orderBy} title="Book name" slug="title" />
+                        <BooksListColumnHeader sortBooks={this.sortBooks.bind(this)} orderingType={orderingType} orderBy={orderBy} title="Author(s)" slug="author" />
+                        <BooksListColumnHeader sortBooks={this.sortBooks.bind(this)} orderingType={orderingType} orderBy={orderBy} title="Format" slug="format" />
+                        <BooksListColumnHeader sortBooks={this.sortBooks.bind(this)} orderingType={orderingType} orderBy={orderBy} title="File size" slug="size" />
+                        <BooksListColumnHeader sortBooks={this.sortBooks.bind(this)} orderingType={orderingType} orderBy={orderBy} title="Added" slug="uploadDate" />
                     </div>
                     <div className="books-list-body">
                        { rows }

@@ -11,6 +11,9 @@ import { Dashboard } from '../Dashboard';
 import { LandingPage } from '../LandingPage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
+import { ConfirmationPage } from '../ConfirmationPage';
+import { RemindPasswordPage } from '../RemindPasswordPage';
+import { ResetPasswordPage } from '../ResetPasswordPage';
 
 
 import './App.css';
@@ -45,6 +48,9 @@ class App extends React.Component {
                         <PrivateRoute path="/dashboard" component={Dashboard} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
+                        <Route path="/confirm" component={ConfirmationPage} />
+                        <Route path="/remind-password" component={RemindPasswordPage} />
+                        <Route path="/resetPassword" component={ResetPasswordPage} />
                     </div>
                 </Router>
     </div>

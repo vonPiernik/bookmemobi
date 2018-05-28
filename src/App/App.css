@@ -91,6 +91,8 @@ span.required-star {
     width: 100%;
     text-align: center;
     padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
 }
 
 .auth-form-wrapper label {
@@ -100,7 +102,12 @@ span.required-star {
     margin-bottom: 20px;
     color: #7b7b7b
 }
-
+.link-password-remind {
+    margin: 10px 0 20px;
+    display: block;
+    text-decoration: none;
+    color: #888;
+}
 .auth-form-wrapper label.show-password-input-label input {
     width: auto;
     position: relative;
@@ -121,27 +128,27 @@ span.required-star {
   .arrow-down {
     width: 0; 
     height: 0; 
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
     
-    border-top: 20px solid #f00;
+    border-top: 5px solid #f00;
   }
   
   .arrow-right {
     width: 0; 
     height: 0; 
-    border-top: 60px solid transparent;
-    border-bottom: 60px solid transparent;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
     
-    border-left: 60px solid green;
+    border-left: 5px solid green;
   }
   
   .arrow-left {
     width: 0; 
     height: 0; 
-    border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent; 
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent; 
     
-    border-right:10px solid blue; 
+    border-right:5px solid blue; 
   }
   

@@ -9,6 +9,9 @@ export const userActions = {
     authCheck,
     register,
     getAll,
+    confirm,
+    remindPassword,
+    resetPassword
     // delete: _delete
 };
 
@@ -33,6 +36,78 @@ function login(username, password) {
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
+
+
+function confirm(userId, token) {
+    return dispatch => {
+        dispatch(request({ userId }));
+
+        return userService.confirm(userId, token)
+            .then(
+                response => { 
+                    dispatch(success(response));
+                    history.push('/login');
+                },
+                error => {
+                    dispatch(failure(error));
+                    history.push('/login');
+                    dispatch(alertActions.error(error));
+                }
+            );
+    };
+
+    function request(userId) { return { type: userConstants.CONFIRM_REQUEST, userId } }
+    function success(response) { return { type: userConstants.CONFIRM_SUCCESS, response } }
+    function failure(error) { return { type: userConstants.CONFIRM_FAILURE, error } }
+}
+
+
+function remindPassword(userName) {
+    return dispatch => {
+        dispatch(request({ userName }));
+
+        return userService.remindPassword(userName)
+            .then(
+                response => { 
+                    dispatch(success(response));
+                    history.push('/login');
+                },
+                error => {
+                    dispatch(failure(error));
+                    history.push('/login');
+                    dispatch(alertActions.error(error));
+                }
+            );
+    };
+
+    function request(userName) { return { type: userConstants.REMIND_PASSWORD_REQUEST, userName } }
+    function success(response) { return { type: userConstants.REMIND_PASSWORD_SUCCESS, response } }
+    function failure(error) { return { type: userConstants.REMIND_PASSWORD_FAILURE, error } }
+}
+
+function resetPassword(password, userId, token) {
+    return dispatch => {
+        dispatch(request({ userId }));
+
+        return userService.resetPassword(password, userId, token)
+            .then(
+                response => { 
+                    dispatch(success(response));
+                    history.push('/login');
+                },
+                error => {
+                    dispatch(failure(error));
+                    history.push('/login');
+                    dispatch(alertActions.error(error));
+                }
+            );
+    };
+
+    function request(userId) { return { type: userConstants.RESET_PASSWORD_REQUEST, userId } }
+    function success(response) { return { type: userConstants.RESET_PASSWORD_SUCCESS, response } }
+    function failure(error) { return { type: userConstants.RESET_PASSWORD_FAILURE, error } }
+}
+
 function logout() {
     userService.logout();
     return { type: userConstants.LOGOUT };

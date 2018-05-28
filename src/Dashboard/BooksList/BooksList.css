@@ -38,6 +38,21 @@
     color: #c5c5c5;
     padding: 5px 15px;
     font-size: 14px;
+    cursor: pointer;
+}
+.books-list-header .books-list-column .arrow-up,
+.books-list-header .books-list-column .arrow-down {
+    border-width: 7px;
+    display: inline-block;
+    margin: 0 0 0 10px;
+    position: relative;
+    top: -2px;
+}
+.books-list-header .books-list-column .arrow-up{
+    border-bottom-color: #fa709a;
+}
+.books-list-header .books-list-column .arrow-down{
+    border-top-color: #fa709a;
 }
 
 .books-list {

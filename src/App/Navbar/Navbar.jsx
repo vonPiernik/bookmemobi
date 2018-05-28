@@ -18,7 +18,7 @@ class Navbar extends React.Component {
     componentDidMount(){
         const userMenu = document.getElementById('userMenuDropdown');
         window.addEventListener('click', (e) => {   
-            if (!userMenu.contains(e.target)){
+            if (userMenu && !userMenu.contains(e.target)){
                 this.setState({
                     userMenuVisible: false
                 });
