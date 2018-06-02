@@ -140,6 +140,33 @@ div#progressIndicator span {
     /* color: #555; */
 }
 
+/* no books */
+p.no-books {
+    padding: 0 20px;
+    text-align: center;
+    color: #fa709a;
+}
+
+/* books list nav (tabs) */
+.booksList-nav {
+    position: absolute;
+    left: -1px;
+    top: -40px;
+    line-height: 40px;
+}
+
+.booksList-nav > div.active {
+    background: #fff;
+    color: #fa709a;
+    border: 1px solid #eee;
+    border-bottom: 0;
+}
+
+.booksList-nav > div {
+    display: inline-block;
+    padding: 0 30px;
+    cursor: pointer;
+}
 
 @media(max-width: 991px){
     .button-pagination-prev {

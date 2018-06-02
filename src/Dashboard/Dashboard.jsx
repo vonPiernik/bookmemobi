@@ -119,7 +119,7 @@ class Dashboard extends React.Component {
                     
                     {/* Render kindle email configuration manual */}
                     {this.state.kindleEmailManualVisible &&
-                        <KindleEmailManual toggleKindleEmailManual={this.toggleKindleEmailManual.bind(this)}/>
+                        <KindleEmailManual toggleKindleEmailManual={this.toggleKindleEmailManual.bind(this)} kindleEmail={user.kindleEmail} />
                     }
                     {/* Main dashboard container */}
                     <div className="container">

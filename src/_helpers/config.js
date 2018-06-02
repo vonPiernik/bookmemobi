@@ -1,3 +1,4 @@
 export const config = {
-    apiUrl: 'http://ec2-35-158-133-70.eu-central-1.compute.amazonaws.com/api'
+    apiUrl: 'http://18.194.172.163/api',
+    swaggerUrl: 'http://18.194.172.163/swagger'
 };

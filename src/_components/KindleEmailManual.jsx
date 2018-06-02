@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from './Button';
 import './KindleEmailManual.css';
+import {userActions} from '../_actions/user.actions';
 
 export class KindleEmailManual extends React.Component {
     
@@ -10,14 +11,28 @@ export class KindleEmailManual extends React.Component {
 
         this.state = {
             currentSlide: 1,
-            kindleEmail: null
-        };
+            kindleEmail: (this.props.kindleEmail ? this.props.kindleEmail : "")
+        }; 
+        
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
     }
 
     setKindleEmail(){
-        this.setState((prevState, props) => ({
-            kindleEmail: "norbini12@gmail.com"
-        }))
+        if(this.props.kindleEmail.length > 0){
+            dispatch(userActions.setKindleEmail(this.props.kindleEmail));
+        }
+    }
+    
+    getKindleEmail(){
+        this.setState({
+            kindleEmail: this.props.kindleEmail
+        })
     }
 
     prevSlide(){
@@ -58,7 +73,7 @@ export class KindleEmailManual extends React.Component {
                                     <p className="kindle-email-empty">Please enter your Send-to-Kindle E-Mail adress.</p>
                                 }
                                 <label htmlFor="kindleEmail">
-                                    <input type="text" name="kindleEmail" id="kindleEmail" 
+                                    <input type="text" name="kindleEmail" id="kindleEmail" onChange={this.handleChange}
                                             value={ this.state.kindleEmail ? this.state.kindleEmail.substring(0, this.state.kindleEmail.indexOf('@')) : ""}/>
                                     @kindle.com
                                 </label>

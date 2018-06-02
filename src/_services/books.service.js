@@ -166,7 +166,7 @@ function handleResponse(response) {
             } else {
                 resolve();
             }
-        } else if (response instanceof XMLHttpRequest && response.readyState == 4 && response.status === 200){
+        } else if (response instanceof XMLHttpRequest){
             resolve(JSON.parse(response.responseText));
         } else {
             // return error message from response body

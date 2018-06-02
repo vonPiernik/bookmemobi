@@ -120,7 +120,8 @@ class BooksList extends React.Component {
             sortingArgs: {
                 orderBy: "",
                 orderingType: "asc" 
-            }
+            },
+            onlyDeletedVisible: false
         }
     }
 
@@ -142,13 +143,19 @@ class BooksList extends React.Component {
     }
 
     getUserBooks(args = {}){
-        console.log(args)
         args = {
             ...this.props.userBooks.args,
             ...args,
             orderBy: (this.state.sortingArgs.orderBy + " " + this.state.sortingArgs.orderingType)
         };
-        console.log(args);
+        
+        if(args.deleted) {
+            this.setState({ onlyDeletedVisible: true });
+        } else {
+            this.setState({ onlyDeletedVisible: false });
+        }
+
+
         this.props.dispatch(booksActions.getUserBooks(args));
     }
 
@@ -197,8 +204,10 @@ class BooksList extends React.Component {
         return (
             <div className="booksList">
                 <div className="booksList-nav">
-                    <div className="all-books-tab">Your books</div>
-                    <div className="deleted-books-tab">Deleted</div>
+                    <div    className={"all-books-tab" + (this.state.onlyDeletedVisible ? "" : " active")} 
+                            onClick={() => this.getUserBooks({ deleted: false })}>Your books</div>
+                    <div    className={"deleted-books-tab" + (this.state.onlyDeletedVisible ? " active" : "")}
+                            onClick={() => this.getUserBooks({ deleted: true })}>Deleted</div>
                 </div>
 
                 {/* book upload progress indicator */}
