@@ -10,6 +10,9 @@ export function getBook(state = {}, action) {
       };
     case booksConstants.GET_BOOK_SUCCESS:
       return {
+        book: {
+          coverUrl: ""
+        },
         book: action.book
       };
     case booksConstants.GET_BOOK_FAILURE:

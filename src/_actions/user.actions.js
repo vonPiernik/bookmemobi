@@ -9,10 +9,11 @@ export const userActions = {
     authCheck,
     register,
     getAll,
+    getUser,
     confirm,
     remindPassword,
-    resetPassword
-    // delete: _delete
+    resetPassword,
+    editUser
 };
 
 function login(username, password) {
@@ -37,6 +38,27 @@ function login(username, password) {
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
+
+function getUser(userId) {
+    return dispatch => {
+        dispatch(request());
+
+        return userService.getUser(userId)
+            .then(
+                user => { 
+                    dispatch(success(user));
+                },
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                }
+            );
+    };
+
+    function request(userId) { return { type: userConstants.GET_USER_REQUEST, userId } }
+    function success(user) { return { type: userConstants.GET_USER_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.GET_USER_FAILURE, error } }
+}
 
 function confirm(userId, token) {
     return dispatch => {
@@ -135,7 +157,7 @@ function register(user) {
                 () => { 
                     dispatch(success());
                     history.push('/login');
-                    dispatch(alertActions.success('Registration successful'));
+                    dispatch(alertActions.success("Registration successful"));
                 },
                 error => {
                     dispatch(failure(error));
@@ -147,6 +169,30 @@ function register(user) {
     function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
     function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
     function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+}
+
+
+function editUser(data) {
+    return dispatch => {
+        dispatch(request(data));
+
+        return userService.editUser(data)
+            .then(
+                () => { 
+                    dispatch(success());
+                    dispatch(this.getUser()); 
+                    dispatch(alertActions.success('User data edited!'));
+                },
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                }
+            );
+    };
+
+    function request(data) { return { type: userConstants.EDIT_REQUEST, data } }
+    function success(data) { return { type: userConstants.EDIT_SUCCESS, data } }
+    function failure(error) { return { type: userConstants.EDIT_FAILURE, error } }
 }
 
 function getAll() {

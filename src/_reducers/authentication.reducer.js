@@ -19,6 +19,14 @@ export function authentication(state = initialState, action) {
       return {};
     case userConstants.LOGOUT:
       return {};
+    case userConstants.GET_USER_SUCCESS:
+      return {
+        ...state,
+        user: { 
+          ...state.user,
+           ...action.user
+        }
+      };
     default:
       return state
   }

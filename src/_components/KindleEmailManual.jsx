@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';import PropTypes from 'prop-types';
 import { Button } from './Button';
 import './KindleEmailManual.css';
 import {userActions} from '../_actions/user.actions';
 
-export class KindleEmailManual extends React.Component {
+class KindleEmailManual extends React.Component {
     
     constructor(props){
         super(props);
@@ -25,7 +25,7 @@ export class KindleEmailManual extends React.Component {
 
     setKindleEmail(){
         if(this.props.kindleEmail.length > 0){
-            dispatch(userActions.setKindleEmail(this.props.kindleEmail));
+            this.props.dispatch(userActions.editUser({ kindleEmail: this.state.kindleEmail }));
         }
     }
     
@@ -64,7 +64,9 @@ export class KindleEmailManual extends React.Component {
                             <small>Step 1</small>
                             <h1>Tell us where to send ebooks</h1>
                             <p>You have to enter your Send-to-Kindle E-Mail in the box below, so we can know, where to send your ebooks files. If you don't know your Send-to-Kindle E-Mail, you can check it in <a href="#" target="_BLANK">Manage Your Content and Devices</a> on Amazon, in the <strong>Settings -> Personal Document Settings</strong> section.</p>
-                            <img src="/public/img/manual1.jpg" alt="Amazon Accout Settings Screen" width="200px"/>
+                            <a href="/public/img/manual1.jpg" target="_BLANK" ><img src="/public/img/manual1.jpg" 
+                                    alt="Amazon Accout Settings Screen"
+                                    width="200px"/></a>
                             <div className="kindle-email-set">
                                 {this.state.kindleEmail &&
                                     <p className="kindle-email-ok">Your Send-to-Kindle E-Mail is set. You can go to the next step!</p>
@@ -74,7 +76,7 @@ export class KindleEmailManual extends React.Component {
                                 }
                                 <label htmlFor="kindleEmail">
                                     <input type="text" name="kindleEmail" id="kindleEmail" onChange={this.handleChange}
-                                            value={ this.state.kindleEmail ? this.state.kindleEmail.substring(0, this.state.kindleEmail.indexOf('@')) : ""}/>
+                                            value={ this.state.kindleEmail }/>
                                     @kindle.com
                                 </label>
                                 <Button text="Save"
@@ -88,7 +90,7 @@ export class KindleEmailManual extends React.Component {
                             <h1>Add our email to the list of Approved Emails</h1>
                             <p>Now it's time to add our email as a veryfied. You should do this in the same place, that you visited to check your Send-to-Kindle E-Mail (<a href="#" target="_BLANK">GO HERE</a>, then Settings -> Personal Document Settings). Under Approved Personal Document E-mail List click <strong>Add a new approved e-mail address</strong> and type <strong className="bookme-email-adress">bookme@bookmemobi.tk</strong>.</p>
 
-                            <img src="/public/img/manual2.jpg" alt="Approved Personal Document E-mail List on Amazon" width="200px"/>
+                            <a href="/public/img/manual2.jpg" target="_BLANK" ><img src="/public/img/manual2.jpg" alt="Approved Personal Document E-mail List on Amazon" width="200px"/></a>
                             <div className="add-email-to-approved">
                                 <p>Remember to add this email to Approved Personal Document E-mail List:</p>
                                 <strong>bookme@bookmemobi.tk</strong>
@@ -143,3 +145,10 @@ export class KindleEmailManual extends React.Component {
 KindleEmailManual.propTypes = {
     role: PropTypes.string
 };
+
+function mapStateToProps(state) {
+    return {};
+}
+
+const connectedKindleEmailManual = connect(mapStateToProps)(KindleEmailManual);
+export { connectedKindleEmailManual as KindleEmailManual }; 

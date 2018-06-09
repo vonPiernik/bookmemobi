@@ -124,10 +124,7 @@ function downloadBook(bookId) {
     let user = JSON.parse(localStorage.getItem('user'));
 
     return fetch(config.apiUrl + '/users/' + user.id + "/books/" + bookId + "/download", requestOptions)
-    .then(
-        r => r.blob(),
-        error => dispatch(failure(error))
-    );
+    .then(handleResponse, handleError);
 }
 
 
@@ -142,14 +139,6 @@ function uploadBook(files) {
         body: data
     };
     let user = JSON.parse(localStorage.getItem('user'));
-    // return fetch(config.apiUrl + '/users/' + user.id + '/books', requestOptions)
-    //     .then(handleResponse, handleError)
-    //     .then(files => {
-    //         console.log("in books service", files)
-    //         return files;
-    //     });  
-    
-    // makeXHRRequest('POST', config.apiUrl + '/users/' + user.id + '/books', authHeader().Authorization);
                                                     
     return makeXHRRequest('POST', config.apiUrl + '/users/' + user.id + '/books', authHeader().Authorization, data)
         .then(handleResponse,handleError);

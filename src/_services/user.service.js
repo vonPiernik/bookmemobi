@@ -3,16 +3,15 @@ import { authHeader, config } from '../_helpers';
 export const userService = {
     login,
     confirm,
+    getUser,
     remindPassword,
     resetPassword,
     logout,
     authCheck,
     register,
     getAll,
-    upload
-    // getById,
-    // update,
-    // delete: _delete
+    upload,
+    editUser
 };
 
 
@@ -46,6 +45,18 @@ function confirm(userId, token) {
         .then(response => {
             return response;
         });
+}
+
+function getUser(userId = false) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    if(!userId) userId = JSON.parse(localStorage.getItem('user')).id;
+
+    return fetch(config.apiUrl + '/users/' + userId, requestOptions)
+        .then(handleResponse, handleError);
 }
 
 function remindPassword(username) {
@@ -94,14 +105,18 @@ function getAll() {
     return fetch(config.apiUrl + '/users', requestOptions).then(handleResponse, handleError);
 }
 
-// function getById(id) {
-//     const requestOptions = {
-//         method: 'GET',
-//         headers: authHeader()
-//     };
 
-//     return fetch(config.apiUrl + '/users/' + _id, requestOptions).then(handleResponse, handleError);
-// }
+function editUser(data) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: authHeader(),
+        body: JSON.stringify(data)
+    };
+
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    return fetch(config.apiUrl + '/users/' + user.id, requestOptions).then(handleResponse, handleError);
+}
 
 function register(user) {
     const requestOptions = {

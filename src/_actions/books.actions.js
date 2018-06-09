@@ -135,14 +135,13 @@ function sendBook(bookId) {
 
 // download book with given ID
 function downloadBook(book) {
-    console.log("BOOK", book);
     return dispatch => {
         dispatch(request());
         dispatch(alertActions.waiting("Downloading..."));
 
         return booksService.downloadBook(book.id)
-            .then(() => {
-                showFile();
+            .then((book) => {
+                showFile(book);
                 dispatch(alertActions.success("Download started"));
             })
     };
@@ -152,27 +151,11 @@ function downloadBook(book) {
     function failure(error) { return { type: booksConstants.DOWNLOAD_BOOK_FAILURE, error } }
 
     
-    function showFile(blob){
-        var newBlob = new Blob([blob], {type: "application/x-mobipocket-mobi"})
-
-        // IE doesn't allow using a blob object directly as link href
-        // instead it is necessary to use msSaveOrOpenBlob
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(newBlob);
-        return;
-        } 
-
-        // For other browsers: 
-        // Create a link pointing to the ObjectURL containing the blob.
-        const data = window.URL.createObjectURL(newBlob);
+    function showFile(book){
         var link = document.createElement('a');
-        link.href = data;
-        link.download=book.fileName;
+        link.href = book.url;
+        link.download=book.url;
         link.click();
-        setTimeout(function(){
-        // For Firefox it is necessary to delay revoking the ObjectURL
-        window.URL.revokeObjectURL(data)
-        , 100})
 
     }
 }
