@@ -8,6 +8,7 @@ export const booksActions = {
     getBook,
     downloadBook,
     uploadBook,
+    editBook,
     deleteBook,
     sendBook,
     clearCache,
@@ -182,5 +183,29 @@ function uploadBook(files) {
     function request(files) { return { type: booksConstants.UPLOAD_REQUEST, files } }
     function success(files) { return { type: booksConstants.UPLOAD_SUCCESS, files } }
     function failure(error) { return { type: booksConstants.UPLOAD_FAILURE, error } }
+}
+
+function editBook(bookId, data) {
+    return dispatch => {
+        dispatch(request(bookId));
+        dispatch(alertActions.waiting("Saving..."));
+
+        return booksService.editBook(bookId, data)
+            .then(
+                book => { 
+                    dispatch(this.getUserBooks()); // refresh books list
+                    dispatch(success());
+                    dispatch(alertActions.success("Saved!"));
+                },
+                error => {
+                    dispatch(failure(error));
+                    dispatch(alertActions.error(error));
+                }
+            );
+    };
+
+    function request(bookId) { return { type: booksConstants.EDIT_REQUEST, bookId } }
+    function success() { return { type: booksConstants.EDIT_SUCCESS } }
+    function failure(error) { return { type: booksConstants.EDIT_FAILURE, error } }
 }
 

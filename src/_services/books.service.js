@@ -1,12 +1,5 @@
 import { makeXHRRequest, serialize, authHeader, config } from '../_helpers';
 
-// node cache
-// const NodeCache = require( "node-cache" );
-// const booksCache = new NodeCache();
-
-
-
-
 export const booksService = {
     getUserBooks,
     getBook,
@@ -14,50 +7,9 @@ export const booksService = {
     uploadBook,
     deleteBook,
     sendBook,
-    clearCache
+    editBook,
+    clearCache,
 };
-
-// books cache is not working as it should be
-// var booksCacheHelper = {
-//     allBooks: [],
-//     currentPage: [],
-
-//     searchForPageInCache: function(pageNumber) {
-
-//         function pageFilter(page) {
-//             return page.pageNumber === pageNumber;
-//         }
-        
-//         if(this.getBooksFromNodeCache) this.currentPage = this.allBooks.filter(pageFilter);
-//     },
-
-//     getBooksFromNodeCache: function(){
-//         if(booksCache.get("books")){
-//             return this.all = booksCache.get("books");
-//         } 
-//         return false;
-//     },
-
-//     getCurrentPage: function(){
-//         return this.currentPage[0];
-//     },
-
-//     storePage: function(books){
-//         console.log("NO PRZECHOWYWANKO")
-//         this.allBooks.push(books);
-//     },
-
-//     pageExistsInCache: function(){
-//         if(this.currentPage[0]) return true;
-//         return false;
-//     },
-
-//     clearCacheHelper: function(){
-//         this.allBooks = [];
-//         this.currentPage = [];
-//     }
-
-// }
 
 
 function clearCache(key){
@@ -144,8 +96,21 @@ function uploadBook(files) {
         .then(handleResponse,handleError);
 }
 
+
+function editBook(bookId, data) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: authHeader(),
+        body: JSON.stringify(data)
+    };
+
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    return fetch(config.apiUrl + '/users/' + user.id + '/books/' + bookId, requestOptions).then(handleResponse, handleError);
+}
+
+
 function handleResponse(response) {
-    console.log("ODPOWIEDŹ ", );
     return new Promise((resolve, reject) => {
         if (response.ok) {
             // return json if it was returned in the response
