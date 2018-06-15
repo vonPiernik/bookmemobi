@@ -6,9 +6,49 @@ import { Button, Spinner } from '../../_components';
 
 import './SideBar.css';
 
+class BookEditor extends React.Component{
+    constructor(props) {
+        super(props);
+    }
+
+    render(){
+
+        return(
+            <div>Test</div>
+        );
+    }
+}
+
+
 class SideBar extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            bookEditor: false,
+            edited: false,
+            author: this.props.book ? this.props.book.author  : ''
+        }
+        
+        this.toggleBookEditor = this.toggleBookEditor.bind(this);
+        
+        this.handleChange = this.handleChange.bind(this);
+        this.editBook = this.editBook.bind(this);
+    }
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+    }
+
+    editBook() {
+
+        this.setState({ edited: true });
+        const { username, password } = this.state;
+        const { dispatch } = this.props;
+        dispatch(booksActions.editBook(this.props.book.id, {
+            author: this.state.author
+        }));
     }
 
     downloadBook(book){
@@ -23,8 +63,13 @@ class SideBar extends React.Component {
         this.props.dispatch(booksActions.sendBook(bookId))
     }
 
+    toggleBookEditor(){
+        this.setState( (prevState, props) => ({ bookEditor: !prevState.bookEditor }) )
+    }
+
     render() {
         const { getBook, book } = this.props;
+        const bookEditor = this.state.bookEditor;
         return (
             <div className={"side-bar " + (this.props.sidebarVisible ? "side-bar-show" : "side-bar-hide")} >
 
@@ -49,6 +94,7 @@ class SideBar extends React.Component {
                         />
                     </div>
                 }
+                <a onClick={this.toggleBookEditor}>Edit book metadata</a>
 
                 {/* If the book exist (is fetched with success) */}
                 {book &&
@@ -67,11 +113,17 @@ class SideBar extends React.Component {
                             }
                             { !book.coverUrl && <span>This book has no cover.</span> }
                         </div>
-
+                        {!bookEditor &&
                         <p><strong>Author: </strong> { book.author } </p>
+                        }
+                        {bookEditor &&
+                        <p><strong>Author: </strong> <input type="text" name="author" value={book.author} onChange={this.handleChange} /> </p>
+                        }
                         <p><strong>Publishing Date: </strong> { (book.publishingDate != null) ? book.publishingDate : "No data" }</p>
 
                         <br />
+                        {!bookEditor &&
+                        <div>
                         <Button 
                             text="Send book"
                             type="standard"
@@ -91,6 +143,11 @@ class SideBar extends React.Component {
                             role="delete-book" 
                             onClick={() => this.deleteBook(book.id)}
                         />
+                        </div>
+                        }
+                        {bookEditor &&
+                        <Button text="Save metadata" onClick={() => this.editBook()} />
+                        }
 
                     </div>
 
