@@ -11,7 +11,6 @@ export const booksActions = {
     editBook,
     deleteBook,
     sendBook,
-    clearCache,
     setArgs
 };
 
@@ -99,15 +98,6 @@ function deleteBook(bookId) {
     function failure(error) { return { type: booksConstants.DELETE_FAILURE, error } }
 }
 
-//clearCache
-function clearCache(key){
-    console.log("ACTION usuwam kesz")
-    return dispatch => {
-        console.log(booksCache.get("books"));
-        // dispatch({type: "DELETE_CACHE"});
-        // return booksService.clearCache(key);
-    }
-}
 
 // send book
 function sendBook(bookId) {
@@ -147,11 +137,7 @@ function downloadBook(book) {
             })
     };
 
-    function request() { return { type: booksConstants.DOWNLOAD_BOOK_REQUEST } }
-    function success() { return { type: booksConstants.DOWNLOAD_BOOK_SUCCESS, download: "Download started" } }
-    function failure(error) { return { type: booksConstants.DOWNLOAD_BOOK_FAILURE, error } }
-
-    
+    // create a link and simulate clicking on it
     function showFile(book){
         var link = document.createElement('a');
         link.href = book.url;
@@ -159,6 +145,11 @@ function downloadBook(book) {
         link.click();
 
     }
+
+    function request() { return { type: booksConstants.DOWNLOAD_BOOK_REQUEST } }
+    function success() { return { type: booksConstants.DOWNLOAD_BOOK_SUCCESS, download: "Download started" } }
+    function failure(error) { return { type: booksConstants.DOWNLOAD_BOOK_FAILURE, error } }
+
 }
 
 function uploadBook(files) {

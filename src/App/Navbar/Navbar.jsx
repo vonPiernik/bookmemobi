@@ -81,7 +81,7 @@ class Navbar extends React.Component {
                     {this.state.mobileMenuVisible &&
                     <div className="mobile-menu-overlay" onClick={this.toggleMobileMenu.bind(this)}></div>
                     }
-                    {user && user.token && 
+                    {user && user.tokens && 
                 
                     <div className={"app-menu " + (this.state.mobileMenuVisible ? "mobile-menu-visible" : "mobile-menu-hidden")} id="appMenu">
                         <ul className="app-menu-left">
