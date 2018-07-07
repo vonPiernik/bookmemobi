@@ -51,6 +51,18 @@ function BookTitle(props){
     );
 }
 
+function BookAuthor(props){
+    if(!props.bookEditor){
+        return(
+            <p><strong>Author: </strong> { props.author } </p>
+        );
+    } else {
+        return(
+            <p><strong>Author: </strong> <input type="text" name="author" value={props.author} onChange={props.handleChange} /> </p>
+        );
+    }
+}
+
 function BookFile(props){
     return(
         <p><small>{ props.fileName } ( { props.size }MB )</small></p>
@@ -88,12 +100,8 @@ function SingleBook(props){
 
                 <BookCover coverUrl={book.coverUrl} title={book.title} />
     
-                {!bookEditor &&
-                <p><strong>Author: </strong> { book.author } </p>
-                }
-                {bookEditor &&
-                <p><strong>Author: </strong> <input type="text" name="author" value={this.state.author} onChange={this.handleChange} /> </p>
-                }
+                <BookAuthor author={props.author} handleChange={props.handleChange} bookEditor={bookEditor} />
+
                 <p><strong>Publishing Date: </strong> { (book.publishingDate != null) ? book.publishingDate : "No data" }</p>
     
                 <br />
@@ -104,24 +112,24 @@ function SingleBook(props){
                     type="standard"
                     role="send-book" 
                     disabled={ book.isSentToKindle ? "disabled" : "" }
-                    onClick={() => this.sendBook(book.id)}
+                    onClick={() => props.sendBook(book.id)}
                 />
                 <Button 
                     text="Download book file"
                     type="less-important"
                     role="download-book" 
-                    onClick={() => this.downloadBook(book)}
+                    onClick={() => props.downloadBook(book)}
                 />
                 <Button 
                     text="Delete this book"
                     type="danger"
                     role="delete-book" 
-                    onClick={() => this.deleteBook(book.id)}
+                    onClick={() => props.deleteBook(book.id)}
                 />
                 </div>
                 }
                 {bookEditor &&
-                <Button text="Save metadata" onClick={() => this.editBook()} />
+                <Button text="Save metadata" onClick={() => props.editBook()} />
                 }
     
             </div>
@@ -164,19 +172,26 @@ class SideBar extends React.Component {
     }
 
     downloadBook(book){
-        this.props.dispatch(booksActions.downloadBook(book))
+        this.props.dispatch(booksActions.downloadBook(book));
     }
 
     deleteBook(bookId){
-        this.props.dispatch(booksActions.deleteBook(bookId))
+        this.props.dispatch(booksActions.deleteBook(bookId));
     }
 
     sendBook(bookId){
-        this.props.dispatch(booksActions.sendBook(bookId))
+        this.props.dispatch(booksActions.sendBook(bookId));
+    }
+
+    getdBook(bookId){
+        this.props.dispatch(booksActions.getBook(bookId));
     }
 
     toggleBookEditor(){
-        this.setState( (prevState, props) => ({ bookEditor: !prevState.bookEditor }) )
+        this.setState( (prevState, props) => ({ 
+            bookEditor: !prevState.bookEditor,
+            author: this.props.book.author
+        }) );
     }
 
     render() {
@@ -195,7 +210,14 @@ class SideBar extends React.Component {
 
                 <SingleBook book={book}
                             getBook={getBook}
-                            bookEditor={bookEditor} />
+                            bookEditor={bookEditor} 
+                            author={this.state.author}
+                            handleChange={this.handleChange}
+                            sendBook={(bookId) => this.sendBook(bookId)}
+                            deleteBook={(bookId) => this.deleteBook(bookId)}
+                            downloadBook={(bookId) => this.downloadBook(bookId)}
+                            editBook={this.editBook}
+                             />
                 
             </div>
         );
