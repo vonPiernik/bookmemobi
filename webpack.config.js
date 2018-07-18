@@ -12,7 +12,6 @@ module.exports = {
     },
     devtool: 'source-map',
     module: {
-        source-map: true,
         loaders: [
             { test: /\.css$/, loader: "style-loader!css-loader" },
             {

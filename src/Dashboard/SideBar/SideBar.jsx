@@ -46,9 +46,17 @@ function SideBarHeader(props){
 }
 
 function BookTitle(props){
-    return(
-        <h3>{ props.title }</h3>
-    );
+    if(!props.bookEditor){
+        return(
+            <h3>{ props.title }</h3>
+        );
+    } else {
+        return(
+            <h3>
+                <input type="text" name="title" value={props.title} onChange={props.handleChange} />
+            </h3>
+        );
+    }
 }
 
 function BookAuthor(props){
@@ -94,7 +102,7 @@ function SingleBook(props){
                     + ((book && book.isDeleted) ? " deleted" : "")}>
     
             
-                <BookTitle title={book.title} />
+                <BookTitle title={props.title} handleChange={props.handleChange} bookEditor={bookEditor} />
     
                 <BookFile fileName={book.fileName} size={book.size} />
 
@@ -107,25 +115,19 @@ function SingleBook(props){
                 <br />
                 {!bookEditor &&
                 <div>
-                <Button 
-                    text="Send book"
-                    type="standard"
-                    role="send-book" 
-                    disabled={ book.isSentToKindle ? "disabled" : "" }
-                    onClick={() => props.sendBook(book.id)}
-                />
-                <Button 
-                    text="Download book file"
-                    type="less-important"
-                    role="download-book" 
-                    onClick={() => props.downloadBook(book)}
-                />
-                <Button 
-                    text="Delete this book"
-                    type="danger"
-                    role="delete-book" 
-                    onClick={() => props.deleteBook(book.id)}
-                />
+                    {!book.isSentToKindle &&
+                        <button className="button-with-icon" onClick={() => props.sendBook(book.id)} title="Send book on Kindle">
+                            <img src="/public/img/icons/icon-send.png" alt="Send book"/>
+                        </button>
+                    }
+                    {book.isSentToKindle &&
+                        <button className="button-with-icon" onClick={() => props.sendBook(book.id)} title="Send book on Kindle (already sent at least once)">
+                            <img src="/public/img/icons/icon-send-b.png" alt="Send book"/>
+                        </button>
+                    }
+                <button className="button-with-icon" onClick={() => props.toggleBookEditor()} title="Edit book metadata"><img src="/public/img/icons/icon-edit-b.png" alt="Edit book"/></button>
+                <button className="button-with-icon" onClick={() => props.downloadBook(book)} title="Download book file"><img src="/public/img/icons/icon-download-b.png" alt="Download book"/></button>
+                <button className="button-with-icon" onClick={() => props.deleteBook(book.id)} title="Delete book"><img src="/public/img/icons/icon-delete-b.png" alt="Delete book"/></button>
                 </div>
                 }
                 {bookEditor &&
@@ -143,9 +145,10 @@ function SingleBook(props){
 class SideBar extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
+            bookLoaded: false,
             bookEditor: false,
+            title: "",
             author: ""
         }
         
@@ -153,6 +156,16 @@ class SideBar extends React.Component {
         
         this.handleChange = this.handleChange.bind(this);
         this.editBook = this.editBook.bind(this);
+    }
+
+    componentDidUpdate(){
+        if(this.props.book && !this.state.bookLoaded){
+            this.setState( (prevState, props) => ({ 
+                bookLoaded: true,
+                title: this.props.book.title,
+                author: this.props.book.author
+            }) );
+        }
     }
 
     handleChange(e) {
@@ -165,6 +178,7 @@ class SideBar extends React.Component {
         const { username, password } = this.state;
         const { dispatch } = this.props;
         dispatch(booksActions.editBook(this.props.book.id, {
+            title: this.state.title,    
             author: this.state.author
         }));
         this.setState({ bookEditor: false });
@@ -182,13 +196,14 @@ class SideBar extends React.Component {
         this.props.dispatch(booksActions.sendBook(bookId));
     }
 
-    getdBook(bookId){
+    getBook(bookId){
         this.props.dispatch(booksActions.getBook(bookId));
     }
 
     toggleBookEditor(){
         this.setState( (prevState, props) => ({ 
             bookEditor: !prevState.bookEditor,
+            title: this.props.book.title,
             author: this.props.book.author
         }) );
     }
@@ -205,17 +220,17 @@ class SideBar extends React.Component {
 
                 <DeletedBookOverlay book={book} />
 
-                <a onClick={this.toggleBookEditor}>Edit book metadata</a>
-
                 <SingleBook book={book}
                             getBook={getBook}
                             bookEditor={bookEditor} 
+                            title={this.state.title}
                             author={this.state.author}
                             handleChange={this.handleChange}
                             sendBook={(bookId) => this.sendBook(bookId)}
                             deleteBook={(bookId) => this.deleteBook(bookId)}
                             downloadBook={(bookId) => this.downloadBook(bookId)}
                             editBook={this.editBook}
+                            toggleBookEditor={this.toggleBookEditor}
                              />
                 
             </div>
