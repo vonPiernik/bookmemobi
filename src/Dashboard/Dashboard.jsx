@@ -191,7 +191,7 @@ class Dashboard extends React.Component {
                 {/* Context menu */}
                 <ContextMenu id="context_dashboard_main">
                     <MenuItem onClick={() => { dropzoneRef.open() }}>  
-                        <img src="/public/img/icons/cloud-upload.png" alt="Upload book"/>
+                        <img src="/public/img/icons/icon-upload-b.png" alt="Upload book"/>
                         Upload book
                     </MenuItem>
                     <MenuItem> ContextMenu Item 2 </MenuItem>

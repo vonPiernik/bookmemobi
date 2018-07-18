@@ -11,7 +11,8 @@ export const userService = {
     register,
     getAll,
     upload,
-    editUser
+    editUser,
+    refreshToken
 };
 
 
@@ -32,6 +33,29 @@ function login(username, password) {
             }
 
             return user;
+        });
+}
+
+function refreshToken() {
+    let user = JSON.parse(localStorage.getItem('user'));
+    const refreshToken = user.tokens.refreshToken.token;
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(refreshToken)
+    };
+
+    return fetch(config.apiUrl + '/users/' + user.id + '/refreshToken/', requestOptions)
+        .then(handleResponse, handleError)
+        .then(tokens => {
+            // login successful if there's a jwt token in the response
+            if (tokens) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                user.tokens = tokens;
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+
+            return tokens;
         });
 }
 
@@ -71,7 +95,6 @@ function remindPassword(username) {
 
 
 function resetPassword(newPassword, userId, token) {
-    console.log("reset ", userId);
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -180,7 +203,7 @@ function handleResponse(response) {
             }
         } else {
             // return error message from response body
-            response.text().then(text => reject(text));
+            reject(response.statusText, response.status);
         }
     });
 }

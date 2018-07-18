@@ -52,10 +52,10 @@
     padding: 9px 25px 9px 45px;
     text-indent: 15px;
     overflow: hidden;
-    background-image: url(/public/img/icons/cloud-computing.png);
+    background-image: url(/public/img/icons/icon-upload.png);
     background-size: 24px;
     background-repeat: no-repeat;
-    background-position: 22px 6px;
+    background-position: 22px 4px;
 }
 .button-role-open-file-chooser:hover{
     color: #fa709a;

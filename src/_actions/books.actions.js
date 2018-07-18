@@ -26,8 +26,8 @@ function getUserBooks(args) {
                     dispatch(success(books, args));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message, error.status));
                     
                 }
             );
@@ -59,8 +59,8 @@ function getBook(bookId) {
                     dispatch(success(book));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message, error.status));
                     
                 }
             );
@@ -86,8 +86,8 @@ function deleteBook(bookId) {
                     dispatch(success(book));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message, error.status));
                     
                 }
             );
@@ -112,8 +112,8 @@ function sendBook(bookId) {
                     dispatch(success(response));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message, error.status));
                 }
             );
     };
@@ -165,8 +165,8 @@ function uploadBook(files) {
                     dispatch(alertActions.success("Uploaded!"));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message, error.status));
                 }
             );
     };
@@ -185,12 +185,13 @@ function editBook(bookId, data) {
             .then(
                 book => { 
                     dispatch(this.getUserBooks()); // refresh books list
+                    dispatch(this.getBook(bookId)); // refresh book
                     dispatch(success());
                     dispatch(alertActions.success("Saved!"));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message, error.status));
                 }
             );
     };

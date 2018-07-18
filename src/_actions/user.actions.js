@@ -5,6 +5,7 @@ import { history } from '../_helpers';
 
 export const userActions = {
     login,
+    refreshToken,
     logout,
     authCheck,
     register,
@@ -27,8 +28,8 @@ function login(username, password) {
                     history.push('/');
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };
@@ -36,6 +37,26 @@ function login(username, password) {
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+}
+
+function refreshToken(){
+    return dispatch => {
+        dispatch(request());
+        return userService.refreshToken()
+            .then(
+                tokens => { 
+                    dispatch(success(tokens));
+                },
+                error => {
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message));
+                }
+            );
+    };
+
+    function request() { return { type: userConstants.TOKEN_REQUEST } }
+    function success(tokens) { return { type: userConstants.TOKEN_SUCCESS, tokens } }
+    function failure(error) { return { type: userConstants.TOKEN_FAILURE, error } }
 }
 
 
@@ -49,8 +70,8 @@ function getUser(userId) {
                     dispatch(success(user));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };
@@ -71,9 +92,9 @@ function confirm(userId, token) {
                     history.push('/login');
                 },
                 error => {
-                    dispatch(failure(error));
+                    dispatch(failure(error.message));
                     history.push('/login');
-                    dispatch(alertActions.error(error));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };
@@ -95,9 +116,9 @@ function remindPassword(userName) {
                     history.push('/login');
                 },
                 error => {
-                    dispatch(failure(error));
+                    dispatch(failure(error.message));
                     history.push('/login');
-                    dispatch(alertActions.error(error));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };
@@ -118,9 +139,9 @@ function resetPassword(password, userId, token) {
                     history.push('/login');
                 },
                 error => {
-                    dispatch(failure(error));
+                    dispatch(failure(error.message));
                     history.push('/login');
-                    dispatch(alertActions.error(error));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };
@@ -142,7 +163,7 @@ function authCheck(){
                 dispatch(alertActions.error("Unknown error occured. Please contact us, so we can fix it."));
             },
             error => {
-                dispatch(alertActions.error(error));
+                dispatch(alertActions.error(error.message));
                 history.push('/login');
             }
         );
@@ -160,8 +181,8 @@ function register(user) {
                     dispatch(alertActions.success("Registration successful"));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };
@@ -184,8 +205,8 @@ function editUser(data) {
                     dispatch(alertActions.success('User data edited!'));
                 },
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };
@@ -203,8 +224,8 @@ function getAll() {
             .then(
                 users => dispatch(success(users)),
                 error => {
-                    dispatch(failure(error));
-                    dispatch(alertActions.error(error));
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message));
                 }
             );
     };

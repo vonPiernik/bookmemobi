@@ -124,7 +124,7 @@ function handleResponse(response) {
             resolve(JSON.parse(response.responseText));
         } else {
             // return error message from response body
-            response.text().then(text => reject(text));
+            reject({ message: response.statusText, status: response.status });
         }
     });
 }

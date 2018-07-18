@@ -146,7 +146,6 @@ class SideBar extends React.Component {
 
         this.state = {
             bookEditor: false,
-            edited: false,
             author: ""
         }
         
@@ -162,13 +161,13 @@ class SideBar extends React.Component {
     }
 
     editBook() {
-
-        this.setState({ edited: true });
+        this.setState({ bookEditor: false });
         const { username, password } = this.state;
         const { dispatch } = this.props;
         dispatch(booksActions.editBook(this.props.book.id, {
             author: this.state.author
         }));
+        this.setState({ bookEditor: false });
     }
 
     downloadBook(book){
