@@ -10,8 +10,9 @@ const loggerMiddleware = createLogger();
 
 // middleware that helps with unit test, now actions returns promise
 const tokenCheck = ({dispatch, getState}) => next => action => {
-    console.log(this);
-    if(action.type === alertConstants.ERROR){
+    // const isRequest = action.type.search(/REQUEST$/);
+    
+    if(action.type === alertConstants.ERROR && action.type !== userConstants.TOKEN_FAILURE){
         // remove user from local storage to log user out
         // localStorage.removeItem('user'); 
         if(action.status === 401){
@@ -22,6 +23,7 @@ const tokenCheck = ({dispatch, getState}) => next => action => {
         // remove user from local storage to log user out
         localStorage.removeItem('user'); 
     }
+
     return next(action);
 }
 

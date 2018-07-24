@@ -1,14 +1,11 @@
 import React from 'react';
-import { Link, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ActionBar } from './ActionBar';
 import { SideBar } from './SideBar';
 import { BooksList } from './BooksList';
-import { WeatherChart } from './WeatherChart';
-import { userActions } from '../_actions';
 import { booksActions } from '../_actions';
 
-import { Button, KindleEmailManual } from '../_components';
+import { Button } from '../_components';
 
 import Dropzone from 'react-dropzone';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
@@ -23,8 +20,7 @@ class Dashboard extends React.Component {
         this.state = {
             dropzoneActive: false,
             files: [],
-            sidebarVisible: false,
-            kindleEmailManualVisible: false
+            sidebarVisible: false
         } 
     }
 
@@ -54,12 +50,6 @@ class Dashboard extends React.Component {
             this.uploadBook(files);
         }
     }
-    
-    toggleKindleEmailManual(){
-        this.setState((prevState,props) => ({
-            kindleEmailManualVisible: !prevState.kindleEmailManualVisible
-        }))
-    }
 
     toggleSidebar() {
         this.setState({
@@ -83,7 +73,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const { user, users, uploadBook, alert } = this.props;
+        const { user } = this.props;
         const { files, dropzoneActive } = this.state;
         let dropzoneRef;
         return (
@@ -116,11 +106,7 @@ class Dashboard extends React.Component {
             
                     {/* Render action bar */}
                     <ActionBar />
-                    
-                    {/* Render kindle email configuration manual */}
-                    {this.state.kindleEmailManualVisible &&
-                        <KindleEmailManual toggleKindleEmailManual={this.toggleKindleEmailManual.bind(this)} kindleEmail={user.kindleEmail} />
-                    }
+
                     {/* Main dashboard container */}
                     <div className="container">
 
@@ -151,13 +137,6 @@ class Dashboard extends React.Component {
                             text="Upload Book"
                             role="open-file-chooser" 
                             onClick={() => { dropzoneRef.open() }}
-                        />
-
-                        {/* Show kindle email configuration manual */}
-                        <Button 
-                            text="Configure connection"
-                            role="show-manual" 
-                            onClick={() => { this.toggleKindleEmailManual() }}
                         />
                         {/* Show kindle email configuration manual */}
                         {/* <Button 

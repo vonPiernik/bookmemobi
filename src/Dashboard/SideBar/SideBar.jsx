@@ -90,6 +90,7 @@ function BookCover(props){
 
 function SingleBook(props){
     const book = props.book;
+    const user = props.user;
     const getBook = props.getBook;
     const bookEditor = props.bookEditor;
     
@@ -101,7 +102,8 @@ function SingleBook(props){
                     + ((getBook && getBook.loading) ? " loading" : "")
                     + ((book && book.isDeleted) ? " deleted" : "")}>
     
-            
+
+                <form onSubmit={() => props.editBook()} >
                 <BookTitle title={props.title} handleChange={props.handleChange} bookEditor={bookEditor} />
     
                 <BookFile fileName={book.fileName} size={book.size} />
@@ -111,17 +113,28 @@ function SingleBook(props){
                 <BookAuthor author={props.author} handleChange={props.handleChange} bookEditor={bookEditor} />
 
                 <p><strong>Publishing Date: </strong> { (book.publishingDate != null) ? book.publishingDate : "No data" }</p>
-    
+                
+                {bookEditor &&
+                <button type="submit" className="button button-default" onClick={() => props.editBook()} >Save metadata</button>
+                }
+                </form>
+                
                 <br />
                 {!bookEditor &&
                 <div>
                     {!book.isSentToKindle &&
-                        <button className="button-with-icon" onClick={() => props.sendBook(book.id)} title="Send book on Kindle">
+                        <button className="button-with-icon" 
+                                onClick={() => props.sendBook(book.id)} 
+                                title={ !user.isVerifiedAmazonConnection ? "Connection with Amazon not verified" : "Send book on Kindle"}
+                                disabled={ !user.isVerifiedAmazonConnection && "disabled" } >
                             <img src="/public/img/icons/icon-send.png" alt="Send book"/>
                         </button>
                     }
                     {book.isSentToKindle &&
-                        <button className="button-with-icon" onClick={() => props.sendBook(book.id)} title="Send book on Kindle (already sent at least once)">
+                        <button className="button-with-icon" 
+                                onClick={() => props.sendBook(book.id)}
+                                title={ !user.isVerifiedAmazonConnection ? "Connection with Amazon not verified" : "Send book on Kindle (already sent at least once)" }
+                                disabled={ !user.isVerifiedAmazonConnection && "disabled" } >
                             <img src="/public/img/icons/icon-send-b.png" alt="Send book"/>
                         </button>
                     }
@@ -129,9 +142,6 @@ function SingleBook(props){
                 <button className="button-with-icon" onClick={() => props.downloadBook(book)} title="Download book file"><img src="/public/img/icons/icon-download-b.png" alt="Download book"/></button>
                 <button className="button-with-icon" onClick={() => props.deleteBook(book.id)} title="Delete book"><img src="/public/img/icons/icon-delete-b.png" alt="Delete book"/></button>
                 </div>
-                }
-                {bookEditor &&
-                <Button text="Save metadata" onClick={() => props.editBook()} />
                 }
     
             </div>
@@ -175,7 +185,6 @@ class SideBar extends React.Component {
 
     editBook() {
         this.setState({ bookEditor: false });
-        const { username, password } = this.state;
         const { dispatch } = this.props;
         dispatch(booksActions.editBook(this.props.book.id, {
             title: this.state.title,    
@@ -201,7 +210,7 @@ class SideBar extends React.Component {
     }
 
     toggleBookEditor(){
-        this.setState( (prevState, props) => ({ 
+        this.setState( (prevState) => ({ 
             bookEditor: !prevState.bookEditor,
             title: this.props.book.title,
             author: this.props.book.author
@@ -209,7 +218,7 @@ class SideBar extends React.Component {
     }
 
     render() {
-        const { getBook, book, sidebarVisible, toggleSidebar } = this.props;
+        const { getBook, book, sidebarVisible, toggleSidebar, user } = this.props;
         const bookEditor = this.state.bookEditor;
         return (
             <div className={"side-bar " + (sidebarVisible ? "side-bar-show" : "side-bar-hide")} >
@@ -221,14 +230,15 @@ class SideBar extends React.Component {
                 <DeletedBookOverlay book={book} />
 
                 <SingleBook book={book}
+                            user={user}
                             getBook={getBook}
                             bookEditor={bookEditor} 
                             title={this.state.title}
                             author={this.state.author}
                             handleChange={this.handleChange}
-                            sendBook={(bookId) => this.sendBook(bookId)}
-                            deleteBook={(bookId) => this.deleteBook(bookId)}
-                            downloadBook={(bookId) => this.downloadBook(bookId)}
+                            sendBook={ bookId => this.sendBook(bookId) }
+                            deleteBook={ bookId => this.deleteBook(bookId) }
+                            downloadBook={ bookId => this.downloadBook(bookId) }
                             editBook={this.editBook}
                             toggleBookEditor={this.toggleBookEditor}
                              />
@@ -240,11 +250,13 @@ class SideBar extends React.Component {
 
 // export default SideBar;
 function mapStateToProps(state) {
-    const { getBook } = state;
+    const { getBook, authentication } = state;
     const { book } = getBook;
+    const { user } = authentication;
     return {
         getBook,
-        book
+        book,
+        user
     };
 }
 

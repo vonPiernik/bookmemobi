@@ -39,13 +39,14 @@ function login(username, password) {
     function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
 }
 
-function refreshToken(){
+function refreshToken(previousAction){
     return dispatch => {
         dispatch(request());
         return userService.refreshToken()
             .then(
                 tokens => { 
                     dispatch(success(tokens));
+                    history.push('/');
                 },
                 error => {
                     dispatch(failure(error.message));

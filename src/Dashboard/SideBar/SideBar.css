@@ -57,7 +57,10 @@ button.button-with-icon {
     border: 1px solid #d6d6d6;
     margin-right: 5px;
 }
-
+button.button-with-icon:disabled {
+    cursor: default;
+    opacity: .7;
+}
 button.button-with-icon img {
     height: 20px;
     /* vertical-align: middle; */

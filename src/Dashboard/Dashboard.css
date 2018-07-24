@@ -32,12 +32,18 @@
 }
 
 .button-role-show-manual {
-    float: right;
     margin: 10px;
     background: white;
     color: #5c5c5c;
     border: 1px solid grey;
-    padding: 9px 30px;
+    /* padding: 9px 30px; */
+    padding: 9px 25px 9px 35px;
+   text-indent: 15px;
+   overflow: hidden;
+   background-image: url(/public/img/icons/icon-help-b.png);
+   background-size: 14px;
+   background-repeat: no-repeat;
+   background-position: 24px 9px;
 }
 
 .button-role-show-manual:hover {

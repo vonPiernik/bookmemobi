@@ -25,10 +25,18 @@ class KindleEmailManual extends React.Component {
 
     setKindleEmail(){
         if(this.props.kindleEmail.length > 0){
-            this.props.dispatch(userActions.editUser({ kindleEmail: this.state.kindleEmail }));
+            this.props.dispatch(userActions.editUser({ kindleEmail: this.state.kindleEmail })).then(() => {
+                this.nextSlide();
+            });
         }
     }
     
+    setVerifiedAmazonConnection(){
+        this.props.dispatch(userActions.editUser({ isVerifiedAmazonConnection: true })).then(() => {
+            this.props.toggleKindleEmailManual();
+        });
+    }
+
     getKindleEmail(){
         this.setState({
             kindleEmail: this.props.kindleEmail
@@ -74,15 +82,13 @@ class KindleEmailManual extends React.Component {
                                 {!this.state.kindleEmail &&
                                     <p className="kindle-email-empty">Please enter your Send-to-Kindle E-Mail adress.</p>
                                 }
+                                <form onSubmit={ () => this.setKindleEmail() } >
                                 <label htmlFor="kindleEmail">
                                     <input type="text" name="kindleEmail" id="kindleEmail" onChange={this.handleChange}
                                             value={ this.state.kindleEmail }/>
-                                    @kindle.com
                                 </label>
-                                <Button text="Save"
-                                        type="green"
-                                        role="kindle-email-manual-set-email"
-                                        onClick={ () => this.setKindleEmail() }/>
+                                <button type="submit" onClick={ () => this.setKindleEmail() } className="button button-standard">Save</button>
+                                </form>
                             </div>
                         </div>
                         <div className="slide slide2">
@@ -106,8 +112,8 @@ class KindleEmailManual extends React.Component {
                             <p>Please confirm, so we can know that you've dealt with it :) <br/><small>If not - see the next step.</small></p>
 
                             <Button text="Confirm"
-                                    type="green"
-                                    role="confirm-configuration-steps"/>
+                                    role="confirm-configuration-steps"
+                                    onClick={ () => this.setVerifiedAmazonConnection() } />
 
                            
                         </div>

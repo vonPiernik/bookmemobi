@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Button, KindleEmailManual } from '../../_components';
 import './Navbar.css';
 
 
@@ -11,7 +12,8 @@ class Navbar extends React.Component {
 
         this.state = {
             mobileMenuVisible: false,
-            userMenuVisible: false
+            userMenuVisible: false,
+            kindleEmailManualVisible: false
         }
     }
 
@@ -25,6 +27,13 @@ class Navbar extends React.Component {
             }
         });
 
+    }
+
+    
+    toggleKindleEmailManual(){
+        this.setState((prevState,props) => ({
+            kindleEmailManualVisible: !prevState.kindleEmailManualVisible
+        }))
     }
 
     toggleMobileMenu() {
@@ -96,17 +105,33 @@ class Navbar extends React.Component {
                             </li>
                         </ul>
                         <ul className="app-menu-right">
+                            { !user.isVerifiedAmazonConnection &&
+                            <li className="nav-item">
+                                {/* Show kindle email configuration manual */}
+                                <Button 
+                                    text="Configure connection"
+                                    role="show-manual" 
+                                    onClick={() => { this.toggleKindleEmailManual() }}
+                                />
+                            </li>
+                            }
                             <li className="nav-item dropdown" id="userMenuDropdown">
                                 <a className="nav-link dropdown-toggle" href="#" onClick={this.toggleUserMenu.bind(this)}>
-                                    <img src="/public/img/icons/user.png" alt="Login"/>{ user.userName }<div className="arrow-down"></div>
+                                    <img src="/public/img/icons/icon-user-b.png" alt="Login"/>{ user.userName }
                                 </a>
-                                <div className={"user-menu " + (this.state.userMenuVisible ? "user-menu-visible" : "")} id="userMenu">
+                                {/* <div className={"user-menu " + (this.state.userMenuVisible ? "user-menu-visible" : "")} id="userMenu">
                                     <div className="dropdown-divider"></div>
                                     <Link to="/login" className="dropdown-item disabled"
                                              onClick={this.toggleMobileMenu.bind(this)}>
                                              Logout
                                     </Link>
-                                </div>
+                                </div> */}
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/login" className="dropdown-item disabled"
+                                            onClick={this.toggleMobileMenu.bind(this)}>
+                                            Logout
+                                </Link>
                             </li>
                         </ul>
                     </div>
@@ -127,7 +152,13 @@ class Navbar extends React.Component {
                         </ul>
                     </div>
                     }
+
+                    {/* Render kindle email configuration manual */}
+                    {this.state.kindleEmailManualVisible &&
+                        <KindleEmailManual toggleKindleEmailManual={this.toggleKindleEmailManual.bind(this)} kindleEmail={user.kindleEmail} />
+                    }
                 </nav>
+
         );
     }
 }
