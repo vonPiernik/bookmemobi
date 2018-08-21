@@ -1,0 +1,13 @@
+.user-edit-core {
+    background: #fff;
+    padding: 0 0 30px;
+    border: 1px solid #ededed;
+    clear: both;
+    position: relative;
+}
+.user-edit-core h3 {
+    font-weight: normal;
+    margin: 15px 30px;
+    padding: 15px 0;
+    border-bottom: 1px solid #fcb265;
+}

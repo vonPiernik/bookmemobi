@@ -105,13 +105,13 @@ class Dashboard extends React.Component {
                                 ? "dashboard-wrapper-side-bar-show" : "")}>
             
                     {/* Render action bar */}
-                    <ActionBar />
+                    {/* <ActionBar /> */}
 
                     {/* Main dashboard container */}
                     <div className="container">
 
                         {/* Welcome message */}
-                        <h1 className="bold-title">Hi {user.firstName}! <small>(Your Kindle E-Mail is: {user.kindleEmail})</small></h1>
+                        <h1 className="bold-title">Hi {user.firstName}!</h1>
                         <p>This is your dashboard where you can see all your books.</p>
 
                         {/* Weahter chart, completely useless component */}

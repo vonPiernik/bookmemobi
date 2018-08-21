@@ -1,8 +1,10 @@
 import React from 'react';
-// import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { booksActions } from '../../_actions';
-import { Button, Spinner } from '../../_components';
+import { booksActions, tagsActions } from '../../_actions';
+import { Spinner } from '../../_components';
+import TagsInput from 'react-tagsinput'
+ 
+import 'react-tagsinput/react-tagsinput.css'
 
 import './SideBar.css';
 
@@ -93,8 +95,7 @@ function SingleBook(props){
     const user = props.user;
     const getBook = props.getBook;
     const bookEditor = props.bookEditor;
-    
-
+    const addBookTags = props.addBookTags;
     return(
         <div>
         {book &&
@@ -118,7 +119,16 @@ function SingleBook(props){
                 <button type="submit" className="button button-default" onClick={() => props.editBook()} >Save metadata</button>
                 }
                 </form>
-                
+                <TagsInput 
+                    value={props.tagsList} 
+                    onChange={addBookTags} 
+                    addKeys="[13,9]"
+                    onlyUnique
+                    tagProps={{
+                        className: 'react-tagsinput-tag', 
+                        classNameRemove: 'react-tagsinput-remove',
+                        'data-tag-id': 'stringo'
+                      }} />
                 <br />
                 {!bookEditor &&
                 <div>
@@ -159,22 +169,26 @@ class SideBar extends React.Component {
             bookLoaded: false,
             bookEditor: false,
             title: "",
-            author: ""
+            author: "",
+            tags: []
         }
         
         this.toggleBookEditor = this.toggleBookEditor.bind(this);
-        
+        this.addBookTags = this.addBookTags.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.editBook = this.editBook.bind(this);
+        
     }
 
     componentDidUpdate(){
         if(this.props.book && !this.state.bookLoaded){
-            this.setState( (prevState, props) => ({ 
+            this.setState( () => ({ 
                 bookLoaded: true,
                 title: this.props.book.title,
-                author: this.props.book.author
+                author: this.props.book.author,
+                tags: this.props.book.tags
             }) );
+
         }
     }
 
@@ -209,6 +223,23 @@ class SideBar extends React.Component {
         this.props.dispatch(booksActions.getBook(bookId));
     }
 
+    getBookTags(bookId){
+        return this.props.dispatch(tagsActions.getBookTags(bookId));
+    }
+    
+    addBookTags(tags, tagsChanged){
+        let deletedTag = this.state.tags.filter( tag => tag.tagName == tagsChanged[0] );
+        if(deletedTag[0]){
+            this.deleteTag( deletedTag[0].id );
+        } else {
+            this.props.dispatch(tagsActions.addBookTags(this.props.book.id, tags));
+        }
+    }
+    
+    deleteTag(tagId){
+        this.props.dispatch(tagsActions.deleteTag(this.props.book.id, tagId));
+    }
+
     toggleBookEditor(){
         this.setState( (prevState) => ({ 
             bookEditor: !prevState.bookEditor,
@@ -220,6 +251,13 @@ class SideBar extends React.Component {
     render() {
         const { getBook, book, sidebarVisible, toggleSidebar, user } = this.props;
         const bookEditor = this.state.bookEditor;
+        let tagsList = [];
+        if( book && book.tags ) {
+            book.tags.forEach(tag => {
+                tagsList.push(tag.tagName);
+            });
+        }
+        
         return (
             <div className={"side-bar " + (sidebarVisible ? "side-bar-show" : "side-bar-hide")} >
 
@@ -241,6 +279,9 @@ class SideBar extends React.Component {
                             downloadBook={ bookId => this.downloadBook(bookId) }
                             editBook={this.editBook}
                             toggleBookEditor={this.toggleBookEditor}
+                            addBookTags={this.addBookTags}
+                            // deleteTag={this.deleteTag}
+                            tagsList={tagsList}
                              />
                 
             </div>

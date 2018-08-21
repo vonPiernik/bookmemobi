@@ -94,14 +94,9 @@ class Navbar extends React.Component {
                 
                     <div className={"app-menu " + (this.state.mobileMenuVisible ? "mobile-menu-visible" : "mobile-menu-hidden")} id="appMenu">
                         <ul className="app-menu-left">
-                            <li className="nav-item">
-                                <NavLink to="/" className="nav-link" onClick={this.toggleMobileMenu.bind(this)}>
-                                <img src="/public/img/icons/newspaper.png" alt="Landing"/>Landing
-                                </NavLink>                        
-                            </li>
                             <li className="nav-item" onClick={this.toggleMobileMenu.bind(this)}>
                                 <NavLink to="/dashboard" exact className="nav-link">
-                                <img src="/public/img/icons/home.png" alt="Dashboard"/>Dashboard</NavLink>
+                                <img src="/public/img/icons/icon-home-b.png" />Dashboard</NavLink>
                             </li>
                         </ul>
                         <ul className="app-menu-right">
@@ -116,9 +111,9 @@ class Navbar extends React.Component {
                             </li>
                             }
                             <li className="nav-item dropdown" id="userMenuDropdown">
-                                <a className="nav-link dropdown-toggle" href="#" onClick={this.toggleUserMenu.bind(this)}>
+                                <NavLink to="/user" className="nav-link">
                                     <img src="/public/img/icons/icon-user-b.png" alt="Login"/>{ user.userName }
-                                </a>
+                                </NavLink>
                                 {/* <div className={"user-menu " + (this.state.userMenuVisible ? "user-menu-visible" : "")} id="userMenu">
                                     <div className="dropdown-divider"></div>
                                     <Link to="/login" className="dropdown-item disabled"

@@ -32,10 +32,10 @@ class BooksListRow extends React.Component {
                     <span className="book-letter-indicator">P</span>
                     <img src={ book.coverUrl } alt={ book.title }/>
                 </div> */}
-                <div className="books-list-column column-title">
+                <div className="books-list-column column-title" title={book.title}>
                     {book.title}
                 </div>
-                <div className="books-list-column column-author">
+                <div className="books-list-column column-author" title={book.author}>
                     {book.author}
                 </div>
                 <div className="books-list-column column-format">
@@ -47,7 +47,7 @@ class BooksListRow extends React.Component {
                 {/* <div>
                     {book.publishingDate}
                 </div> */}
-                <div className="books-list-column column-upload-date">
+                <div className="books-list-column column-upload-date" title={timeAgo.format(uploadDate)}>
                     {timeAgo.format(uploadDate)}
                 </div>
             </div>

@@ -16,6 +16,9 @@
     float: left;
     color: #8e8e8e;
     padding: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .books-list-column.column-author {

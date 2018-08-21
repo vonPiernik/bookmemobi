@@ -1,6 +1,4 @@
 .dashboard-wrapper {
-    padding-left: 57px;
-    min-height: calc(100vh - 57px);
     overflow: hidden;
     transition: .2s all;
     transition-timing-function: ease-out;

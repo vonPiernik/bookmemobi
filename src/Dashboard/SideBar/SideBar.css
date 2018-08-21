@@ -148,3 +148,28 @@ button.button-with-icon img {
         z-index: 9;
     }
 }
+
+/* tags */
+.react-tagsinput-tag {
+    color: #fff;
+    background: #fa709a;
+    border: 0;
+    border-radius: 50px;
+    padding: 5px 20px;
+    font-family: inherit;
+    text-transform: lowercase;
+    font-size: 14px;
+    /* letter-spacing: 1px; */
+}
+
+.react-tagsinput {
+    border: 0;
+    margin: 0 -5px;
+}
+
+.react-tagsinput-input {
+    font-family: inherit;
+    font-size: 14px;
+    min-width: 80px;
+    width: auto;
+}

@@ -1,8 +1,8 @@
 import { tagsConstants } from '../_constants';
 import { tagsService } from '../_services';
-import { alertActions } from './';
+import { alertActions, booksActions } from './';
 
-export const booksActions = {
+export const tagsActions = {
     getTags,
     getBookTags,
     addBookTags,
@@ -65,8 +65,9 @@ function deleteTag(bookId, tagId) {
         return tagsService.deleteTag(bookId, tagId)
             .then(
                 tags => {
+                    console.log(tags);
                     dispatch(alertActions.success("Tag deleted"));
-                    dispatch(this.getBook(bookId)); // refresh book
+                    // dispatch( booksActions.getBook(bookId, tags) ); // refresh book
                     dispatch(success(tags));
                 },
                 error => {

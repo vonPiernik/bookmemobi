@@ -8,7 +8,7 @@ import { PrivateRoute } from '../_components';
 import { Navbar } from './Navbar';
 import { AlertBox } from './AlertBox';
 import { Dashboard } from '../Dashboard';
-import { LandingPage } from '../LandingPage';
+import { UserPage } from '../UserPage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import { ConfirmationPage } from '../ConfirmationPage';
@@ -46,6 +46,7 @@ class App extends React.Component {
                                 <Redirect to="/dashboard" />
                         )}/>
                         <PrivateRoute path="/dashboard" component={Dashboard} />
+                        <PrivateRoute path="/user" component={UserPage} />
                         <Route path="/login" component={LoginPage} />
                         <Route path="/register" component={RegisterPage} />
                         <Route path="/confirm" component={ConfirmationPage} />
