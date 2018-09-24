@@ -185,7 +185,7 @@ p.kindle-email-ok {
     margin-top: 0;
 }
 
-label[for="kindleEmail"] {
+.kindle-email-manual label[for="kindleEmail"] {
     font-size: 18px;
     color: #6b6b6b;
 }

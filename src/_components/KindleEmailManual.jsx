@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';import PropTypes from 'prop-types';
 import { Button } from './Button';
 import './KindleEmailManual.css';
-import {userActions} from '../_actions/user.actions';
+import { userActions } from '../_actions/user.actions';
 
 class KindleEmailManual extends React.Component {
     
