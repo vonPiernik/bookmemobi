@@ -102,11 +102,7 @@ class BookAuthor extends React.Component {
       );
     } else {
       return (
-<<<<<<< HEAD
         <p><strong className="author-label">Author: </strong> <textarea ref={node => {this.titleEditRef = node}} className="side-bar-edit-input author" name="author" value={this.props.author} onChange={this.props.handleChange} /> </p>
-=======
-        <p><strong>Author: </strong> <textarea ref={node => {this.authorEditRef = node}} className="side-bar-edit-input author" name="author" value={this.props.author} onChange={this.props.handleChange} /> </p>
->>>>>>> 1b781c549412622b281c7e804ca354e843aa4142
       );
     }
   }

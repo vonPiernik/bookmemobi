@@ -1,0 +1,206 @@
+.side-bar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    padding-top: 57px;
+    width: 380px;
+    height: 100%;
+    text-align: center;
+    border-left: 1px solid #e3e3e3;
+    transition: .2s all;
+    transition-timing-function: ease-out;
+    transform: translateX(0);
+    opacity: 1;
+    background-color: #fff;
+}
+
+.side-bar.side-bar-hide {
+    transform: translateX(380px);
+    opacity: 0;
+}
+button.side-bar-close-button {
+    width: 57px;
+    height: 57px;
+    position: absolute;
+    border: 0;
+    left: 20px;
+    right: 0;
+    background: transparent;
+}
+
+button.side-bar-close-button span {
+    height: 2px;
+    background: #d5d5d5;
+    width: 42px;
+    position: absolute;
+    left: 0;
+}
+
+button.side-bar-close-button span:first-child {
+    transform: rotate(45deg);
+}
+
+button.side-bar-close-button span:nth-child(2) {
+    transform: rotate(-45deg);
+}
+
+button.button-with-icon {
+    height: 35px;
+    line-height: 35px;
+    border: 0;
+    border-radius: 30px;
+    display: inline-block;
+    padding: 0 20px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid #d6d6d6;
+    margin-right: 5px;
+}
+button.button-with-icon:disabled {
+    cursor: default;
+    opacity: .7;
+}
+button.button-with-icon img {
+    height: 20px;
+    /* vertical-align: middle; */
+    position: relative;
+    opacity: .6;
+    top: 5px;
+    /* cursor: pointer; */
+}
+
+/* book details */
+.side-bar-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 57px;
+    line-height: 57px;
+    border-bottom: 1px solid #ededed;
+    text-align: right;
+    padding: 0 20px;
+    color: #888;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.side-bar-edit-input {
+  background: transparent;
+  border: none;
+  resize: none;
+  width: 100%;
+  overflow-y: hidden;
+  font-family: 'Raleway', sans-serif;
+}
+.side-bar-edit-input.title {
+  display: block;
+  border: 0;
+  font-weight: bolder;
+  font-size: 20px;
+  font-family: 'Raleway', sans-serif;
+  background: white no-repeat;
+	background-image: linear-gradient(to bottom, #fcb265, #fa709a), linear-gradient(to bottom, silver, silver);
+	/* sizes for the 2 images (default state) */
+	background-size: 0 2px, 100% 1px;
+	/* positions for the 2 images. Change both "50%" to "0%" or "100%" and tri again */
+	background-position: 50% 100%, 50% 100%;
+
+	/* animation solely on background-size */
+  transition: background-size 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+}
+.side-bar-edit-input:focus {
+  background-size: 100% 2px, 100% 1px;
+  outline: none;
+}
+.side-bar-edit-input:hover {
+  outline: none;
+}
+
+.book-details {
+    text-align: left;
+    padding: 20px;
+}
+
+.book-details h3 {
+    margin-top: 0;
+}
+
+.book-cover {
+    height: 290px;
+    color: #fa709a;
+}
+.book-cover img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.book-details{
+    overflow-y: auto;
+    max-height: 100%;
+    transition: .3s opacity;
+}
+.book-details.loading {
+    opacity: .3;
+}
+.deleted-book-overlay {
+    position: absolute;
+    left: 0;
+    top: 57px;
+    right: 0;
+    padding: 250px 0;
+    z-index: 1;
+    /* background: linear-gradient(to bottom, #ffffff00 26%, #f4bca261, #ffffff00 74%); */
+}
+
+.book-details.deleted {
+    opacity: .15;
+}
+
+
+@media(max-width: 776px){
+    .side-bar {
+        /* padding-top: 57px; */
+        z-index: 10;
+        width: 330px;
+        max-width: 80%;
+        box-shadow: -15px 0px 20px #00000014;
+        border: 0;
+    }
+    .side-bar-overlay {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        /* background: red; */
+        background-image: linear-gradient(120deg, #fccb90 0%, #d57eeb 100%);
+        opacity: .7;
+        z-index: 9;
+    }
+}
+
+/* tags */
+.react-tagsinput-tag {
+    color: #fff;
+    background: #fa709a;
+    border: 0;
+    border-radius: 50px;
+    padding: 5px 20px;
+    font-family: inherit;
+    text-transform: lowercase;
+    font-size: 14px;
+    /* letter-spacing: 1px; */
+}
+
+.react-tagsinput {
+    border: 0;
+    margin: 0 -5px;
+}
+
+.react-tagsinput-input {
+    font-family: inherit;
+    font-size: 14px;
+    min-width: 80px;
+    width: auto;
+}
