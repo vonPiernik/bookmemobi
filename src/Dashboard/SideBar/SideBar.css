@@ -98,6 +98,23 @@ button.button-with-icon img {
   font-family: 'Raleway', sans-serif;
 }
 
+.author-label {
+    width: 60px;
+    display: inline-block;
+    position: relative;
+    /* top: 2px; */
+    float: left;
+}
+
+.side-bar-edit-input.author {
+    width: 100%;
+    width: calc(100% - 60px);
+    float: right;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0;
+}
+
 .side-bar-edit-input:hover,
 .side-bar-edit-input:focus {
   outline: none;
