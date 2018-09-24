@@ -3,22 +3,28 @@ import { connect } from 'react-redux';
 import { booksActions, tagsActions } from '../../_actions';
 import { Spinner } from '../../_components';
 import TagsInput from 'react-tagsinput'
- 
+
 import 'react-tagsinput/react-tagsinput.css'
 
 import './SideBar.css';
 
-
+function autoGrow(event) {
+  console.log('Keydown wywolany');
+  const { target } = event;
+  if (target.scrollHeight > target.clientHeight) {
+    target.style.height = target.scrollHeight + "px";
+  }
+}
 function DeletedBookOverlay(props){
     return(
         <div>
             {props.book && props.book.isDeleted &&
                 <div className="deleted-book-overlay">
                     <p>This book is in trash.</p>
-                    {/* <Button 
+                    {/* <Button
                         text="Restore"
                         type="less-important"
-                        role="restore-book" 
+                        role="restore-book"
                     /> */}
                 </div>
             }
@@ -47,30 +53,85 @@ function SideBarHeader(props){
     );
 }
 
-function BookTitle(props){
-    if(!props.bookEditor){
-        return(
-            <h3>{ props.title }</h3>
-        );
-    } else {
-        return(
-            <h3>
-                <input type="text" name="title" value={props.title} onChange={props.handleChange} />
-            </h3>
-        );
+class BookTitle extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidUpdate() {
+    if(this.titleEditRef) {
+      this.titleEditRef.addEventListener('keydown', autoGrow);
+      this.titleEditRef.dispatchEvent(new Event('keydown'));
     }
+  }
+  componentWillUnmount() {
+    this.titleEditRef.removeEventListener('keydown', autoGrow);
+  }
+  render() {
+    if (!this.props.bookEditor) {
+      return (
+        <h3>{this.props.title}</h3>
+      );
+    } else {
+      return (
+        <h3>
+          <textarea ref={node => {this.titleEditRef = node}} className="side-bar-edit-input title" rows="1" name="title" value={this.props.title} onChange={this.props.handleChange} />
+        </h3>
+      );
+    }
+  }
+
 }
 
-function BookAuthor(props){
-    if(!props.bookEditor){
-        return(
-            <p><strong>Author: </strong> { props.author } </p>
-        );
-    } else {
-        return(
-            <p><strong>Author: </strong> <input type="text" name="author" value={props.author} onChange={props.handleChange} /> </p>
-        );
+class BookAuthor extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidUpdate() {
+    if(this.authorEditRef) {
+      this.authorEditRef.addEventListener('keydown', autoGrow);
+      this.authorEditRef.dispatchEvent(new Event('keydown'));
     }
+  }
+  componentWillUnmount() {
+    this.authorEditRef.removeEventListener('keydown', autoGrow);
+  }
+  render() {
+    if (!this.props.bookEditor) {
+      return (
+        <p><strong className="author-label">Author: </strong> {this.props.author} </p>
+      );
+    } else {
+      return (
+        <p><strong className="author-label">Author: </strong> <textarea ref={node => {this.titleEditRef = node}} className="side-bar-edit-input author" name="author" value={this.props.author} onChange={this.props.handleChange} /> </p>
+      );
+    }
+  }
+}
+
+class BookPublishingDate extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidUpdate() {
+    if(this.publishingDateEditRef) {
+      this.publishingDateEditRef.addEventListener('keydown', autoGrow);
+      this.publishingDateEditRef.dispatchEvent(new Event('keydown'));
+    }
+  }
+  componentWillUnmount() {
+    this.titleEditRef.removeEventListener('keydown', autoGrow);
+  }
+  render() {
+    if (!this.props.bookEditor) {
+      return (
+        <p><strong className="publishing-label">Publishing Date: </strong> { (this.props.publishingDate != null) ? this.props.publishingDate : "No data" }</p>
+      );
+    } else {
+      return (
+        <p><strong className="publishing-label">Publishing Date: </strong> <textarea ref={node => {this.publishingDateEditRef = node}} rows="1" className="side-bar-edit-input publishingDate" name="publishingDate" value={this.props.publishingDate} onChange={this.props.handleChange} /> </p>
+      );
+    }
+  }
 }
 
 function BookFile(props){
@@ -90,42 +151,37 @@ function BookCover(props){
     );
 }
 
-function SingleBook(props){
-    const book = props.book;
-    const user = props.user;
-    const getBook = props.getBook;
-    const bookEditor = props.bookEditor;
-    const addBookTags = props.addBookTags;
+function SingleBook(props) {
+    const { book, user, getBook, bookEditor, addBookTags } = props;
     return(
         <div>
         {book &&
             <div className={"book-details"
                     + ((getBook && getBook.loading) ? " loading" : "")
                     + ((book && book.isDeleted) ? " deleted" : "")}>
-    
+
 
                 <form onSubmit={() => props.editBook()} >
                 <BookTitle title={props.title} handleChange={props.handleChange} bookEditor={bookEditor} />
-    
+
                 <BookFile fileName={book.fileName} size={book.size} />
 
                 <BookCover coverUrl={book.coverUrl} title={book.title} />
-    
-                <BookAuthor author={props.author} handleChange={props.handleChange} bookEditor={bookEditor} />
 
-                <p><strong>Publishing Date: </strong> { (book.publishingDate != null) ? book.publishingDate : "No data" }</p>
-                
+                <BookAuthor author={props.author} handleChange={props.handleChange} bookEditor={bookEditor} />
+                <BookPublishingDate publishingDate={props.publishingDate} handleChange={props.handleChange} bookEditor={bookEditor} />
+
                 {bookEditor &&
-                <button type="submit" className="button button-default" onClick={() => props.editBook()} >Save metadata</button>
+                <button type="submit" className="button button-standard book-edit-button" onClick={() => props.editBook()} >Save metadata</button>
                 }
                 </form>
-                <TagsInput 
-                    value={props.tagsList} 
-                    onChange={addBookTags} 
+                <TagsInput
+                    value={props.tagsList}
+                    onChange={addBookTags}
                     addKeys="[13,9]"
                     onlyUnique
                     tagProps={{
-                        className: 'react-tagsinput-tag', 
+                        className: 'react-tagsinput-tag',
                         classNameRemove: 'react-tagsinput-remove',
                         'data-tag-id': 'stringo'
                       }} />
@@ -133,15 +189,15 @@ function SingleBook(props){
                 {!bookEditor &&
                 <div>
                     {!book.isSentToKindle &&
-                        <button className="button-with-icon" 
-                                onClick={() => props.sendBook(book.id)} 
+                        <button className="button-with-icon"
+                                onClick={() => props.sendBook(book.id)}
                                 title={ !user.isVerifiedAmazonConnection ? "Connection with Amazon not verified" : "Send book on Kindle"}
                                 disabled={ !user.isVerifiedAmazonConnection && "disabled" } >
                             <img src="/public/img/icons/icon-send.png" alt="Send book"/>
                         </button>
                     }
                     {book.isSentToKindle &&
-                        <button className="button-with-icon" 
+                        <button className="button-with-icon"
                                 onClick={() => props.sendBook(book.id)}
                                 title={ !user.isVerifiedAmazonConnection ? "Connection with Amazon not verified" : "Send book on Kindle (already sent at least once)" }
                                 disabled={ !user.isVerifiedAmazonConnection && "disabled" } >
@@ -153,10 +209,10 @@ function SingleBook(props){
                 <button className="button-with-icon" onClick={() => props.deleteBook(book.id)} title="Delete book"><img src="/public/img/icons/icon-delete-b.png" alt="Delete book"/></button>
                 </div>
                 }
-    
+
             </div>
-    
-    
+
+
         }
         </div>
     )
@@ -170,22 +226,23 @@ class SideBar extends React.Component {
             bookEditor: false,
             title: "",
             author: "",
+            publishingDate: "",
             tags: []
         }
-        
+
         this.toggleBookEditor = this.toggleBookEditor.bind(this);
         this.addBookTags = this.addBookTags.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.editBook = this.editBook.bind(this);
-        
     }
 
     componentDidUpdate(){
         if(this.props.book && !this.state.bookLoaded){
-            this.setState( () => ({ 
+            this.setState( () => ({
                 bookLoaded: true,
                 title: this.props.book.title,
                 author: this.props.book.author,
+                publishingDate: this.props.book.publishingDate,
                 tags: this.props.book.tags
             }) );
 
@@ -201,8 +258,9 @@ class SideBar extends React.Component {
         this.setState({ bookEditor: false });
         const { dispatch } = this.props;
         dispatch(booksActions.editBook(this.props.book.id, {
-            title: this.state.title,    
-            author: this.state.author
+            title: this.state.title,
+            author: this.state.author,
+            publishingDate: this.state.publishingDate
         }));
         this.setState({ bookEditor: false });
     }
@@ -226,7 +284,7 @@ class SideBar extends React.Component {
     getBookTags(bookId){
         return this.props.dispatch(tagsActions.getBookTags(bookId));
     }
-    
+
     addBookTags(tags, tagsChanged){
         let deletedTag = this.state.tags.filter( tag => tag.tagName == tagsChanged[0] );
         if(deletedTag[0]){
@@ -235,13 +293,13 @@ class SideBar extends React.Component {
             this.props.dispatch(tagsActions.addBookTags(this.props.book.id, tags));
         }
     }
-    
+
     deleteTag(tagId){
         this.props.dispatch(tagsActions.deleteTag(this.props.book.id, tagId));
     }
 
     toggleBookEditor(){
-        this.setState( (prevState) => ({ 
+        this.setState( (prevState) => ({
             bookEditor: !prevState.bookEditor,
             title: this.props.book.title,
             author: this.props.book.author
@@ -257,7 +315,7 @@ class SideBar extends React.Component {
                 tagsList.push(tag.tagName);
             });
         }
-        
+
         return (
             <div className={"side-bar " + (sidebarVisible ? "side-bar-show" : "side-bar-hide")} >
 
@@ -270,9 +328,10 @@ class SideBar extends React.Component {
                 <SingleBook book={book}
                             user={user}
                             getBook={getBook}
-                            bookEditor={bookEditor} 
+                            bookEditor={bookEditor}
                             title={this.state.title}
                             author={this.state.author}
+                            publishingDate={this.state.publishingDate}
                             handleChange={this.handleChange}
                             sendBook={ bookId => this.sendBook(bookId) }
                             deleteBook={ bookId => this.deleteBook(bookId) }
@@ -282,8 +341,8 @@ class SideBar extends React.Component {
                             addBookTags={this.addBookTags}
                             // deleteTag={this.deleteTag}
                             tagsList={tagsList}
-                             />
-                
+                            />
+
             </div>
         );
     }
@@ -302,4 +361,4 @@ function mapStateToProps(state) {
 }
 
 const connectedSideBar = connect(mapStateToProps)(SideBar);
-export { connectedSideBar as SideBar }; 
+export { connectedSideBar as SideBar };

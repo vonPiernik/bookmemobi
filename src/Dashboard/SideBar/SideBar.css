@@ -85,12 +85,69 @@ button.button-with-icon img {
     font-size: 14px;
     text-transform: uppercase;
 }
+.side-bar-edit-input {
+  background: transparent;
+  border: none;
+  resize: none;
+  width: 100%;
+  overflow-y: hidden;
+  font-family: 'Raleway', sans-serif;
+}
+.side-bar-edit-input.title {
+    display: block;
+    border: 0;
+  font-weight: bolder;
+  font-size: 20px;
+  font-family: 'Raleway', sans-serif;
+  background: white no-repeat;
+	background-image: linear-gradient(to bottom, #fcb265, #fa709a), linear-gradient(to bottom, silver, silver);
+	/* sizes for the 2 images (default state) */
+	background-size: 0 2px, 100% 1px;
+	/* positions for the 2 images. Change both "50%" to "0%" or "100%" and tri again */
+	background-position: 50% 100%, 50% 100%;	/* animation solely on background-size */
+    transition: background-size 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+}
 
+.author-label,
+.publishing-label {
+    width: 60px;
+    display: inline-block;
+    position: relative;
+    /* top: 2px; */
+    float: left;
+}
+.publishing-label{
+    width: 125px;
+}
+
+.side-bar-edit-input.author,
+.side-bar-edit-input.publishingDate {
+    width: 100%;
+    width: calc(100% - 60px);
+    float: right;
+    font-size: inherit;
+    font-family: inherit;
+    padding: 0;
+}
+.side-bar-edit-input.publishingDate{
+    width: calc(100% - 125px);
+}
+.side-bar-edit-input:focus {
+    background-size: 100% 2px, 100% 1px;
+    outline: none;
+}
+.side-bar-edit-input:hover,
+.side-bar-edit-input:focus {
+  outline: none;
+}
+.book-edit-button {
+    margin: 20px 0;
+}
 .book-details {
     text-align: left;
     padding: 20px;
 }
-    
+
 .book-details h3 {
     margin-top: 0;
 }
