@@ -93,13 +93,26 @@ button.button-with-icon img {
   overflow-y: hidden;
 }
 .side-bar-edit-input.title {
+  display: block;
+  border: 0;
   font-weight: bolder;
   font-size: 20px;
   font-family: 'Raleway', sans-serif;
-}
+  background: white no-repeat;
+	background-image: linear-gradient(to bottom, #fcb265, #fa709a), linear-gradient(to bottom, silver, silver);
+	/* sizes for the 2 images (default state) */
+	background-size: 0 2px, 100% 1px;
+	/* positions for the 2 images. Change both "50%" to "0%" or "100%" and tri again */
+	background-position: 50% 100%, 50% 100%;
 
-.side-bar-edit-input:hover,
+	/* animation solely on background-size */
+  transition: background-size 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+}
 .side-bar-edit-input:focus {
+  background-size: 100% 2px, 100% 1px;
+  outline: none;
+}
+.side-bar-edit-input:hover {
   outline: none;
 }
 
