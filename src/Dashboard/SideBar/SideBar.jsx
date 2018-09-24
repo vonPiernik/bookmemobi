@@ -58,13 +58,13 @@ class BookTitle extends React.Component {
     super(props);
   }
   componentDidUpdate() {
-    if(this.authorEditRef) {
-      this.authorEditRef.addEventListener('keydown', autoGrow);
-      this.authorEditRef.dispatchEvent(new Event('keydown'));
+    if(this.titleEditRef) {
+      this.titleEditRef.addEventListener('keydown', autoGrow);
+      this.titleEditRef.dispatchEvent(new Event('keydown'));
     }
   }
   componentWillUnmount() {
-    this.authorEditRef.removeEventListener('keydown', autoGrow);
+    this.titleEditRef.removeEventListener('keydown', autoGrow);
   }
   render() {
     if (!this.props.bookEditor) {
@@ -74,7 +74,7 @@ class BookTitle extends React.Component {
     } else {
       return (
         <h3>
-          <textarea ref={node => {this.authorEditRef = node}} className="side-bar-edit-input title" name="title" value={this.props.title} onChange={this.props.handleChange} />
+          <textarea ref={node => {this.titleEditRef = node}} className="side-bar-edit-input title" rows="1" name="title" value={this.props.title} onChange={this.props.handleChange} />
         </h3>
       );
     }
@@ -87,13 +87,13 @@ class BookAuthor extends React.Component {
     super(props);
   }
   componentDidUpdate() {
-    if(this.titleEditRef) {
-      this.titleEditRef.addEventListener('keydown', autoGrow);
-      this.titleEditRef.dispatchEvent(new Event('keydown'));
+    if(this.authorEditRef) {
+      this.authorEditRef.addEventListener('keydown', autoGrow);
+      this.authorEditRef.dispatchEvent(new Event('keydown'));
     }
   }
   componentWillUnmount() {
-    this.titleEditRef.removeEventListener('keydown', autoGrow);
+    this.authorEditRef.removeEventListener('keydown', autoGrow);
   }
   render() {
     if (!this.props.bookEditor) {
@@ -102,11 +102,36 @@ class BookAuthor extends React.Component {
       );
     } else {
       return (
-        <p><strong>Author: </strong> <textarea ref={node => {this.titleEditRef = node}} className="side-bar-edit-input author" name="author" value={this.props.author} onChange={this.props.handleChange} /> </p>
+        <p><strong>Author: </strong> <textarea ref={node => {this.authorEditRef = node}} className="side-bar-edit-input author" name="author" value={this.props.author} onChange={this.props.handleChange} /> </p>
       );
     }
   }
+}
 
+class BookPublishingDate extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidUpdate() {
+    if(this.publishingDateEditRef) {
+      this.publishingDateEditRef.addEventListener('keydown', autoGrow);
+      this.publishingDateEditRef.dispatchEvent(new Event('keydown'));
+    }
+  }
+  componentWillUnmount() {
+    this.titleEditRef.removeEventListener('keydown', autoGrow);
+  }
+  render() {
+    if (!this.props.bookEditor) {
+      return (
+        <p><strong>Publishing Date: </strong> { (this.props.publishingDate != null) ? this.props.publishingDate : "No data" }</p>
+      );
+    } else {
+      return (
+        <p><strong>Publishing Date: </strong> <textarea ref={node => {this.publishingDateEditRef = node}} rows="1" className="side-bar-edit-input publishingDate" name="publishingDate" value={this.props.publishin} onChange={this.props.handleChange} /> </p>
+      );
+    }
+  }
 }
 
 function BookFile(props){
@@ -144,8 +169,7 @@ function SingleBook(props) {
                 <BookCover coverUrl={book.coverUrl} title={book.title} />
 
                 <BookAuthor author={props.author} handleChange={props.handleChange} bookEditor={bookEditor} />
-
-                <p><strong>Publishing Date: </strong> { (book.publishingDate != null) ? book.publishingDate : "No data" }</p>
+                <BookPublishingDate publishingDate={props.publishingDate} handleChange={props.handleChange} bookEditor={bookEditor} />
 
                 {bookEditor &&
                 <button type="submit" className="button button-default" onClick={() => props.editBook()} >Save metadata</button>
@@ -202,6 +226,7 @@ class SideBar extends React.Component {
             bookEditor: false,
             title: "",
             author: "",
+            publishingDate: "",
             tags: []
         }
 
@@ -217,6 +242,7 @@ class SideBar extends React.Component {
                 bookLoaded: true,
                 title: this.props.book.title,
                 author: this.props.book.author,
+                publishingDate: this.props.book.publishingDate,
                 tags: this.props.book.tags
             }) );
 
@@ -233,7 +259,8 @@ class SideBar extends React.Component {
         const { dispatch } = this.props;
         dispatch(booksActions.editBook(this.props.book.id, {
             title: this.state.title,
-            author: this.state.author
+            author: this.state.author,
+            publishingDate: this.state.publishingDate
         }));
         this.setState({ bookEditor: false });
     }
@@ -304,6 +331,7 @@ class SideBar extends React.Component {
                             bookEditor={bookEditor}
                             title={this.state.title}
                             author={this.state.author}
+                            publishingDate={this.state.publishingDate}
                             handleChange={this.handleChange}
                             sendBook={ bookId => this.sendBook(bookId) }
                             deleteBook={ bookId => this.deleteBook(bookId) }

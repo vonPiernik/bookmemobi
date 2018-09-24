@@ -91,6 +91,7 @@ button.button-with-icon img {
   resize: none;
   width: 100%;
   overflow-y: hidden;
+  font-family: 'Raleway', sans-serif;
 }
 .side-bar-edit-input.title {
   display: block;
