@@ -128,7 +128,7 @@ class BookPublishingDate extends React.Component {
       );
     } else {
       return (
-        <p><strong>Publishing Date: </strong> <textarea ref={node => {this.publishingDateEditRef = node}} rows="1" className="side-bar-edit-input publishingDate" name="publishingDate" value={this.props.publishin} onChange={this.props.handleChange} /> </p>
+        <p><strong>Publishing Date: </strong> <textarea ref={node => {this.publishingDateEditRef = node}} rows="1" className="side-bar-edit-input publishingDate" name="publishingDate" value={this.props.publishingDate} onChange={this.props.handleChange} /> </p>
       );
     }
   }
