@@ -124,11 +124,11 @@ class BookPublishingDate extends React.Component {
   render() {
     if (!this.props.bookEditor) {
       return (
-        <p><strong>Publishing Date: </strong> { (this.props.publishingDate != null) ? this.props.publishingDate : "No data" }</p>
+        <p><strong className="publishing-label">Publishing Date: </strong> { (this.props.publishingDate != null) ? this.props.publishingDate : "No data" }</p>
       );
     } else {
       return (
-        <p><strong>Publishing Date: </strong> <textarea ref={node => {this.publishingDateEditRef = node}} rows="1" className="side-bar-edit-input publishingDate" name="publishingDate" value={this.props.publishingDate} onChange={this.props.handleChange} /> </p>
+        <p><strong className="publishing-label">Publishing Date: </strong> <textarea ref={node => {this.publishingDateEditRef = node}} rows="1" className="side-bar-edit-input publishingDate" name="publishingDate" value={this.props.publishingDate} onChange={this.props.handleChange} /> </p>
       );
     }
   }
@@ -172,7 +172,7 @@ function SingleBook(props) {
                 <BookPublishingDate publishingDate={props.publishingDate} handleChange={props.handleChange} bookEditor={bookEditor} />
 
                 {bookEditor &&
-                <button type="submit" className="button button-default" onClick={() => props.editBook()} >Save metadata</button>
+                <button type="submit" className="button button-standard book-edit-button" onClick={() => props.editBook()} >Save metadata</button>
                 }
                 </form>
                 <TagsInput
