@@ -69,6 +69,11 @@ function getUser(userId) {
             .then(
                 user => { 
                     dispatch(success(user));
+                    let oldUser = JSON.parse(localStorage.getItem('user'));
+                    let newUser = {
+                        ...oldUser, ...user 
+                    }
+                    localStorage.setItem('user', JSON.stringify(newUser));
                 },
                 error => {
                     dispatch(failure(error.message));
