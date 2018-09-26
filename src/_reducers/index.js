@@ -9,6 +9,7 @@ import { userBooks } from './userBooks.reducer';
 import { downloadBook } from './downloadBook.reducer';
 import { uploadBook } from './uploadBook.reducer';
 import { sendBook } from './sendBook.reducer';
+import { bookRecommendations } from './bookRecommendations.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   downloadBook,
   uploadBook,
   sendBook,
+  bookRecommendations,
 });
 
 export default rootReducer;

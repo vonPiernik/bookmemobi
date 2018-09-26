@@ -7,6 +7,7 @@ import TagsInput from 'react-tagsinput'
 import 'react-tagsinput/react-tagsinput.css'
 
 import './SideBar.css';
+import { bookRecommendations } from '../../_reducers/bookRecommendations.reducer';
 
 function autoGrow(event) {
   console.log('Keydown wywolany');
@@ -151,8 +152,22 @@ function BookCover(props){
     );
 }
 
+function BookRecommendations(props) {
+  const { recommendations } = props;
+  return (
+    <div className="book-recommendations">
+      <p className="book-recommendations-header">Recommendations:</p>
+      <ul>
+        {
+          recommendations && recommendations.map(recommendation => (<li key={recommendation.id} id={recommendation.id}><span>{recommendation.title}</span></li>))
+        }
+      </ul>
+    </div>
+  )
+}
+
 function SingleBook(props) {
-    const { book, user, getBook, bookEditor, addBookTags } = props;
+    const { book, user, getBook, bookEditor, addBookTags, recommendations } = props;
     return(
         <div>
         {book &&
@@ -170,7 +185,6 @@ function SingleBook(props) {
 
                 <BookAuthor author={props.author} handleChange={props.handleChange} bookEditor={bookEditor} />
                 <BookPublishingDate publishingDate={props.publishingDate} handleChange={props.handleChange} bookEditor={bookEditor} />
-
                 {bookEditor &&
                 <button type="submit" className="button button-standard book-edit-button" onClick={() => props.editBook()} >Save metadata</button>
                 }
@@ -185,6 +199,7 @@ function SingleBook(props) {
                         classNameRemove: 'react-tagsinput-remove',
                         'data-tag-id': 'stringo'
                       }} />
+
                 <br />
                 {!bookEditor &&
                 <div>
@@ -207,6 +222,9 @@ function SingleBook(props) {
                 <button className="button-with-icon" onClick={() => props.toggleBookEditor()} title="Edit book metadata"><img src="/public/img/icons/icon-edit-b.png" alt="Edit book"/></button>
                 <button className="button-with-icon" onClick={() => props.downloadBook(book)} title="Download book file"><img src="/public/img/icons/icon-download-b.png" alt="Download book"/></button>
                 <button className="button-with-icon" onClick={() => props.deleteBook(book.id)} title="Delete book"><img src="/public/img/icons/icon-delete-b.png" alt="Delete book"/></button>
+                <BookRecommendations recommendations={recommendations} />
+
+
                 </div>
                 }
 
@@ -227,7 +245,8 @@ class SideBar extends React.Component {
             title: "",
             author: "",
             publishingDate: "",
-            tags: []
+            tags: [],
+            recommendations: [],
         }
 
         this.toggleBookEditor = this.toggleBookEditor.bind(this);
@@ -235,15 +254,18 @@ class SideBar extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.editBook = this.editBook.bind(this);
     }
-
+    componentWillMount() {
+    }
     componentDidUpdate(){
-        if(this.props.book && !this.state.bookLoaded){
+        if(this.props.book && !this.state.bookLoaded) {
+            this.getBookRecommendations(this.props.book.id);
             this.setState( () => ({
                 bookLoaded: true,
                 title: this.props.book.title,
                 author: this.props.book.author,
                 publishingDate: this.props.book.publishingDate,
-                tags: this.props.book.tags
+                tags: this.props.book.tags,
+
             }) );
 
         }
@@ -283,6 +305,10 @@ class SideBar extends React.Component {
 
     getBookTags(bookId){
         return this.props.dispatch(tagsActions.getBookTags(bookId));
+    }
+
+    getBookRecommendations(bookId) {
+      this.props.dispatch(booksActions.getBookRecommendations(bookId));
     }
 
     addBookTags(tags, tagsChanged){
@@ -339,7 +365,7 @@ class SideBar extends React.Component {
                             editBook={this.editBook}
                             toggleBookEditor={this.toggleBookEditor}
                             addBookTags={this.addBookTags}
-                            // deleteTag={this.deleteTag}
+                            recommendations={this.props.recommendations}
                             tagsList={tagsList}
                             />
 
@@ -350,13 +376,15 @@ class SideBar extends React.Component {
 
 // export default SideBar;
 function mapStateToProps(state) {
-    const { getBook, authentication } = state;
+    const { getBook, authentication, bookRecommendations } = state;
     const { book } = getBook;
     const { user } = authentication;
+    const { recommendations } = bookRecommendations;
     return {
         getBook,
         book,
-        user
+        user,
+        recommendations
     };
 }
 
