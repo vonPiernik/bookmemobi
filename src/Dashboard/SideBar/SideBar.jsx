@@ -156,10 +156,10 @@ function BookRecommendations(props) {
   const { recommendations } = props;
   return (
     <div className="book-recommendations">
-      <p className="book-recommendations-header">Recommendations:</p>
+      <h3 className="book-recommendations-header">Recommendations:</h3>
       <ul>
         {
-          recommendations && recommendations.map(recommendation => (<li key={recommendation.id} id={recommendation.id}><span>{recommendation.title}</span></li>))
+          recommendations && recommendations.map(recommendation => (<li tabIndex="0" key={recommendation.id} id={recommendation.id}><span>{recommendation.title}</span></li>))
         }
       </ul>
     </div>

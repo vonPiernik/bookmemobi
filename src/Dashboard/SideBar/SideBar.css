@@ -107,7 +107,30 @@ button.button-with-icon img {
 	background-position: 50% 100%, 50% 100%;	/* animation solely on background-size */
     transition: background-size 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
 }
+.book-details .book-recommendations-header {
+  margin-top: 15px;
+}
+.book-recommendations ul li {
+  text-decoration: none;
+  list-style: none;
+}
+.book-recommendations ul li:hover,
+.book-recommendations ul li:focus {
+  background-color: #fcb26542;
+  outline: none;
 
+}
+.book-recommendations ul {
+  padding-left: 0px;
+  margin-left: -20px;
+  margin-right: -20px;
+}
+.book-recommendations ul li {
+  padding: 5px 20px 5px 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
 .author-label,
 .publishing-label {
     width: 60px;
