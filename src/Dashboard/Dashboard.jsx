@@ -173,9 +173,6 @@ class Dashboard extends React.Component {
                         <img src="/public/img/icons/icon-upload-b.png" alt="Upload book"/>
                         Upload book
                     </MenuItem>
-                    <MenuItem> ContextMenu Item 2 </MenuItem>
-                    <MenuItem divider />
-                    <MenuItem> ContextMenu Item 3 </MenuItem>
                 </ContextMenu>
 
             </ContextMenuTrigger>

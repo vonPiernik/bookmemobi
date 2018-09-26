@@ -2,6 +2,7 @@
     overflow: hidden;
     transition: .2s all;
     transition-timing-function: ease-out;
+    min-height: calc(100vh - 57px);
 }
 .dashboard-wrapper.dashboard-wrapper-side-bar-show {
     padding-right: 380px;
