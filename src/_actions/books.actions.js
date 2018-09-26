@@ -18,7 +18,11 @@ export const booksActions = {
 // get list of all books that belongs to logged user
 function getUserBooks(args) {
     return dispatch => {
-        dispatch(request());
+        if(args.deleted || args.deleted === false){  
+            dispatch(requestAndClear());
+        } else {
+            dispatch(request());
+        }
 
         return booksService.getUserBooks(args)
             .then(
@@ -32,8 +36,9 @@ function getUserBooks(args) {
                 }
             );
     };
-
+    
     function request() { return { type: booksConstants.GET_BOOKS_REQUEST } }
+    function requestAndClear() { return { type: booksConstants.GET_BOOKS_REQUEST_AND_CLEAR } }
     function success(books, args) { return { type: booksConstants.GET_BOOKS_SUCCESS, books, args } }
     function failure(error) { return { type: booksConstants.GET_BOOKS_FAILURE, error } }
 }

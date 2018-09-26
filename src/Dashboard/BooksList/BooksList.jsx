@@ -184,7 +184,7 @@ class BooksList extends React.Component {
     }
 
     render() {
-        const   { getBook, user, userBooks, sidebarVisible } = this.props,
+        const   { getBook, userBooks, sidebarVisible } = this.props,
                 { orderingType, orderBy } = this.state.sortingArgs,
                 rows = [];
         let bookRowActive = false;
