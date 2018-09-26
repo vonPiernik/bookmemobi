@@ -24,6 +24,7 @@ nav.react-contextmenu {
     box-shadow: 10px 5px 10px #0000001c;
     border: 1px solid #ededed;
     border-top: 2px solid #fa709a;
+    z-index: 999;
 }
 
 .react-contextmenu-item {

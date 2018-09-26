@@ -57,7 +57,13 @@ class BooksListRow extends React.Component {
             {/* Context menu */}
             <ContextMenu id={"context_books_list_item" + book.id}>
                 <MenuItem onClick={() => { this.props.getBook(); }}>  
-                    Book details
+                    Details
+                </MenuItem>
+                <MenuItem onClick={() => { this.props.downloadBook(); }}>  
+                    Download
+                </MenuItem>
+                <MenuItem onClick={() => { this.props.sendBook(); }}>  
+                    Send to kindle
                 </MenuItem>
             </ContextMenu>
             </div>
@@ -165,6 +171,14 @@ class BooksList extends React.Component {
         this.props.dispatch(booksActions.getBook(bookId));
     }
 
+    downloadBook(book){
+        this.props.dispatch(booksActions.downloadBook(book));
+    }
+
+    sendBook(bookId){
+        this.props.dispatch(booksActions.sendBook(bookId));
+    }
+
     setArgs(args){
         this.props.dispatch(booksActions.setArgs(args));
     }
@@ -194,6 +208,12 @@ class BooksList extends React.Component {
                         getBook={() => { 
                             this.getBook(book.id); //fetch book with specified id
                             this.props.showSidebar(); //show the sidebar
+                        } }
+                        downloadBook={() => { 
+                            this.downloadBook(book); //fetch book with specified id
+                        } }
+                        sendBook={() => { 
+                            this.sendBook(book.id); //fetch book with specified id
                         } }
                         onClick={() => { 
                                     this.getBook(book.id); //fetch book with specified id

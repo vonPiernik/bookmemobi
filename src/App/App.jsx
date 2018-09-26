@@ -29,10 +29,6 @@ class App extends React.Component {
         });
     }
     componentDidMount(){
-        //prevent right click
-        document.getElementById("app").oncontextmenu = function (e) {
-            e.preventDefault();
-        };
     }
     render() {
         const { alert } = this.props;
