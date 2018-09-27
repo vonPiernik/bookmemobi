@@ -9,7 +9,6 @@ import 'react-tagsinput/react-tagsinput.css'
 import './SideBar.css';
 
 function autoGrow(event) {
-  console.log('Keydown wywolany');
   const { target } = event;
   if (target.scrollHeight > target.clientHeight) {
     target.style.height = target.scrollHeight + "px";
