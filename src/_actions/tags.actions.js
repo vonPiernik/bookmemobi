@@ -10,8 +10,8 @@ export const tagsActions = {
 };
 
 
-// get list of all books that belongs to logged user
-function getTags(args) {
+// get list of all tags 
+function getTags(args, tags = false) {
     return dispatch => {
         dispatch(request());
 
@@ -34,7 +34,7 @@ function getTags(args) {
 }
 
 
-// get details of single book
+// get details of single tag
 function getBookTags(bookId) {
     return dispatch => {
         dispatch(request());
@@ -57,7 +57,7 @@ function getBookTags(bookId) {
     function failure(error) { return { type: tagsConstants.GET_BOOK_TAGS_FAILURE, error } }
 }
 
-// delete single book
+// delete single tag
 function deleteTag(bookId, tagId) {
     return dispatch => {
         dispatch(request());
@@ -67,7 +67,7 @@ function deleteTag(bookId, tagId) {
                 tags => {
                     console.log(tags);
                     dispatch(alertActions.success("Tag deleted"));
-                    // dispatch( booksActions.getBook(bookId, tags) ); // refresh book
+                    dispatch( booksActions.getBook(bookId, tags) ); // refresh book
                     dispatch(success(tags));
                 },
                 error => {

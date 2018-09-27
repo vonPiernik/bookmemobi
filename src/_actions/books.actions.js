@@ -54,21 +54,25 @@ function setArgs(args) {
 }
 
 // get details of single book
-function getBook(bookId) {
+function getBook(bookId, receivedBook = false) {
     return dispatch => {
         dispatch(request());
 
-        return booksService.getBook(bookId)
-            .then(
-                book => {
-                    dispatch(success(book));
-                },
-                error => {
-                    dispatch(failure(error.message));
-                    dispatch(alertActions.error(error.message, error.status));
-                    
-                }
-            );
+        if(receivedBook){
+            dispatch(success(receivedBook));
+        } else {
+            return booksService.getBook(bookId)
+                .then(
+                    book => {
+                        dispatch(success(book));
+                    },
+                    error => {
+                        dispatch(failure(error.message));
+                        dispatch(alertActions.error(error.message, error.status));
+                        
+                    }
+                );
+        }
     };
 
     function request() { return { type: booksConstants.GET_BOOK_REQUEST } }
