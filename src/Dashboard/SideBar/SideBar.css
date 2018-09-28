@@ -253,3 +253,6 @@ button.button-with-icon img {
     min-width: 80px;
     width: auto;
 }
+.button.button-standard.recommendations {
+  margin-top: 20px;
+}

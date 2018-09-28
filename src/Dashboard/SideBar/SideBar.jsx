@@ -7,7 +7,6 @@ import TagsInput from 'react-tagsinput'
 import 'react-tagsinput/react-tagsinput.css'
 
 import './SideBar.css';
-import { bookRecommendations } from '../../_reducers/bookRecommendations.reducer';
 
 function autoGrow(event) {
   console.log('Keydown wywolany');
@@ -152,22 +151,14 @@ function BookCover(props){
     );
 }
 
-function BookRecommendations(props) {
-  const { recommendations } = props;
-  return (
-    <div className="book-recommendations">
-      <h3 className="book-recommendations-header">Recommendations:</h3>
-      <ul>
-        {
-          recommendations && recommendations.map(recommendation => (<li tabIndex="0" key={recommendation.id} id={recommendation.id}><span>{recommendation.title}</span></li>))
-        }
-      </ul>
-    </div>
-  )
-}
-
 function SingleBook(props) {
-    const { book, user, getBook, bookEditor, addBookTags, recommendations } = props;
+    const { book, user, getBook, bookEditor, addBookTags, getBookRecommendations, openBookRecommendationsModal } = props;
+    let id;
+
+    if (book) {
+      id = book.id;
+    }
+
     return(
         <div>
         {book &&
@@ -222,9 +213,12 @@ function SingleBook(props) {
                 <button className="button-with-icon" onClick={() => props.toggleBookEditor()} title="Edit book metadata"><img src="/public/img/icons/icon-edit-b.png" alt="Edit book"/></button>
                 <button className="button-with-icon" onClick={() => props.downloadBook(book)} title="Download book file"><img src="/public/img/icons/icon-download-b.png" alt="Download book"/></button>
                 <button className="button-with-icon" onClick={() => props.deleteBook(book.id)} title="Delete book"><img src="/public/img/icons/icon-delete-b.png" alt="Delete book"/></button>
-                <BookRecommendations recommendations={recommendations} />
-
-
+                <button className="button button-standard recommendations" onClick={() => {
+                    getBookRecommendations(id);
+                    openBookRecommendationsModal();
+                    }}>
+                    Get book recommendations
+                </button>
                 </div>
                 }
 
@@ -246,7 +240,6 @@ class SideBar extends React.Component {
             author: "",
             publishingDate: "",
             tags: [],
-            recommendations: [],
         }
 
         this.toggleBookEditor = this.toggleBookEditor.bind(this);
@@ -254,11 +247,8 @@ class SideBar extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.editBook = this.editBook.bind(this);
     }
-    componentWillMount() {
-    }
     componentDidUpdate(){
         if(this.props.book && !this.state.bookLoaded) {
-            this.getBookRecommendations(this.props.book.id);
             this.setState( () => ({
                 bookLoaded: true,
                 title: this.props.book.title,
@@ -307,10 +297,6 @@ class SideBar extends React.Component {
         return this.props.dispatch(tagsActions.getBookTags(bookId));
     }
 
-    getBookRecommendations(bookId) {
-      this.props.dispatch(booksActions.getBookRecommendations(bookId));
-    }
-
     addBookTags(tags, tagsChanged){
         let deletedTag = this.state.tags.filter( tag => tag.tagName == tagsChanged[0] );
         if(deletedTag[0]){
@@ -333,7 +319,7 @@ class SideBar extends React.Component {
     }
 
     render() {
-        const { getBook, book, sidebarVisible, toggleSidebar, user } = this.props;
+        const { getBook, book, sidebarVisible, toggleSidebar, user, openBookRecommendationsModal, getBookRecommendations } = this.props;
         const bookEditor = this.state.bookEditor;
         let tagsList = [];
         if( book && book.tags ) {
@@ -367,6 +353,8 @@ class SideBar extends React.Component {
                             addBookTags={this.addBookTags}
                             recommendations={this.props.recommendations}
                             tagsList={tagsList}
+                            openBookRecommendationsModal={openBookRecommendationsModal}
+                            getBookRecommendations={getBookRecommendations}
                             />
 
             </div>
@@ -379,12 +367,10 @@ function mapStateToProps(state) {
     const { getBook, authentication, bookRecommendations } = state;
     const { book } = getBook;
     const { user } = authentication;
-    const { recommendations } = bookRecommendations;
     return {
         getBook,
         book,
         user,
-        recommendations
     };
 }
 
