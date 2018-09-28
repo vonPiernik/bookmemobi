@@ -5,6 +5,7 @@ export function bookRecommendations(state = {}, action) {
     case booksConstants.GET_BOOK_RECOMMENDATIONS_REQUEST:
       return {
         ...state,
+        recommendationsLoading: true,
       };
     case booksConstants.GET_BOOK_RECOMMENDATIONS_SUCCESS:
       return {

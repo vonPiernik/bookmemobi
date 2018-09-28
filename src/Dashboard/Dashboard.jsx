@@ -93,8 +93,9 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const { user, recommendations } = this.props;
+        const { user, recommendations, bookRecommendations } = this.props;
         console.log(recommendations);
+        console.log(`BookRecommendations: ${bookRecommendations}`);
         const { files, dropzoneActive, bookRecommendationsModalIsOpen } = this.state;
         let dropzoneRef;
         return (
@@ -190,7 +191,8 @@ class Dashboard extends React.Component {
                     <BookRecommendationsModal
                       bookRecommendationsModalIsOpen={bookRecommendationsModalIsOpen}
                       closeBookRecommendationsModal={this.closeBookRecommendationsModal}
-                      recommendations={recommendations} />
+                      recommendations={recommendations}
+                      bookRecommendations={bookRecommendations} />
 
                 </div>
 
@@ -216,6 +218,7 @@ function mapStateToProps(state) {
     const { user } = authentication;
     const { recommendations } = bookRecommendations;
     return {
+        bookRecommendations,
         user,
         users,
         uploadBook,
