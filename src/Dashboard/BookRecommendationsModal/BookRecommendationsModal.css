@@ -20,6 +20,12 @@
   -moz-box-shadow: 6px 11px 25px -10px rgba(252,178,101,1);
   box-shadow: 6px 11px 25px -10px rgba(252,178,101,1);
 }
+
+.book-recommendation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .book-recommendations-header {
   grid-row: 1;
   grid-column: span 3;
