@@ -65,7 +65,6 @@ function deleteTag(bookId, tagId) {
         return tagsService.deleteTag(bookId, tagId)
             .then(
                 tags => {
-                    console.log(tags);
                     dispatch(alertActions.success("Tag deleted"));
                     dispatch( booksActions.getBook(bookId, tags) ); // refresh book
                     dispatch(success(tags));

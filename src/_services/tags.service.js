@@ -62,7 +62,6 @@ function addBookTags(bookId, tags) {
 
 function handleResponse(response) {
     return new Promise((resolve, reject) => {
-        console.log(response)
         if (response.ok) {
             // return json if it was returned in the response
             var contentType = response.headers.get("content-type");

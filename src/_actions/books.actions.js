@@ -16,25 +16,31 @@ export const booksActions = {
 
 
 // get list of all books that belongs to logged user
-function getUserBooks(args) {
+function getUserBooks(args, receivedBook = false) {
     return dispatch => {
-        if(args.deleted || args.deleted === false){  
-            dispatch(requestAndClear());
-        } else {
-            dispatch(request());
-        }
 
-        return booksService.getUserBooks(args)
-            .then(
-                books => {
-                    dispatch(success(books, args));
-                },
-                error => {
-                    dispatch(failure(error.message));
-                    dispatch(alertActions.error(error.message, error.status));
-                    
-                }
-            );
+        if(receivedBook){
+            dispatch(success(receivedBook));
+        } else {
+
+            if(args.deleted || args.deleted === false){  
+                dispatch(requestAndClear());
+            } else {
+                dispatch(request());
+            }
+
+            return booksService.getUserBooks(args)
+                .then(
+                    books => {
+                        dispatch(success(books, args));
+                    },
+                    error => {
+                        dispatch(failure(error.message));
+                        dispatch(alertActions.error(error.message, error.status));
+                        
+                    }
+                );
+        }
     };
     
     function request() { return { type: booksConstants.GET_BOOKS_REQUEST } }
@@ -91,7 +97,7 @@ function deleteBook(bookId) {
                 book => {
                     dispatch(alertActions.success("Book deleted"));
                     dispatch(this.getUserBooks()); // refresh books list after deleting
-                    dispatch(this.getBook(book.id)); // refresh book
+                    dispatch(this.getBook(book.id, book)); // refresh book
                     dispatch(success(book));
                 },
                 error => {
@@ -116,9 +122,10 @@ function sendBook(bookId) {
 
         return booksService.sendBook(bookId)
             .then(
-                response => {
+                books => {
                     dispatch(alertActions.success("Book has been sent"));
-                    dispatch(success(response));
+                    dispatch(this.getUserBooks({}, books)); // refresh books list after deleting
+                    dispatch(success(books));
                 },
                 error => {
                     dispatch(failure(error.message));
@@ -128,7 +135,7 @@ function sendBook(bookId) {
     };
 
     function request() { return { type: booksConstants.SEND_BOOK_REQUEST } }
-    function success(response) { return { type: booksConstants.SEND_BOOK_SUCCESS, response } }
+    function success(books) { return { type: booksConstants.SEND_BOOK_SUCCESS, books } }
     function failure(error) { return { type: booksConstants.SEND_BOOK_FAILURE, error } }
 }
 
