@@ -39,7 +39,8 @@
 }
 .book-recommendations-modal h1 {
   color: #fa709a;
-  margin-top: 5px;
+  margin-top: 15px;
+  text-align: center;
 }
 .book-recommendations-header .side-bar-close-button span {
   width: 20px;
@@ -49,6 +50,7 @@
   margin-right: 5px;
   margin-top: 5px;
   height: 200px;
+ line-height: 200px;
 }
 .book-recommendation .book-cover img {
   border: 1px solid #fa8e8461;
@@ -58,6 +60,12 @@
   font-size: 15px;
   margin-top: 10px;
 }
-.book-recommendation-title {
-  margin-bottom: 15px;
+p.book-recommendation-author {
+  margin: 20px 0 0px;
+  font-weight: bold;
+}
+p.book-recommendation-title {
+  margin-bottom: 25px;
+  text-align: center;
+  margin-top: 5px;
 }
