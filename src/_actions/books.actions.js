@@ -2,6 +2,7 @@ import { booksConstants } from '../_constants';
 import { booksService } from '../_services';
 import { alertActions } from './';
 import { userActions } from './';
+import { request } from 'http';
 
 export const booksActions = {
     getUserBooks,
@@ -11,7 +12,8 @@ export const booksActions = {
     editBook,
     deleteBook,
     sendBook,
-    setArgs
+    setArgs,
+    getBookRecommendations,
 };
 
 
@@ -32,7 +34,7 @@ function getUserBooks(args) {
                 error => {
                     dispatch(failure(error.message));
                     dispatch(alertActions.error(error.message, error.status));
-                    
+
                 }
             );
     };
@@ -41,6 +43,26 @@ function getUserBooks(args) {
     function requestAndClear() { return { type: booksConstants.GET_BOOKS_REQUEST_AND_CLEAR } }
     function success(books, args) { return { type: booksConstants.GET_BOOKS_SUCCESS, books, args } }
     function failure(error) { return { type: booksConstants.GET_BOOKS_FAILURE, error } }
+}
+
+function getBookRecommendations(bookId) {
+  return dispatch => {
+    dispatch(request());
+
+    return booksService.getBookRecommendations(bookId)
+      .then(recommendations => {
+        dispatch(success(recommendations))
+        },
+        error => {
+          dispatch(failure(error.message));
+          dispatch(alertActions.error(error.message, error.status));
+        }
+      );
+  };
+
+  function request() { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_REQUEST } }
+  function success(recommendations) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_SUCCESS, recommendations } }
+  function failure(error) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_FAILURE, error } }
 }
 
 
@@ -97,7 +119,7 @@ function deleteBook(bookId) {
                 error => {
                     dispatch(failure(error.message));
                     dispatch(alertActions.error(error.message, error.status));
-                    
+
                 }
             );
     };
@@ -168,7 +190,7 @@ function uploadBook(files) {
 
         return booksService.uploadBook(files)
             .then(
-                files => { 
+                files => {
                     dispatch(this.getUserBooks()); // refresh books list
                     dispatch(success(files));
                     dispatch(alertActions.success("Uploaded!"));
@@ -192,7 +214,7 @@ function editBook(bookId, data) {
 
         return booksService.editBook(bookId, data)
             .then(
-                book => { 
+                book => {
                     dispatch(this.getUserBooks()); // refresh books list
                     dispatch(this.getBook(bookId)); // refresh book
                     dispatch(success());

@@ -9,7 +9,6 @@ import 'react-tagsinput/react-tagsinput.css'
 import './SideBar.css';
 
 function autoGrow(event) {
-  console.log('Keydown wywolany');
   const { target } = event;
   if (target.scrollHeight > target.clientHeight) {
     target.style.height = target.scrollHeight + "px";
@@ -154,7 +153,13 @@ function BookCover(props){
 }
 
 function SingleBook(props) {
-    const { book, user, getBook, bookEditor, addBookTags } = props;
+    const { book, user, getBook, bookEditor, addBookTags, getBookRecommendations, openBookRecommendationsModal } = props;
+    let id;
+
+    if (book) {
+      id = book.id;
+    }
+
     return(
         <div>
         {book &&
@@ -172,7 +177,6 @@ function SingleBook(props) {
 
                 <BookAuthor author={props.author} handleChange={props.handleChange} bookEditor={bookEditor} />
                 <BookPublishingDate publishingDate={props.publishingDate} handleChange={props.handleChange} bookEditor={bookEditor} />
-
                 {bookEditor &&
                 <button type="submit" className="button button-standard book-edit-button" onClick={() => props.editBook()} >Save metadata</button>
                 }
@@ -187,6 +191,7 @@ function SingleBook(props) {
                         classNameRemove: 'react-tagsinput-remove',
                         'data-tag-id': 'stringo'
                       }} />
+
                 <br />
                 {!bookEditor &&
                 <div>
@@ -209,6 +214,16 @@ function SingleBook(props) {
                 <button className="button-with-icon" onClick={() => props.toggleBookEditor()} title="Edit book metadata"><img src="/public/img/icons/icon-edit-b.png" alt="Edit book"/></button>
                 <button className="button-with-icon" onClick={() => props.downloadBook(book)} title="Download book file"><img src="/public/img/icons/icon-download-b.png" alt="Download book"/></button>
                 <button className="button-with-icon" onClick={() => props.deleteBook(book.id)} title="Delete book"><img src="/public/img/icons/icon-delete-b.png" alt="Delete book"/></button>
+                {
+                  props.tagsList.length > 0 &&
+                    <button className="button button-standard recommendations" onClick={() => {
+                      getBookRecommendations(id);
+                      openBookRecommendationsModal();
+                    }}>
+                    Get book recommendations
+                    </button>
+                }
+
                 </div>
                 }
 
@@ -229,7 +244,7 @@ class SideBar extends React.Component {
             title: "",
             author: "",
             publishingDate: "",
-            tags: []
+            tags: [],
         }
 
         this.toggleBookEditor = this.toggleBookEditor.bind(this);
@@ -238,15 +253,15 @@ class SideBar extends React.Component {
         this.editBook = this.editBook.bind(this);
         this.restoreBook = this.restoreBook.bind(this);
     }
-
     componentDidUpdate(){
-        if(this.props.book && !this.state.bookLoaded){
+        if(this.props.book && !this.state.bookLoaded) {
             this.setState( () => ({
                 bookLoaded: true,
                 title: this.props.book.title,
                 author: this.props.book.author,
                 publishingDate: this.props.book.publishingDate,
-                tags: this.props.book.tags
+                tags: this.props.book.tags,
+
             }) );
 
         }
@@ -263,7 +278,7 @@ class SideBar extends React.Component {
         dispatch(booksActions.editBook(this.props.book.id, {
             title: this.state.title,
             author: this.state.author,
-            publishingDate: this.state.publishingDate
+            publishingDate: this.state.publishingDate,
         }));
         this.setState({ bookEditor: false });
     }
@@ -317,7 +332,7 @@ class SideBar extends React.Component {
     }
 
     render() {
-        const { getBook, book, sidebarVisible, toggleSidebar, user } = this.props;
+        const { getBook, book, sidebarVisible, toggleSidebar, user, openBookRecommendationsModal, getBookRecommendations } = this.props;
         const bookEditor = this.state.bookEditor;
         let tagsList = [];
         if( book && book.tags ) {
@@ -349,8 +364,10 @@ class SideBar extends React.Component {
                             editBook={this.editBook}
                             toggleBookEditor={this.toggleBookEditor}
                             addBookTags={this.addBookTags}
-                            // deleteTag={this.deleteTag}
+                            recommendations={this.props.recommendations}
                             tagsList={tagsList}
+                            openBookRecommendationsModal={openBookRecommendationsModal}
+                            getBookRecommendations={getBookRecommendations}
                             />
 
             </div>
@@ -360,13 +377,13 @@ class SideBar extends React.Component {
 
 // export default SideBar;
 function mapStateToProps(state) {
-    const { getBook, authentication } = state;
+    const { getBook, authentication, bookRecommendations } = state;
     const { book } = getBook;
     const { user } = authentication;
     return {
         getBook,
         book,
-        user
+        user,
     };
 }
 

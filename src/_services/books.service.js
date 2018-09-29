@@ -9,6 +9,7 @@ export const booksService = {
     sendBook,
     editBook,
     clearCache,
+    getBookRecommendations,
 };
 
 
@@ -28,7 +29,7 @@ function getUserBooks(args) {
     };
 
     let user = JSON.parse(localStorage.getItem('user'));
-    
+
     return fetch(config.apiUrl + '/users/' + user.id + '/books?' + serialize(args), requestOptions)
     .then(handleResponse, handleError)
     .then((books) => {
@@ -91,7 +92,7 @@ function uploadBook(files) {
         body: data
     };
     let user = JSON.parse(localStorage.getItem('user'));
-                                                    
+
     return makeXHRRequest('POST', config.apiUrl + '/users/' + user.id + '/books', authHeader().Authorization, data)
         .then(handleResponse,handleError);
 }
@@ -107,6 +108,17 @@ function editBook(bookId, data) {
     let user = JSON.parse(localStorage.getItem('user'));
 
     return fetch(config.apiUrl + '/users/' + user.id + '/books/' + bookId, requestOptions).then(handleResponse, handleError);
+}
+
+function getBookRecommendations(bookId) {
+  const requestOptions = {
+    method: 'GET',
+    headers: authHeader(),
+  };
+
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  return fetch(`${config.apiUrl}/users/${user.id}/books/${bookId}/recommended`, requestOptions).then(handleResponse, handleError);
 }
 
 
