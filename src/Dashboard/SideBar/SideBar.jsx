@@ -20,11 +20,13 @@ function DeletedBookOverlay(props){
             {props.book && props.book.isDeleted &&
                 <div className="deleted-book-overlay">
                     <p>This book is in trash.</p>
-                    {/* <Button
-                        text="Restore"
-                        type="less-important"
+                    <button
+                        className="button button-less-important"
                         role="restore-book"
-                    /> */}
+                        onClick={() => props.restoreBook()}
+                    >
+                    Restore
+                    </button>
                 </div>
             }
         </div>
@@ -249,6 +251,7 @@ class SideBar extends React.Component {
         this.addBookTags = this.addBookTags.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.editBook = this.editBook.bind(this);
+        this.restoreBook = this.restoreBook.bind(this);
     }
     componentDidUpdate(){
         if(this.props.book && !this.state.bookLoaded) {
@@ -278,6 +281,13 @@ class SideBar extends React.Component {
             publishingDate: this.state.publishingDate,
         }));
         this.setState({ bookEditor: false });
+    }
+
+    restoreBook() {
+        const { dispatch } = this.props;
+        dispatch(booksActions.editBook(this.props.book.id, {
+            isDeleted: false
+        }));
     }
 
     downloadBook(book){
@@ -338,7 +348,7 @@ class SideBar extends React.Component {
 
                 <BookLoadingSpinner getBook={getBook} />
 
-                <DeletedBookOverlay book={book} />
+                <DeletedBookOverlay book={book} restoreBook={this.restoreBook} />
 
                 <SingleBook book={book}
                             user={user}

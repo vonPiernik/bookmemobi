@@ -20,7 +20,11 @@ export const booksActions = {
 // get list of all books that belongs to logged user
 function getUserBooks(args) {
     return dispatch => {
-        dispatch(request());
+        if(args.deleted || args.deleted === false){  
+            dispatch(requestAndClear());
+        } else {
+            dispatch(request());
+        }
 
         return booksService.getUserBooks(args)
             .then(
@@ -34,8 +38,9 @@ function getUserBooks(args) {
                 }
             );
     };
-
+    
     function request() { return { type: booksConstants.GET_BOOKS_REQUEST } }
+    function requestAndClear() { return { type: booksConstants.GET_BOOKS_REQUEST_AND_CLEAR } }
     function success(books, args) { return { type: booksConstants.GET_BOOKS_SUCCESS, books, args } }
     function failure(error) { return { type: booksConstants.GET_BOOKS_FAILURE, error } }
 }
@@ -71,21 +76,25 @@ function setArgs(args) {
 }
 
 // get details of single book
-function getBook(bookId) {
+function getBook(bookId, receivedBook = false) {
     return dispatch => {
         dispatch(request());
 
-        return booksService.getBook(bookId)
-            .then(
-                book => {
-                    dispatch(success(book));
-                },
-                error => {
-                    dispatch(failure(error.message));
-                    dispatch(alertActions.error(error.message, error.status));
-
-                }
-            );
+        if(receivedBook){
+            dispatch(success(receivedBook));
+        } else {
+            return booksService.getBook(bookId)
+                .then(
+                    book => {
+                        dispatch(success(book));
+                    },
+                    error => {
+                        dispatch(failure(error.message));
+                        dispatch(alertActions.error(error.message, error.status));
+                        
+                    }
+                );
+        }
     };
 
     function request() { return { type: booksConstants.GET_BOOK_REQUEST } }

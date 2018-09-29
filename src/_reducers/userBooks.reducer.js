@@ -8,6 +8,10 @@ export function userBooks(state = {}, action) {
         ...state,
         loading: true
       };
+    case booksConstants.GET_BOOKS_REQUEST_AND_CLEAR:
+      return {
+        loading: true
+      };
     case booksConstants.GET_BOOKS_SUCCESS:
       return {
         ...state,
