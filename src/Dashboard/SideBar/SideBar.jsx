@@ -167,7 +167,7 @@ function SingleBook(props) {
                     + ((getBook && getBook.loading) ? " loading" : "")
                     + ((book && book.isDeleted) ? " deleted" : "")}>
 
-
+>
                 <form onSubmit={() => props.editBook()} >
                 <BookTitle title={props.title} handleChange={props.handleChange} bookEditor={bookEditor} />
 
@@ -184,7 +184,7 @@ function SingleBook(props) {
                 <TagsInput
                     value={props.tagsList}
                     onChange={addBookTags}
-                    addKeys="[13,9]"
+                    addKeys={[13, 188]}
                     onlyUnique
                     tagProps={{
                         className: 'react-tagsinput-tag',
