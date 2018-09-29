@@ -25,7 +25,10 @@ export default function BookRecommendationsModal(props) {
       contentLabel="TEST"
       className="book-recommendations-modal"
     >
-      <RecommendationLoadingSpinner bookRecommendations={bookRecommendations} />
+    {
+      bookRecommendations.recommendationsLoading &&
+        <RecommendationLoadingSpinner bookRecommendations={bookRecommendations} />
+    }
       <div className="book-recommendations-header">
         <h1>Recomendations</h1>
         <button className="side-bar-close-button" onClick={() => closeBookRecommendationsModal()} >

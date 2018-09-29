@@ -80,7 +80,6 @@ class Dashboard extends React.Component {
     }
 
     openBookRecommendationsModal() {
-      console.log('Przycisk został nacisniety.');
       this.setState({bookRecommendationsModalIsOpen: true});
     }
 
