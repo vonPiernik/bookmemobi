@@ -17,7 +17,6 @@ function RecommendationLoadingSpinner(props) {
 }
 export default function BookRecommendationsModal(props) {
   const { bookRecommendationsModalIsOpen, closeBookRecommendationsModal, recommendations, bookRecommendations } = props;
-  console.log(`Modal: ${bookRecommendationsModalIsOpen}, recommendations: ${recommendations}`);
   return (
     <Modal
       isOpen={bookRecommendationsModalIsOpen}

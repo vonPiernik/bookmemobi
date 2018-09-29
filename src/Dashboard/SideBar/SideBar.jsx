@@ -9,7 +9,6 @@ import 'react-tagsinput/react-tagsinput.css'
 import './SideBar.css';
 
 function autoGrow(event) {
-  console.log('Keydown wywolany');
   const { target } = event;
   if (target.scrollHeight > target.clientHeight) {
     target.style.height = target.scrollHeight + "px";
@@ -213,12 +212,16 @@ function SingleBook(props) {
                 <button className="button-with-icon" onClick={() => props.toggleBookEditor()} title="Edit book metadata"><img src="/public/img/icons/icon-edit-b.png" alt="Edit book"/></button>
                 <button className="button-with-icon" onClick={() => props.downloadBook(book)} title="Download book file"><img src="/public/img/icons/icon-download-b.png" alt="Download book"/></button>
                 <button className="button-with-icon" onClick={() => props.deleteBook(book.id)} title="Delete book"><img src="/public/img/icons/icon-delete-b.png" alt="Delete book"/></button>
-                <button className="button button-standard recommendations" onClick={() => {
-                    getBookRecommendations(id);
-                    openBookRecommendationsModal();
+                {
+                  props.tagsList.length > 0 &&
+                    <button className="button button-standard recommendations" onClick={() => {
+                      getBookRecommendations(id);
+                      openBookRecommendationsModal();
                     }}>
                     Get book recommendations
-                </button>
+                    </button>
+                }
+
                 </div>
                 }
 
@@ -272,7 +275,7 @@ class SideBar extends React.Component {
         dispatch(booksActions.editBook(this.props.book.id, {
             title: this.state.title,
             author: this.state.author,
-            publishingDate: this.state.publishingDate
+            publishingDate: this.state.publishingDate,
         }));
         this.setState({ bookEditor: false });
     }
