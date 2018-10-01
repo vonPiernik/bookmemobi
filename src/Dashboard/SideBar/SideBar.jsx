@@ -252,7 +252,10 @@ class SideBar extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.editBook = this.editBook.bind(this);
         this.restoreBook = this.restoreBook.bind(this);
+
+        
     }
+
     componentDidUpdate(){
         if(this.props.book && !this.state.bookLoaded) {
             this.setState( () => ({
@@ -263,8 +266,10 @@ class SideBar extends React.Component {
                 tags: this.props.book.tags,
 
             }) );
-
+            var tagsList = document.querySelector(".react-tagsinput");
+            tagsList.addEventListener("click", this.removeClickedImage);
         }
+        
     }
 
     handleChange(e) {
@@ -310,8 +315,21 @@ class SideBar extends React.Component {
         return this.props.dispatch(tagsActions.getBookTags(bookId));
     }
 
+    removeClickedImage(e) {
+        var el = e.target;
+        var tagContainer;
+        var list;
+        if (el.classList.contains("react-tagsinput-remove")) {
+            tagContainer = el.parentNode;
+            list = tagContainer.parentNode;
+            list.removeChild(tagContainer);
+        }
+    };
+
     addBookTags(tags, tagsChanged){
+        console.log(tags, tagsChanged);
         let deletedTag = this.state.tags.filter( tag => tag.tagName == tagsChanged[0] );
+        console.log(deletedTag);
         if(deletedTag[0]){
             this.deleteTag( deletedTag[0].id );
         } else {

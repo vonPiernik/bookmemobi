@@ -9,7 +9,6 @@ export const tagsActions = {
     deleteTag
 };
 
-
 // get list of all tags 
 function getTags(args, tags = false) {
     return dispatch => {
@@ -65,9 +64,8 @@ function deleteTag(bookId, tagId) {
         return tagsService.deleteTag(bookId, tagId)
             .then(
                 tags => {
-                    console.log(tags);
                     dispatch(alertActions.success("Tag deleted"));
-                    dispatch( booksActions.getBook(bookId, tags) ); // refresh book
+                    // dispatch( booksActions.getBook(bookId, tags) ); // refresh book
                     dispatch(success(tags));
                 },
                 error => {
@@ -82,7 +80,6 @@ function deleteTag(bookId, tagId) {
     function success(tags) { return { type: tagsConstants.DELETE_SUCCESS, tags } }
     function failure(error) { return { type: tagsConstants.DELETE_FAILURE, error } }
 }
-
 
 
 function addBookTags(bookId, tags) {
