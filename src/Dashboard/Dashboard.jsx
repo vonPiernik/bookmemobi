@@ -4,6 +4,7 @@ import { SideBar } from './SideBar';
 import { BooksList } from './BooksList';
 import { booksActions } from '../_actions';
 import BookRecommendationsModal from './BookRecommendationsModal/BookRecommendationsModal';
+import GoodreadsMetadataModal from './GoodreadsMetadataModal/GoodreadsMetadataModal';
 
 import { Button } from '../_components';
 
@@ -23,7 +24,13 @@ class Dashboard extends React.Component {
             files: [],
             sidebarVisible: false,
             bookRecommendationsModalIsOpen: false,
+            GoodreadsMetadataModalIsOpen: false,
         }
+
+        this.openGoodreadsMetadataModal = this.openGoodreadsMetadataModal.bind(this);
+        this.closeGoodreadsMetadataModal = this.closeGoodreadsMetadataModal.bind(this);
+        this.getGoodreadsMetadata = this.getGoodreadsMetadata.bind(this);
+        
 
         this.openBookRecommendationsModal = this.openBookRecommendationsModal.bind(this);
         this.closeBookRecommendationsModal = this.closeBookRecommendationsModal.bind(this);
@@ -91,11 +98,22 @@ class Dashboard extends React.Component {
       this.props.dispatch(booksActions.getBookRecommendations(bookId));
     }
 
+    openGoodreadsMetadataModal() {
+      this.setState({GoodreadsMetadataModalIsOpen: true});
+    }
+
+    closeGoodreadsMetadataModal() {
+      this.setState({GoodreadsMetadataModalIsOpen: false});
+    }
+
+    getGoodreadsMetadata(bookId) {
+      this.props.dispatch(booksActions.getGoodreadsMetadata(bookId));
+    }
+
     render() {
-        const { user, recommendations, bookRecommendations } = this.props;
-        console.log(recommendations);
-        console.log(`BookRecommendations: ${bookRecommendations}`);
-        const { files, dropzoneActive, bookRecommendationsModalIsOpen } = this.state;
+        const { user, recommendations, bookRecommendations, metadataList } = this.props;
+        console.log(metadataList);
+        const { files, dropzoneActive, bookRecommendationsModalIsOpen, GoodreadsMetadataModalIsOpen } = this.state;
         let dropzoneRef;
         return (
             // Wrap whole dashboard in dropzone, so if you drop files anywhere in dashboard
@@ -186,6 +204,8 @@ class Dashboard extends React.Component {
                                 toggleSidebar={this.toggleSidebar.bind(this)}
                                 openBookRecommendationsModal={this.openBookRecommendationsModal}
                                 getBookRecommendations={this.getBookRecommendations}
+                                openGoodreadsMetadataModal={this.openGoodreadsMetadataModal}
+                                getGoodreadsMetadata={this.getGoodreadsMetadata}
                                 />
                     <BookRecommendationsModal
                       bookRecommendationsModalIsOpen={bookRecommendationsModalIsOpen}
@@ -210,9 +230,10 @@ class Dashboard extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const { users, authentication, uploadBook, alert, bookRecommendations  } = state;
+    const { users, authentication, uploadBook, alert, bookRecommendations, goodreadsMetadata  } = state;
     const { user } = authentication;
     const { recommendations } = bookRecommendations;
+    const { metadataList } = goodreadsMetadata;
     return {
         bookRecommendations,
         user,
@@ -220,6 +241,7 @@ function mapStateToProps(state) {
         uploadBook,
         alert,
         recommendations,
+        metadataList
     };
 }
 

@@ -10,6 +10,7 @@ export const booksService = {
     editBook,
     clearCache,
     getBookRecommendations,
+    getGoodreadsMetadata,
 };
 
 
@@ -121,6 +122,18 @@ function getBookRecommendations(bookId) {
   return fetch(`${config.apiUrl}/users/${user.id}/books/${bookId}/recommended`, requestOptions).then(handleResponse, handleError);
 }
 
+
+function getGoodreadsMetadata(bookId) {
+    const requestOptions = {
+      method: 'GET',
+      headers: authHeader(),
+    };
+  
+    const user = JSON.parse(localStorage.getItem('user'));
+  
+    return fetch(`${config.apiUrl}/users/${user.id}/books/${bookId}/goodreads`, requestOptions).then(handleResponse, handleError);
+  }
+  
 
 function handleResponse(response) {
     return new Promise((resolve, reject) => {

@@ -153,7 +153,7 @@ function BookCover(props){
 }
 
 function SingleBook(props) {
-    const { book, user, getBook, bookEditor, addBookTags, getBookRecommendations, openBookRecommendationsModal } = props;
+    const { book, user, getBook, bookEditor, addBookTags, getBookRecommendations, openBookRecommendationsModal, openGoodreadsMetadataModal, getGoodreadsMetadata } = props;
     let id;
 
     if (book) {
@@ -223,6 +223,13 @@ function SingleBook(props) {
                     Get book recommendations
                     </button>
                 }
+                <br/>
+                <button className="button button-standard goodreads-metadata" onClick={() => {
+                  getGoodreadsMetadata(id);
+                  openGoodreadsMetadataModal();
+                }}>
+                Get metadata from Goodreads
+                </button>
 
                 </div>
                 }
@@ -332,7 +339,7 @@ class SideBar extends React.Component {
     }
 
     render() {
-        const { getBook, book, sidebarVisible, toggleSidebar, user, openBookRecommendationsModal, getBookRecommendations } = this.props;
+        const { getBook, book, sidebarVisible, toggleSidebar, user, openBookRecommendationsModal, getBookRecommendations, openGoodreadsMetadataModal, getGoodreadsMetadata } = this.props;
         const bookEditor = this.state.bookEditor;
         let tagsList = [];
         if( book && book.tags ) {
@@ -368,6 +375,8 @@ class SideBar extends React.Component {
                             tagsList={tagsList}
                             openBookRecommendationsModal={openBookRecommendationsModal}
                             getBookRecommendations={getBookRecommendations}
+                            openGoodreadsMetadataModal={openGoodreadsMetadataModal}
+                            getGoodreadsMetadata={getGoodreadsMetadata}
                             />
 
             </div>
@@ -377,7 +386,7 @@ class SideBar extends React.Component {
 
 // export default SideBar;
 function mapStateToProps(state) {
-    const { getBook, authentication, bookRecommendations } = state;
+    const { getBook, authentication } = state;
     const { book } = getBook;
     const { user } = authentication;
     return {

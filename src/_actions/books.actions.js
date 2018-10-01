@@ -14,6 +14,7 @@ export const booksActions = {
     sendBook,
     setArgs,
     getBookRecommendations,
+    getGoodreadsMetadata
 };
 
 
@@ -46,25 +47,45 @@ function getUserBooks(args) {
 }
 
 function getBookRecommendations(bookId) {
-  return dispatch => {
-    dispatch(request());
+    return dispatch => {
+        dispatch(request());
 
-    return booksService.getBookRecommendations(bookId)
-      .then(recommendations => {
-        dispatch(success(recommendations))
-        },
-        error => {
-          dispatch(failure(error.message));
-          dispatch(alertActions.error(error.message, error.status));
-        }
-      );
-  };
+        return booksService.getBookRecommendations(bookId)
+        .then(recommendations => {
+            dispatch(success(recommendations))
+            },
+            error => {
+            dispatch(failure(error.message));
+            dispatch(alertActions.error(error.message, error.status));
+            }
+        );
+    };
 
-  function request() { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_REQUEST } }
-  function success(recommendations) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_SUCCESS, recommendations } }
-  function failure(error) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_FAILURE, error } }
+    function request() { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_REQUEST } }
+    function success(recommendations) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_SUCCESS, recommendations } }
+    function failure(error) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_FAILURE, error } }
 }
 
+function getGoodreadsMetadata(bookId) {
+    return dispatch => {
+        dispatch(request());
+
+        return booksService.getGoodreadsMetadata(bookId)
+            .then(metadata => {
+                    dispatch(success(metadata))
+                },
+                error => {
+                    dispatch(failure(error.message));
+                    dispatch(alertActions.error(error.message, error.status));
+                }
+            );
+    };
+  
+    function request() { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_REQUEST } }
+    function success(recommendations) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_SUCCESS, recommendations } }
+    function failure(error) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_FAILURE, error } }
+}
+    
 
 // set arguments that will be used for all next queries
 function setArgs(args) {

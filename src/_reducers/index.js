@@ -10,6 +10,7 @@ import { downloadBook } from './downloadBook.reducer';
 import { uploadBook } from './uploadBook.reducer';
 import { sendBook } from './sendBook.reducer';
 import { bookRecommendations } from './bookRecommendations.reducer';
+import { goodreadsMetadata } from './goodreadsMetadata.reducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   uploadBook,
   sendBook,
   bookRecommendations,
+  goodreadsMetadata,
 });
 
 export default rootReducer;
