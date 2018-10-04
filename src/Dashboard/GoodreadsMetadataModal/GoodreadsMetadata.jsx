@@ -1,22 +1,14 @@
 import React from 'react';
 
 export default function GoodreadsMetadata(props) {
-  const { title, author, publishingData } = props.book;
+  const { title, author, publishingDate } = props.book;
+  let pDate = new Date(publishingDate);
+  let pYear = pDate.getFullYear();
   return (
-    <div className="book-recommendation">
+    <div className="goodreads-meta">
 
-      <div className="book-cover">
-      {
-        coverUrl &&
-          <img className="book-cover" src={coverUrl} alt={title}/>
-      }
-      {
-        !coverUrl &&
-          <span>This book has no cover.</span>
-      }
-      </div>
-      <p className="book-recommendation-author">{author}</p>
-      <p className="book-recommendation-title">{title}</p>
+      <p className="goodreads-meta-author">{author} (<span className="goodreads-meta-publishing-date">{pYear}</span>)</p>
+      <p className="goodreads-meta-title">{title}</p>
     </div>
   )
 

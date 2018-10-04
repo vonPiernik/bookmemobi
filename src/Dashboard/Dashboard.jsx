@@ -111,7 +111,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const { user, recommendations, bookRecommendations, metadataList } = this.props;
+        const { user, recommendations, bookRecommendations, metadataList, goodreadsMetadata } = this.props;
         console.log(metadataList);
         const { files, dropzoneActive, bookRecommendationsModalIsOpen, GoodreadsMetadataModalIsOpen } = this.state;
         let dropzoneRef;
@@ -208,10 +208,16 @@ class Dashboard extends React.Component {
                                 getGoodreadsMetadata={this.getGoodreadsMetadata}
                                 />
                     <BookRecommendationsModal
-                      bookRecommendationsModalIsOpen={bookRecommendationsModalIsOpen}
-                      closeBookRecommendationsModal={this.closeBookRecommendationsModal}
-                      recommendations={recommendations}
-                      bookRecommendations={bookRecommendations} />
+                        bookRecommendationsModalIsOpen={bookRecommendationsModalIsOpen}
+                        closeBookRecommendationsModal={this.closeBookRecommendationsModal}
+                        recommendations={recommendations}
+                        bookRecommendations={bookRecommendations} />
+                        
+                    <GoodreadsMetadataModal
+                      GoodreadsMetadataModalIsOpen={GoodreadsMetadataModalIsOpen}
+                      closeGoodreadsMetadataModal={this.closeGoodreadsMetadataModal}
+                      metadataList={metadataList}
+                      goodreadsMetadata={goodreadsMetadata} />
 
                 </div>
 
@@ -236,6 +242,7 @@ function mapStateToProps(state) {
     const { metadataList } = goodreadsMetadata;
     return {
         bookRecommendations,
+        goodreadsMetadata,
         user,
         users,
         uploadBook,

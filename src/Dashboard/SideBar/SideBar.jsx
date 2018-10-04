@@ -7,6 +7,7 @@ import TagsInput from 'react-tagsinput'
 import 'react-tagsinput/react-tagsinput.css'
 
 import './SideBar.css';
+import {bookRecommendations} from '../../_reducers/bookRecommendations.reducer';
 
 function autoGrow(event) {
   const { target } = event;
@@ -65,8 +66,11 @@ class BookTitle extends React.Component {
     }
   }
   componentWillUnmount() {
-    this.titleEditRef.removeEventListener('keydown', autoGrow);
+    if(this.titleEditRef) {
+        this.titleEditRef.removeEventListener('keydown', autoGrow);
+    }
   }
+
   render() {
     if (!this.props.bookEditor) {
       return (
@@ -94,7 +98,9 @@ class BookAuthor extends React.Component {
     }
   }
   componentWillUnmount() {
-    this.authorEditRef.removeEventListener('keydown', autoGrow);
+    if(this.authorEditRef) {
+        this.authorEditRef.removeEventListener('keydown', autoGrow);
+    }
   }
   render() {
     if (!this.props.bookEditor) {
@@ -120,7 +126,9 @@ class BookPublishingDate extends React.Component {
     }
   }
   componentWillUnmount() {
-    this.titleEditRef.removeEventListener('keydown', autoGrow);
+    if(this.publishingDateEditRef) {
+        this.publishingDateEditRef.removeEventListener('keydown', autoGrow);
+    }
   }
   render() {
     if (!this.props.bookEditor) {
@@ -386,7 +394,7 @@ class SideBar extends React.Component {
 
 // export default SideBar;
 function mapStateToProps(state) {
-    const { getBook, authentication } = state;
+    const { getBook, authentication, bookRecommendations } = state;
     const { book } = getBook;
     const { user } = authentication;
     return {

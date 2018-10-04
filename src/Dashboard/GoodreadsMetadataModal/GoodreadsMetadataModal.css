@@ -1,4 +1,4 @@
-.book-recommendations-modal {
+.goodreads-metadata-modal {
   display: grid;
   grid-template-rows: 0.5fr auto;
   grid-template-columns: repeat(3, 1fr);
@@ -22,50 +22,52 @@
   box-shadow: 6px 11px 25px -10px rgba(252,178,101,1);
 }
 
-.book-recommendation {
+.goodreads-metadata {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.book-recommendations-header {
+.goodreads-metadata-header {
   grid-row: 1;
   grid-column: span 3;
 }
-.book-recommendations-header .side-bar-close-button {
+.goodreads-metadata-header .side-bar-close-button {
   outline: none;
   left: initial;
   right: -30px;
   top: -10px;
 }
-.book-recommendations-modal h1 {
+.goodreads-metadata-modal h1 {
   color: #fa709a;
   margin-top: 15px;
   text-align: center;
 }
-.book-recommendations-header .side-bar-close-button span {
+.goodreads-metadata-header .side-bar-close-button span {
   width: 20px;
 }
-.book-recommendation .book-cover {
+.goodreads-metadata .book-cover {
   margin-left: 5px;
   margin-right: 5px;
   margin-top: 5px;
   height: 200px;
  line-height: 200px;
 }
-.book-recommendation .book-cover img {
+.goodreads-metadata .book-cover img {
   border: 1px solid #fa8e8461;
 }
-.book-recommendations-modal p {
+.goodreads-metadata-modal p {
   font-weight: 600;
   font-size: 15px;
   margin-top: 10px;
 }
-p.book-recommendation-author {
-  margin: 20px 0 0px;
+p.goodreads-meta-author {
   font-weight: bold;
 }
-p.book-recommendation-title {
-  margin-bottom: 25px;
-  text-align: center;
+p.goodreads-meta-title {
   margin-top: 5px;
+}
+.goodreads-meta {
+  border: 1px solid #e7e7e7;
+  margin: 5px;
+  padding: 10px 20px;
 }

@@ -81,9 +81,9 @@ function getGoodreadsMetadata(bookId) {
             );
     };
   
-    function request() { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_REQUEST } }
-    function success(recommendations) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_SUCCESS, recommendations } }
-    function failure(error) { return { type: booksConstants.GET_BOOK_RECOMMENDATIONS_FAILURE, error } }
+    function request() { return { type: booksConstants.GET_GOODREADS_METADATA_REQUEST } }
+    function success(metadata) { return { type: booksConstants.GET_GOODREADS_METADATA_SUCCESS, metadata } }
+    function failure(error) { return { type: booksConstants.GET_GOODREADS_METADATA_FAILURE, error } }
 }
     
 

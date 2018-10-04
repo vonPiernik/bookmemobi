@@ -17,7 +17,6 @@ function GoodreadsLoadingSpinner(props) {
 }
 export default function GoodreadsMetadataModal(props) {
   const { GoodreadsMetadataModalIsOpen, closeGoodreadsMetadataModal, metadataList, goodreadsMetadata } = props;
-  console.log(metadataList);
   return (
     <Modal
       isOpen={GoodreadsMetadataModalIsOpen}
@@ -35,6 +34,10 @@ export default function GoodreadsMetadataModal(props) {
           <span></span><span></span>
         </button>
       </div>
+      {
+        metadataList && metadataList.items &&
+          metadataList.items.map(metadata => <GoodreadsMetadata book={metadata} />)
+      }
 
     </Modal>
   )
